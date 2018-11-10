@@ -1,5 +1,5 @@
 export default {
   root: {
-    padding: 20,
+    // padding: 20,
   },
 }

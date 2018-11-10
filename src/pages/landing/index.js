@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
+import LandingAbout from 'components/organisms/landing-about'
+import LandingInfo from 'components/organisms/landing-info'
+import LandingTalks from 'components/organisms/landing-talks'
 import Template from 'templates/default'
 import titleActions from 'templates/default/actions'
 
@@ -17,9 +19,9 @@ class Landing extends Component {
   render() {
     return (
       <Template>
-        <Button variant="contained">
-          Landing
-        </Button>
+        <LandingInfo />
+        <LandingAbout />
+        <LandingTalks />
       </Template>
     )
   }
