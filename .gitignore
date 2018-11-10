@@ -1,0 +1,17 @@
+.provisioned
+build
+cbsd.conf
+ansible/group_vars/all
+ansible/inventory/inventory
+ansible/roles/*
+!ansible/roles/.keep
+!ansible/roles/devel
+ansible/site.yml
+node_modules
+package.json
+project.conf
+site.retry
+src/local-conf.js
+vars.mk
+yarn-error.log
+yarn.lock
