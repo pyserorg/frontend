@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withTheme } from '@material-ui/core/styles'
 import Template from 'templates/default'
 import titleActions from 'templates/default/actions'
-import getStyles from './styles'
+import styles from './styles'
 
 
 const mapStateToProps = () => ({})
@@ -16,7 +16,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    const styles = getStyles(this.props.theme, 4)
     return (
       <Template secure={this.props.secure}>
         <div style={styles.root}>
