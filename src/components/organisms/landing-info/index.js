@@ -48,4 +48,5 @@ LandingInfo.propTypes = {
   theme: PropTypes.shape({}).isRequired,
 }
 
+
 export default withTheme()(LandingInfo)

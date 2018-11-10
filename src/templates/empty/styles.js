@@ -1,5 +1,5 @@
 export default {
   root: {
-    // padding: 20,
+    background: 'rgba(0, 0, 0, 0.8)',
   },
 }

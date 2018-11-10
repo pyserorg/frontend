@@ -3,6 +3,7 @@ const title = {
   color: '#aaa',
   marginBottom: 30,
   marginTop: 80,
+  textAlign: 'center',
 }
 
 const iconMarginSide = 10
@@ -16,16 +17,23 @@ const iconWidth = {
 }
 
 
-function getStyles(theme, height) {
+function getStyles(theme) {
   const styles = {
     ...theme,
 
     root: {
-      minHeight: height,
+      minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       paddingBottom: 50,
+    },
+
+    sponsors: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
     },
 
     title: {

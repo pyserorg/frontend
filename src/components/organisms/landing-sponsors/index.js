@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
+import { withTheme } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
 
 import PythonFoundationIcon from './python-foundation.svg'
 import ViselioIcon from './viselio.svg'
@@ -12,19 +13,8 @@ import getStyles from './styles'
 
 
 class LandingSponsors extends Component {
-  static propTypes = {
-    height: PropTypes.number,
-  }
-
-  static contextTypes = {
-    muiTheme: PropTypes.object.isRequired,
-  }
-
   render() {
-    const height = this.props.height
-                 ? this.props.height
-                 : `calc(100vh - ${this.context.muiTheme.appBar.height}px)`;
-    const styles = getStyles(this.context.muiTheme, height);
+    const styles = getStyles(this.props.theme);
     return (
       <Paper style={styles.root}>
         <div style={styles.title.big}>Sponsors</div>
@@ -70,5 +60,9 @@ class LandingSponsors extends Component {
 }
 
 
-export default LandingSponsors;
+LandingSponsors.propTypes = {
+  theme: PropTypes.shape({}).isRequired,
+}
 
+
+export default withTheme()(LandingSponsors)
