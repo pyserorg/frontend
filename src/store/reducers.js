@@ -9,6 +9,7 @@ import {
 } from 'components/atoms/protected/reducers'
 
 // pages
+import galleryReducer from 'pages/gallery/reducers'
 import loginReducer from 'pages/login/reducers'
 
 // templates
@@ -18,6 +19,7 @@ import titleReducer from 'templates/default/reducers'
 export default combineReducers({
   auth: authReducer,
   error: errorReducer,
+  gallery: galleryReducer,
   login: loginReducer,
   logout: logoutReducer,
   me: meReducer,
