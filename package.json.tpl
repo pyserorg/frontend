@@ -10,6 +10,8 @@
     "radium": "^0.25.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
+    "react-images": "^0.5.19",
+    "react-photo-gallery": "^6.2.2",
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.5",

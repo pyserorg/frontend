@@ -1,9 +1,11 @@
 export default {
   root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
+    minHeight: 'calc(100vh - 65px)',
+  },
+
+  picture: {
+    width: 1.6,
+    height: 1,
   },
 
   file: {

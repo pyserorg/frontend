@@ -26,7 +26,7 @@ export default class App extends Component {
             <BrowserRouter>
               <Switch>
                 <Route exact path="/" component={Dashboard} />
-                <Route exact path="/gallery" component={Gallery} />
+                <Route exact path="/:year/gallery" component={Gallery} />
                 <Route exact path="/landing" component={Landing} />
                 <Route exact path="/login" component={Login} />
                 <Route path="*" component={NoPage} />
