@@ -16,7 +16,8 @@
     "redux": "^4.0.1",
     "redux-actions": "^2.6.4",
     "redux-devtools-extension": "^2.13.5",
-    "redux-saga": "^0.16.2"
+    "redux-saga": "^0.16.2",
+    "resumablejs": "^1.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.0",
