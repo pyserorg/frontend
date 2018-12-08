@@ -30,7 +30,7 @@ class Gallery extends React.Component {
   fileInput = React.createRef()
 
   uploader = new Resumable({
-    target: '/api/v0/gallery',
+    target: `/api/v0/gallery/album/main/${this.props.match.params.year}`,
     testChunks: false,
     headers: {
       'X-CSRF-TOKEN': getCookie('csrf_access_token'),
