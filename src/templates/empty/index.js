@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import ProtectedComponent from 'components/atoms/protected'
 import actions from './actions'
-import styles from './styles'
 
 
 const mapStateToProps = state => ({
@@ -16,10 +15,9 @@ const mapStateToProps = state => ({
 
 class EmptyTemplate extends Component {
   render() {
-    const Secure = this.props.secure ? <ProtectedComponent /> : <div />
     return (
-      <div style={styles.root}>
-        {Secure}
+      <div style={this.props.style}>
+        <ProtectedComponent redirect={this.props.secure} />
         {this.props.children}
         <Snackbar
           autoHideDuration={5000}
@@ -49,6 +47,14 @@ EmptyTemplate.propTypes = {
   open: PropTypes.bool,
   requestErrorReset: PropTypes.func.isRequired,
   secure: PropTypes.bool,
+  style: PropTypes.shape({}),
+}
+
+
+EmptyTemplate.defaultProps = {
+  style: {
+    padding: 20,
+  },
 }
 
 

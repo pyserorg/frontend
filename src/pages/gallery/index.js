@@ -49,23 +49,27 @@ class Gallery extends React.Component {
     this.fileInput.current.click()
   }
 
-  handleFileChange = () => {
-    const files = []
-    for (let i = 0; i < this.fileInput.current.files.length; ++i) {
-      const file = this.fileInput.current.files[i]
-      files.push({
-        file,
-        state: 'pending',
-        done: 0,
-      })
+  handleFileChange = (event) => {
+    const reader = new FileReader()
+    for (let i = 0; i < event.target.files.length; ++i) {
+      const file = event.target.files[i]
+      reader.onload = (e) => this.setState(
+        prevState => {
+          console.log(e.target, file)
+          return {
+            files: [
+              ...prevState.files,
+              {
+                data: e.target.result,
+                uniqueIdentifier: file.uniqueIdentifier,
+              },
+            ],
+          }
+        },
+      )
+      reader.readAsDataURL(event.target.files[i])
     }
-    this.uploader.addFiles(this.fileInput.current.files)
-    this.setState(prevState => ({
-      files: [
-        ...prevState.files,
-        ...files,
-      ],
-    }))
+    this.uploader.addFiles(event.target.files)
   }
 
   handleUploadStart = () => {
@@ -81,11 +85,23 @@ class Gallery extends React.Component {
 
   closeLightbox = () => this.setState({ isLigthboxOpen: false })
 
-  nextPhoto = () => this.setState(prevState => ({ currentPhoto: prevState.currentPhoto + 1 }))
+  nextPhoto = () => this.setState(
+    prevState => ({ currentPhoto: prevState.currentPhoto + 1 }),
+  )
 
-  prevPhoto = () => this.setState(prevState => ({ currentPhoto: prevState.currentPhoto - 1 }))
+  prevPhoto = () => this.setState(
+    prevState => ({ currentPhoto: prevState.currentPhoto - 1 }),
+  )
 
   render() {
+    const filePreview = this.state.files.map(file => (
+      <img
+        key={file.uniqueIdentifier}
+        src={file.data}
+        style={{ height: 100, width: 100 }}
+        alt=""
+      />
+    ))
     const { prefix, name } = this.props.album
     const { year } = this.props.match.params
     const photos = this.props.album.files.map(picture => ({
@@ -94,9 +110,14 @@ class Gallery extends React.Component {
       width: styles.picture.width,
     }))
     return (
-      <Template>
+      <Template style={{}}>
         <Paper style={styles.root}>
-          Gallery
+          <Button onClick={this.handleUpload}>
+            Select files
+          </Button>
+          <Button onClick={this.handleUploadStart}>
+            Start upload
+          </Button>
           <Gall
             photos={photos}
             onClick={this.openLightbox}
@@ -110,12 +131,6 @@ class Gallery extends React.Component {
             onClickPrev={this.prevPhoto}
             currentImage={this.state.currentPhoto}
           />
-          <Button onClick={this.handleUpload}>
-            Select files
-          </Button>
-          <Button onClick={this.handleUploadStart}>
-            Start upload
-          </Button>
           <input
             ref={this.fileInput}
             type="file"
@@ -124,6 +139,7 @@ class Gallery extends React.Component {
             multiple
             onChange={this.handleFileChange}
           />
+          {filePreview}
         </Paper>
       </Template>
     )

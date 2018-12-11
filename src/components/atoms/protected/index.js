@@ -42,8 +42,7 @@ class ProtectedComponent extends Component {
         this.setState({ logged: true })
         this.props.auth(true)
       }
-    } else if (nextProps.status !== null) {
-      this.props.auth(false)
+    } else if (nextProps.status >= 400) {
       if (this.state.logged) {
         const error = (
           <div>
@@ -53,7 +52,9 @@ class ProtectedComponent extends Component {
         )
         this.props.requestError(error)
         clearInterval(this.interval)
-      } else {
+        this.setState({ logged: false })
+        this.props.auth(false)
+      } else if (this.props.redirect) {
         this.props.history.push('/landing')
       }
     }
@@ -74,10 +75,16 @@ ProtectedComponent.propTypes = {
   auth: PropTypes.func.isRequired,
   expire: PropTypes.number,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  redirect: PropTypes.bool,
   refreshExpire: PropTypes.number,
   requestError: PropTypes.func.isRequired,
   requestRefresh: PropTypes.func.isRequired,
   status: PropTypes.number,
+}
+
+
+ProtectedComponent.defaultProps = {
+  redirect: false,
 }
 
 
