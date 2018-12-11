@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom';
 import { withTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Talk from 'components/cells/landing-talk'
@@ -15,7 +16,7 @@ class LandingTalks extends Component {
   }
 
   handleRedirectClick = (link) => {
-    this.context.router.history.push(link);
+    this.props.history.push(link);
   }
 
   handleMouseOver = (over) => {
@@ -75,7 +76,10 @@ class LandingTalks extends Component {
 
 LandingTalks.propTypes = {
   theme: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 
-export default withTheme()(LandingTalks)
+export default withTheme()(withRouter(LandingTalks))
