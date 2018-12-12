@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Resumable from 'resumablejs'
 import Gall from 'react-photo-gallery'
 import Lightbox from 'react-images'
-import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
 import titleActions from 'templates/default/actions'
-import { getCookie } from 'utils'
+import GalleryUpload from 'components/organisms/gallery-upload'
+import { API_ROOT } from 'utils'
 import actions from './actions'
 import styles from './styles'
 
@@ -22,20 +22,10 @@ const mapStateToProps = (state) => ({
 
 class Gallery extends React.Component {
   state = {
-    files: [],
+    open: false,
     isLigthboxOpen: false,
     currentPhoto: 1,
   }
-
-  fileInput = React.createRef()
-
-  uploader = new Resumable({
-    target: `/api/v0/gallery/album/main/${this.props.match.params.year}`,
-    testChunks: false,
-    headers: {
-      'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-    },
-  })
 
   componentWillMount() {
     this.props.requestTitle('Gallery')
@@ -43,37 +33,6 @@ class Gallery extends React.Component {
       this.props.match.params.year,
       'main',
     )
-  }
-
-  handleUpload = () => {
-    this.fileInput.current.click()
-  }
-
-  handleFileChange = (event) => {
-    const reader = new FileReader()
-    for (let i = 0; i < event.target.files.length; ++i) {
-      const file = event.target.files[i]
-      reader.onload = (e) => this.setState(
-        prevState => {
-          console.log(e.target, file)
-          return {
-            files: [
-              ...prevState.files,
-              {
-                data: e.target.result,
-                uniqueIdentifier: file.uniqueIdentifier,
-              },
-            ],
-          }
-        },
-      )
-      reader.readAsDataURL(event.target.files[i])
-    }
-    this.uploader.addFiles(event.target.files)
-  }
-
-  handleUploadStart = () => {
-    this.uploader.upload()
   }
 
   openLightbox = (event, photo) => {
@@ -93,15 +52,15 @@ class Gallery extends React.Component {
     prevState => ({ currentPhoto: prevState.currentPhoto - 1 }),
   )
 
+  handleOpenUpload = () => {
+    this.setState({ open: true })
+  }
+
+  handleCloseUpload = () => {
+    this.setState({ open: false })
+  }
+
   render() {
-    const filePreview = this.state.files.map(file => (
-      <img
-        key={file.uniqueIdentifier}
-        src={file.data}
-        style={{ height: 100, width: 100 }}
-        alt=""
-      />
-    ))
     const { prefix, name } = this.props.album
     const { year } = this.props.match.params
     const photos = this.props.album.files.map(picture => ({
@@ -112,11 +71,8 @@ class Gallery extends React.Component {
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
-          <Button onClick={this.handleUpload}>
-            Select files
-          </Button>
-          <Button onClick={this.handleUploadStart}>
-            Start upload
+          <Button onClick={this.handleOpenUpload}>
+            Upload
           </Button>
           <Gall
             photos={photos}
@@ -131,15 +87,11 @@ class Gallery extends React.Component {
             onClickPrev={this.prevPhoto}
             currentImage={this.state.currentPhoto}
           />
-          <input
-            ref={this.fileInput}
-            type="file"
-            accept="image/*"
-            style={styles.file.input}
-            multiple
-            onChange={this.handleFileChange}
+          <GalleryUpload
+            open={this.state.open}
+            target={`${API_ROOT}/gallery/album/main/${year}`}
+            onClose={this.handleCloseUpload}
           />
-          {filePreview}
         </Paper>
       </Template>
     )

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -22,6 +23,14 @@ class Login extends Component {
     password: '',
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.status === 200) {
+      this.props.history.push('/')
+    } else if (nextProps.status === 403) {
+      this.props.requestError(nextProps.error)
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault()
     this.props.requestLogin({
@@ -36,14 +45,6 @@ class Login extends Component {
 
   handlePassword = (event) => {
     this.setState({ password: event.target.value })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 200) {
-      this.context.router.history.push('/')
-    } else if (nextProps.status === 403) {
-      this.props.requestError(nextProps.error)
-    }
   }
 
   render() {
@@ -95,12 +96,13 @@ Login.propTypes = {
   requestError: PropTypes.func.isRequired,
   error: PropTypes.string,
   status: PropTypes.number,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 
-Login.contextTypes = {
-  router: PropTypes.object.isRequired,
-}
-
-
-export default connect(mapStateToProps, { ...errorActions, ...actions })(Login)
+export default connect(
+  mapStateToProps,
+  { ...errorActions, ...actions },
+)(withRouter(Login))
