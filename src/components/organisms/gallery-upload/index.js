@@ -89,7 +89,7 @@ class GalleryUpload extends React.Component {
       <img
         key={file.file.name}
         src={file.data}
-        style={styles.file.preview}
+        style={styles.preview}
         alt=""
       />
     ))
@@ -112,11 +112,13 @@ class GalleryUpload extends React.Component {
           ref={this.fileInput}
           type="file"
           accept="image/*"
-          style={styles.file.input}
+          style={styles.input}
           multiple
           onChange={this.handleFileChange}
         />
-        {filePreview}
+        <div style={styles.root}>
+          {filePreview}
+        </div>
       </Dialog>
     )
   }

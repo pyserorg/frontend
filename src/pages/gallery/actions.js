@@ -25,4 +25,5 @@ export function requestGalleryReset() {
 
 export default {
   requestGallery,
+  requestGalleryReset,
 }
