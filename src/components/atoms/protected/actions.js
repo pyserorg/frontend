@@ -3,6 +3,7 @@ export const AUTH = 'AUTH'
 export const LOGOUT = 'LOGOUT'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
+export const LOGOUT_RESET = 'LOGOUT_RESET'
 
 export const ME = 'ME'
 export const ME_SUCCESS = 'ME_SUCCESS'
@@ -42,9 +43,15 @@ export function requestLogout() {
 }
 
 
+export function requestLogoutReset() {
+  return { type: LOGOUT_RESET }
+}
+
+
 export default {
   auth,
   requestLogout,
+  requestLogoutReset,
   requestMe,
   requestRefresh,
   requestRefreshReset,

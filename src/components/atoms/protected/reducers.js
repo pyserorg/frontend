@@ -3,6 +3,7 @@ import {
   LOGOUT,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  LOGOUT_RESET,
   ME,
   ME_SUCCESS,
   ME_FAILURE,
@@ -31,7 +32,7 @@ export function logoutReducer(state = {}, action) {
     case LOGOUT:
       return {
         ...state,
-        peding: true,
+        pending: true,
         error: null,
         status: null,
       }
@@ -48,6 +49,13 @@ export function logoutReducer(state = {}, action) {
         pending: false,
         error: action.error.response.data.msg,
         status: action.error.response.status,
+      }
+    case LOGOUT_RESET:
+      return {
+        ...state,
+        pending: false,
+        error: null,
+        status: null,
       }
     default:
       return state

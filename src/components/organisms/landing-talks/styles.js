@@ -26,6 +26,7 @@ function getStyles(theme, over) {
       justifyContent: 'center',
       alignItems: 'center',
       color: 'white',
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
     },
 
     title: {

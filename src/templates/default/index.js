@@ -20,12 +20,15 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import EmptyTemplate from 'templates/empty'
 import actions from 'components/atoms/protected/actions'
+import errorActions from 'templates/empty/actions'
 import styles from './styles'
 
 
 const mapStateToProps = state => ({
-  open: state.error.open,
   authState: state.auth.state,
+  logoutError: state.logout.error,
+  logoutStatus: state.logout.status,
+  open: state.error.open,
   title: state.title.title,
 })
 
@@ -33,6 +36,17 @@ const mapStateToProps = state => ({
 class Template extends Component {
   state = {
     showMenu: false,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.logoutStatus === 200) {
+      this.props.auth(false)
+      this.props.history.push('/landing')
+      this.props.requestLogoutReset()
+    } else if (nextProps.logoutStatus >= 400) {
+      this.props.requestError(nextProps.logoutError)
+      this.props.requestLogoutReset()
+    }
   }
 
   handleMenuOpen = () => {
@@ -44,45 +58,86 @@ class Template extends Component {
   }
 
   handleLogout = () => {
-    const { auth, requestLogout, history } = this.props
-    auth(false)
-    requestLogout()
-    history.push('/landing')
+    this.props.requestLogout()
   }
 
   render() {
-    const AnonButton = (
+    const LoginButton = (
       <Link to="/login" style={styles.login}>
         <Button color="inherit">Login</Button>
       </Link>
     )
-    const LoggedinButton = (
+    const LogoutButton = (
       <Button color="inherit" onClick={this.handleLogout}>
         Logout
       </Button>
     )
-    const AuthButton = this.props.authState ? LoggedinButton : AnonButton
-    const menuButtonAction = this.props.authState ? this.handleMenuOpen : null
+    const AuthButton = this.props.authState ? LogoutButton : LoginButton
+    const anonMenu = (
+      <Link to="/blog" style={styles.a}>
+        <MenuItem>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          Blog
+        </MenuItem>
+      </Link>
+    )
+    const loggedInMenu = (
+      <Link to="/" style={styles.a}>
+        <MenuItem>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          Dashboard
+        </MenuItem>
+      </Link>
+    )
+    const menu = this.props.authState
+      ? (
+        <div
+          role="button"
+          onClick={this.handleMenuClose}
+          style={styles.menu}
+          tabIndex={0}
+          onKeyDown={this.handleMenuClose}
+        >
+          {anonMenu}
+          {loggedInMenu}
+        </div>
+      )
+      : (
+        <div
+          role="button"
+          onClick={this.handleMenuClose}
+          style={styles.menu}
+          tabIndex={0}
+          onKeyDown={this.handleMenuClose}
+        >
+          {anonMenu}
+        </div>
+      )
     return (
       <div>
         <AppBar position="static">
           <Toolbar>
-            <IconButton color="inherit" onClick={menuButtonAction}>
+            <IconButton color="inherit" onClick={this.handleMenuOpen}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" style={styles.flex}>
-              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-              Python Serbia Conference - {this.props.title}
+            <Typography variant="h5" color="inherit" style={styles.flex}>
+              Tilda Center -
+              &nbsp;
+              {this.props.title}
             </Typography>
             {AuthButton}
           </Toolbar>
         </AppBar>
-        <EmptyTemplate secure={this.props.secure}>
+        <EmptyTemplate secure={this.props.secure} style={this.props.style}>
           {this.props.children}
           <Drawer open={this.state.showMenu} onClose={this.handleMenuClose}>
             <AppBar position="static">
               <Toolbar>
-                <Typography variant="title" color="inherit" style={styles.flex}>
+                <Typography variant="h5" color="inherit" style={styles.flex}>
                   &nbsp;
                 </Typography>
                 <IconButton color="inherit" onClick={this.handleMenuClose}>
@@ -90,22 +145,7 @@ class Template extends Component {
                 </IconButton>
               </Toolbar>
             </AppBar>
-            <div
-              role="button"
-              onClick={this.handleMenuClose}
-              style={styles.menu}
-              tabIndex={0}
-              onKeyDown={this.handleMenuClose}
-            >
-              <Link to="/" style={styles.a}>
-                <MenuItem>
-                  <ListItemIcon>
-                    <DashboardIcon />
-                  </ListItemIcon>
-                  Dashboard
-                </MenuItem>
-              </Link>
-            </div>
+            {menu}
           </Drawer>
         </EmptyTemplate>
       </div>
@@ -119,10 +159,18 @@ Template.propTypes = {
   authState: PropTypes.bool,
   children: PropTypes.node,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  logoutError: PropTypes.string,
+  logoutStatus: PropTypes.number,
+  requestError: PropTypes.func.isRequired,
   requestLogout: PropTypes.func.isRequired,
+  requestLogoutReset: PropTypes.func.isRequired,
   secure: PropTypes.bool,
+  style: PropTypes.shape({}),
   title: PropTypes.string,
 }
 
 
-export default connect(mapStateToProps, actions)(withRouter(Template))
+export default connect(
+  mapStateToProps,
+  { ...errorActions, ...actions },
+)(withRouter(Template))

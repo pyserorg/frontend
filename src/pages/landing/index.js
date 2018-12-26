@@ -20,7 +20,7 @@ class Landing extends Component {
 
   render() {
     return (
-      <Template>
+      <Template style={{}}>
         <LandingInfo />
         <LandingAbout />
         <LandingTalks />
