@@ -116,7 +116,7 @@ class Gallery extends React.Component {
             />
             <GalleryUpload
               open={this.state.open}
-              target={`${API_ROOT}/gallery/album/main/${year}`}
+              target={`${API_ROOT}/gallery/upload/main/${year}`}
               onClose={this.handleCloseUpload}
             />
           </InfiniteScroll>
