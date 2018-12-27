@@ -3,6 +3,10 @@ import {
   BLOG_ADD_SUCCESS,
   BLOG_ADD_FAILURE,
   BLOG_ADD_RESET,
+  BLOG_DELETE,
+  BLOG_DELETE_SUCCESS,
+  BLOG_DELETE_FAILURE,
+  BLOG_DELETE_RESET,
   BLOG_LIST,
   BLOG_LIST_SUCCESS,
   BLOG_LIST_FAILURE,
@@ -36,6 +40,45 @@ export function blogAddReducer(state = {}, action) {
       }
     }
     case BLOG_ADD_RESET: {
+      return {
+        ...state,
+        error: null,
+        pending: false,
+        status: null,
+      }
+    }
+    default:
+      return state
+  }
+}
+
+
+export function blogDeleteReducer(state = {}, action) {
+  switch (action.type) {
+    case BLOG_DELETE:
+      return {
+        ...state,
+        pending: true,
+        error: null,
+        status: null,
+      }
+    case BLOG_DELETE_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        pending: false,
+        result: action.result,
+        status: 200,
+      }
+    case BLOG_DELETE_FAILURE: {
+      return {
+        ...state,
+        error: action.error.response.data.message,
+        panding: false,
+        status: action.error.response.status,
+      }
+    }
+    case BLOG_DELETE_RESET: {
       return {
         ...state,
         error: null,

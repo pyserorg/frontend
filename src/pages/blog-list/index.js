@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
 import Paper from '@material-ui/core/Paper'
+import Switch from '@material-ui/core/Switch'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Button from '@material-ui/core/Button'
@@ -17,6 +18,7 @@ import Template from 'templates/default'
 import titleActions from 'templates/default/actions'
 import errorActions from 'templates/empty/actions'
 import { blogProps } from 'pages/blog-detail'
+import detailActions from 'pages/blog-detail/actions'
 import actions from './actions'
 import styles from './styles'
 
@@ -29,6 +31,8 @@ const mapStateToProps = (state) => ({
   addResult: state.blogAdd.result,
   addError: state.blogAdd.error,
   addStatus: state.blogAdd.status,
+  deleteError: state.blogDelete.error,
+  deleteStatus: state.blogDelete.status,
 })
 
 
@@ -62,6 +66,9 @@ class BlogList extends Component {
     } else if (nextProps.addStatus >= 400) {
       this.props.requestError(nextProps.addError)
       this.props.requestBlogAddReset()
+    } else if (nextProps.deleteStatus >= 400) {
+      this.props.requestError(nextProps.deleteError)
+      this.props.requestBlogDeleteReset()
     }
   }
 
@@ -81,14 +88,97 @@ class BlogList extends Component {
     this.props.requestBlogAdd(this.state.title)
   }
 
+  handleChangePublished = (id) => () => {
+    this.setState((prevState) => {
+      const blogs = {
+        data: [],
+        pages: prevState.pages,
+        total: prevState.total,
+      }
+      for (let i = 0; i < prevState.blogs.data.length; ++i) {
+        const blog = prevState.blogs.data[i]
+        if (blog.id === id) {
+          const blogDate = moment(blog.date)
+          const year = blogDate.year()
+          const month = blogDate.month() + 1
+          const day = blogDate.date()
+          blog.published = !blog.published
+          this.props.requestBlogDetailEdit(
+            year,
+            month,
+            day,
+            blog.slug,
+            { published: blog.published },
+          )
+        }
+        blogs.data.push(blog)
+      }
+      return blogs
+    })
+  }
+
+  handleDelete = (id) => () => {
+    this.setState((prevState) => {
+      const blogs = {
+        data: [],
+        pages: prevState.pages,
+        total: prevState.total,
+      }
+      for (let i = 0; i < prevState.blogs.data.length; ++i) {
+        const blog = prevState.blogs.data[i]
+        if (blog.id === id) {
+          const blogDate = moment(blog.date)
+          const year = blogDate.year()
+          const month = blogDate.month() + 1
+          const day = blogDate.date()
+          this.props.requestBlogDelete(
+            year,
+            month,
+            day,
+            blog.slug,
+            { published: blog.published },
+          )
+        } else {
+          blogs.data.push(blog)
+        }
+      }
+      return { blogs }
+    })
+  }
+
+  blogControl = (blog) => {
+    const control = this.props.auth
+      ? (
+        <div>
+          <Switch
+            checked={blog.published}
+            onChange={this.handleChangePublished(blog.id)}
+            color="primary"
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this.handleDelete(blog.id)}
+          >
+            Delete
+          </Button>
+        </div>
+      )
+      : ''
+    return control
+  }
+
   render() {
     const blogList = this.state.blogs.data.map(blog => {
       const date = moment(blog.date)
       return (
         <div key={blog.id} style={styles.blog}>
-          <Link to={`/blog/${date.format('YYYY/MM/DD')}/${blog.slug}`}>
-            <h1>{blog.title}</h1>
-          </Link>
+          <div style={styles.blog.title}>
+            <Link to={`/blog/${date.format('YYYY/MM/DD')}/${blog.slug}`}>
+              <h1>{blog.title}</h1>
+            </Link>
+            {this.blogControl(blog)}
+          </div>
           <div style={styles.date}>
             {date.calendar()}
           </div>
@@ -143,9 +233,14 @@ BlogList.propTypes = {
   blogs: PropTypes.shape({
     data: PropTypes.arrayOf(blogProps),
   }),
+  deleteError: PropTypes.string,
+  deleteStatus: PropTypes.number,
   error: PropTypes.string,
   requestBlogAdd: PropTypes.func.isRequired,
   requestBlogAddReset: PropTypes.func.isRequired,
+  requestBlogDelete: PropTypes.func.isRequired,
+  requestBlogDeleteReset: PropTypes.func.isRequired,
+  requestBlogDetailEdit: PropTypes.func.isRequired,
   requestBlogList: PropTypes.func.isRequired,
   requestBlogListReset: PropTypes.func.isRequired,
   requestError: PropTypes.func.isRequired,
@@ -159,5 +254,10 @@ BlogList.propTypes = {
 
 export default connect(
   mapStateToProps,
-  { ...errorActions, ...titleActions, ...actions },
+  {
+    ...errorActions,
+    ...titleActions,
+    ...detailActions,
+    ...actions,
+  },
 )(withRouter(BlogList))

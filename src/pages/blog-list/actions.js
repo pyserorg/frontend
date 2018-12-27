@@ -6,6 +6,10 @@ export const BLOG_ADD = 'BLOG_ADD'
 export const BLOG_ADD_SUCCESS = 'BLOG_ADD_SUCCESS'
 export const BLOG_ADD_FAILURE = 'BLOG_ADD_FAILURE'
 export const BLOG_ADD_RESET = 'BLOG_ADD_RESET'
+export const BLOG_DELETE = 'BLOG_DELETE'
+export const BLOG_DELETE_SUCCESS = 'BLOG_DELETE_SUCCESS'
+export const BLOG_DELETE_FAILURE = 'BLOG_DELETE_FAILURE'
+export const BLOG_DELETE_RESET = 'BLOG_DELETE_RESET'
 
 
 export function requestBlogList(page = 0) {
@@ -38,9 +42,29 @@ export function requestBlogAddReset() {
 }
 
 
+export function requestBlogDelete(year, month, day, slug) {
+  return {
+    year,
+    month,
+    day,
+    slug,
+    type: BLOG_DELETE,
+  }
+}
+
+
+export function requestBlogDeleteReset() {
+  return {
+    type: BLOG_DELETE_RESET,
+  }
+}
+
+
 export default {
   requestBlogAdd,
   requestBlogAddReset,
+  requestBlogDelete,
+  requestBlogDeleteReset,
   requestBlogList,
   requestBlogListReset,
 }
