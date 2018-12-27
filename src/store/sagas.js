@@ -2,14 +2,14 @@ import { takeLatest } from 'redux-saga/effects'
 
 // Actions
 import { BLOG_DETAIL, BLOG_DETAIL_EDIT } from 'pages/blog-detail/actions'
-import { BLOG_LIST } from 'pages/blog-list/actions'
+import { BLOG_ADD, BLOG_LIST } from 'pages/blog-list/actions'
 import { GALLERY } from 'pages/gallery/actions'
 import { LOGIN } from 'pages/login/actions'
 import { ME, REFRESH, LOGOUT } from 'components/atoms/protected/actions'
 
 // Sagas
 import { blogDetailSaga, blogDetailEditSaga } from 'pages/blog-detail/sagas'
-import { blogListSaga } from 'pages/blog-list/sagas'
+import { blogAddSaga, blogListSaga } from 'pages/blog-list/sagas'
 import gallerySaga from 'pages/gallery/sagas'
 import loginSaga from 'pages/login/sagas'
 import {
@@ -20,6 +20,7 @@ import {
 
 
 export default function* greenSaga() {
+  yield takeLatest(BLOG_ADD, blogAddSaga)
   yield takeLatest(BLOG_DETAIL, blogDetailSaga)
   yield takeLatest(BLOG_DETAIL_EDIT, blogDetailEditSaga)
   yield takeLatest(BLOG_LIST, blogListSaga)
