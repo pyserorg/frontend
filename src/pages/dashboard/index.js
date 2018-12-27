@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
-import { withTheme } from '@material-ui/core/styles'
 import Template from 'templates/default'
 import titleActions from 'templates/default/actions'
 import styles from './styles'
@@ -29,7 +28,6 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   secure: PropTypes.bool,
-  theme: PropTypes.shape().isRequired,
   requestTitle: PropTypes.func.isRequired,
 }
 
@@ -39,6 +37,4 @@ Dashboard.defaultProps = {
 }
 
 
-export default connect(mapStateToProps, titleActions)(
-  withTheme()(Dashboard),
-)
+export default connect(mapStateToProps, titleActions)(Dashboard)

@@ -6,6 +6,11 @@ export default {
 
   blog: {
     marginBottom: 30,
+    title: {
+      display: 'inline-flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   },
 
   date: {

@@ -21,6 +21,20 @@ async function blogAdd(title) {
 }
 
 
+async function blogDelete(year, month, day, slug) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.delete(
+    `${API_ROOT}/blog/${year}/${month}/${day}/${slug}`,
+    {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+      },
+    },
+  )
+  return response.data
+}
+
+
 async function blogList(page) {
   const response = await axios.get(
     `${API_ROOT}/blog`,
@@ -32,5 +46,6 @@ async function blogList(page) {
 
 export default {
   blogAdd,
+  blogDelete,
   blogList,
 }

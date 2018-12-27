@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 
 // Icons
+import BlogIcon from '@material-ui/icons/ModeComment'
 import CloseIcon from '@material-ui/icons/Clear'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -77,7 +78,7 @@ class Template extends Component {
       <Link to="/blog" style={styles.a}>
         <MenuItem>
           <ListItemIcon>
-            <DashboardIcon />
+            <BlogIcon />
           </ListItemIcon>
           Blog
         </MenuItem>

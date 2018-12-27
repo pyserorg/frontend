@@ -10,7 +10,7 @@ import {
 
 // pages
 import { blogDetailReducer, blogDetailEditReducer } from 'pages/blog-detail/reducers'
-import { blogAddReducer, blogListReducer } from 'pages/blog-list/reducers'
+import { blogAddReducer, blogDeleteReducer, blogListReducer } from 'pages/blog-list/reducers'
 import galleryReducer from 'pages/gallery/reducers'
 import loginReducer from 'pages/login/reducers'
 
@@ -21,6 +21,7 @@ import titleReducer from 'templates/default/reducers'
 export default combineReducers({
   auth: authReducer,
   blogAdd: blogAddReducer,
+  blogDelete: blogDeleteReducer,
   blogDetail: blogDetailReducer,
   blogDetailEdit: blogDetailEditReducer,
   blogList: blogListReducer,
