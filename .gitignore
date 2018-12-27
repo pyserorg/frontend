@@ -14,4 +14,3 @@ site.retry
 src/local-conf.js
 vars.mk
 yarn-error.log
-yarn.lock

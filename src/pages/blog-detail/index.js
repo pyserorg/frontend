@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import EditIcon from '@material-ui/icons/Edit'
 import ReactMarkdown from 'react-markdown'
@@ -209,28 +210,30 @@ class BlogDetail extends Component {
       )
     }
     return (
-      <Template>
-        <div style={styles.root}>
-          {title}
-          <span style={styles.date}>
-            {date}
-            &nbsp;
-            {this.props.blog.author.email}
-          </span>
-        </div>
-        {editor}
-        <img
-          src="https://tilda.center/static/images/logo.png"
-          alt="logo"
-          style={styles.image}
-        />
-        <ReactMarkdown
-          source={this.state.content}
-          linkTarget={linkTarget}
-        />
-        <div style={styles.button}>
-          {button}
-        </div>
+      <Template style={{}}>
+        <Paper style={styles.root}>
+          <div style={styles.header}>
+            {title}
+            <span style={styles.date}>
+              {date}
+              &nbsp;
+              {this.props.blog.author.email}
+            </span>
+          </div>
+          {editor}
+          <img
+            src="https://tilda.center/static/images/logo.png"
+            alt="logo"
+            style={styles.image}
+          />
+          <ReactMarkdown
+            source={this.state.content}
+            linkTarget={linkTarget}
+          />
+          <div style={styles.button}>
+            {button}
+          </div>
+        </Paper>
       </Template>
     )
   }
