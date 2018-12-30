@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller'
 import Gall from 'react-photo-gallery'
 import Lightbox from 'react-images'
-import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
 import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
 import titleActions from 'templates/default/actions'
@@ -16,8 +17,9 @@ import styles from './styles'
 
 
 const mapStateToProps = (state) => ({
-  error: state.gallery.error,
+  auth: state.auth.state,
   album: state.gallery.result,
+  error: state.gallery.error,
   status: state.gallery.status,
 })
 
@@ -61,7 +63,14 @@ class Gallery extends React.Component {
   closeLightbox = () => this.setState({ isLigthboxOpen: false })
 
   nextPhoto = () => this.setState(
-    prevState => ({ currentPhoto: prevState.currentPhoto + 1 }),
+    prevState => {
+      if (prevState.currentPhoto + 1 >= prevState.files.length) {
+        this.loadMore()
+      }
+      return {
+        currentPhoto: prevState.currentPhoto + 1,
+      }
+    },
   )
 
   prevPhoto = () => this.setState(
@@ -72,23 +81,49 @@ class Gallery extends React.Component {
     this.setState({ open: true })
   }
 
-  handleCloseUpload = () => {
-    this.setState({ open: false })
+  handleCloseUpload = (files) => {
+    this.setState(prevState => ({
+      files: [...prevState.files, ...files],
+      open: false,
+    }))
   }
 
-  loadMore = (page) => {
-    console.log(page)
-    console.log(this.state.page < this.props.album.pages)
+  loadMore = () => {
+    if (this.state.page >= this.props.album.pages) {
+      return
+    }
+    this.setState(prevState => {
+      const nextPage = prevState.page + 1
+      this.requestGallery(
+        this.props.match.params.year,
+        'main',
+        nextPage,
+      )
+      return { page: nextPage }
+    })
   }
 
   render() {
     const { prefix, name } = this.props.album
     const { year } = this.props.match.params
     const photos = this.state.files.map(picture => ({
-      src: `${prefix}/${year}/${name}/${picture.filename}`,
+      src: picture.src
+        ? picture.src
+        : `${prefix}/${year}/${name}/${picture.filename}`,
       height: styles.picture.height,
       width: styles.picture.width,
     }))
+    const uploadButton = this.props.auth
+      ? (
+        <Fab
+          color="primary"
+          onClick={this.handleOpenUpload}
+          style={styles.upload.button}
+        >
+          <AddIcon />
+        </Fab>
+      )
+      : ''
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
@@ -98,9 +133,7 @@ class Gallery extends React.Component {
             hasMore={this.state.page < this.props.album.pages}
             loader={<div className="loader" key={0}>Loading ...</div>}
           >
-            <Button onClick={this.handleOpenUpload}>
-              Upload
-            </Button>
+            {uploadButton}
             <Gall
               photos={photos}
               onClick={this.openLightbox}
@@ -143,6 +176,7 @@ Gallery.propTypes = {
     total: PropTypes.number.isRequired,
     prefix: PropTypes.string.isRequired,
   }),
+  auth: PropTypes.bool,
   error: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({

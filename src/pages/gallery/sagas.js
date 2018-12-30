@@ -7,6 +7,7 @@ export default function* gallerySaga(action) {
   try {
     const result = yield call(
       GalleryService.album,
+      action.page,
       action.year,
       action.album,
     )

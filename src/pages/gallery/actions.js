@@ -4,9 +4,10 @@ export const GALLERY_FAILURE = 'GALLERY_FAILURE'
 export const GALLERY_RESET = 'GALLERY_RESET'
 
 
-export function requestGallery(album, year = null) {
+export function requestGallery(album, year = null, page = 0) {
   const data = {
     album,
+    page,
     type: GALLERY,
   }
   if (year) {
