@@ -5,6 +5,7 @@ import Resumable from 'resumablejs'
 import Button from '@material-ui/core/Button'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import errorActions from 'templates/empty/actions'
 import { getCookie } from 'utils'
@@ -75,9 +76,15 @@ class GalleryUpload extends React.Component {
         const uploading = progress !== 100
         this.setState({ progress, uploading })
         if (!uploading) {
-          this.setState({ files: [] })
+          const files = this.state.files.map(file => ({
+            src: file.data,
+            height: 500,
+            width: 500,
+          }))
+          console.log(files)
           this.props.requestError('Files uploaded')
-          this.props.onClose()
+          this.setState({ files: [] })
+          this.props.onClose(files)
         }
       },
     )
@@ -102,12 +109,6 @@ class GalleryUpload extends React.Component {
         onClose={this.props.onClose}
       >
         <DialogTitle>Upload pictures</DialogTitle>
-        <Button onClick={this.handleUpload}>
-          Select files
-        </Button>
-        <Button onClick={this.handleUploadStart}>
-          {upload}
-        </Button>
         <input
           ref={this.fileInput}
           type="file"
@@ -119,6 +120,14 @@ class GalleryUpload extends React.Component {
         <div style={styles.root}>
           {filePreview}
         </div>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={this.handleUpload}>
+            Select files
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleUploadStart}>
+            {upload}
+          </Button>
+        </DialogActions>
       </Dialog>
     )
   }
