@@ -8,6 +8,9 @@ import {
   refreshReducer,
 } from 'components/atoms/protected/reducers'
 
+// organisms
+import cfsFocusReducer from 'components/organisms/price-box/reducers'
+
 // pages
 import { blogDetailReducer, blogDetailEditReducer } from 'pages/blog-detail/reducers'
 import { blogAddReducer, blogDeleteReducer, blogListReducer } from 'pages/blog-list/reducers'
@@ -25,6 +28,7 @@ export default combineReducers({
   blogDetail: blogDetailReducer,
   blogDetailEdit: blogDetailEditReducer,
   blogList: blogListReducer,
+  cfsFocus: cfsFocusReducer,
   error: errorReducer,
   gallery: galleryReducer,
   login: loginReducer,
