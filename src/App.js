@@ -8,6 +8,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import BlogDetail from 'pages/blog-detail'
 import BlogList from 'pages/blog-list'
 import CfS from 'pages/cfs'
+import CoC from 'pages/coc'
 import Dashboard from 'pages/dashboard'
 import Gallery from 'pages/gallery'
 import Landing from 'pages/landing'
@@ -32,6 +33,7 @@ export default class App extends Component {
                 <Route exact path="/blog" component={BlogList} />
                 <Route exact path="/blog/:year/:month/:day/:slug" component={BlogDetail} />
                 <Route exact path="/cfs" component={CfS} />
+                <Route exact path="/coc" component={CoC} />
                 <Route exact path="/:year/gallery" component={Gallery} />
                 <Route exact path="/landing" component={Landing} />
                 <Route exact path="/login" component={Login} />
