@@ -3,19 +3,19 @@ const priceBox = {
   height: 500,
   margin: 5,
   textAlign: 'left',
+  transition: 'all 0.3s ease-in-out',
+  overflow: 'hidden',
 }
 
 
-export default (theme, color = null) => {
+export default (backgroundColor = null) => {
   const styles = {
     price: {
       ...priceBox,
-      maxHeight: 65,
-      overflow: 'hidden',
+      maxHeight: 64,
       focused: {
         ...priceBox,
         maxHeight: 400,
-        overflow: 'auto',
       },
     },
 
@@ -24,10 +24,18 @@ export default (theme, color = null) => {
     },
 
     toolbar: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+
+    title: {
+      color: 'rgba(0, 0, 0, 0.4)',
+      fontWeight: 'bold',
     },
   }
-  if (color) {
-    styles.toolbar.backgroundColor = color
+  if (backgroundColor) {
+    styles.toolbar.backgroundColor = backgroundColor
   }
   return styles
 }
