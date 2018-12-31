@@ -36,8 +36,8 @@ class Gallery extends React.Component {
   componentWillMount() {
     this.props.requestTitle('Gallery')
     this.props.requestGallery(
-      this.props.match.params.year,
       'main',
+      this.props.match.params.year,
     )
   }
 
@@ -95,8 +95,8 @@ class Gallery extends React.Component {
     this.setState(prevState => {
       const nextPage = prevState.page + 1
       this.requestGallery(
-        this.props.match.params.year,
         'main',
+        this.props.match.params.year,
         nextPage,
       )
       return { page: nextPage }

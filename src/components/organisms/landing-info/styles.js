@@ -22,8 +22,8 @@ export default function getStyles(theme, height) {
     },
 
     tickets: {
-      height: 120,
-      width: 300,
+      height: 90,
+      width: 310,
       maxWidth: '100%',
       display: 'flex',
       justifyContent: 'center',
