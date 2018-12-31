@@ -7,10 +7,6 @@ import pyserLogo from './pyser-logo.svg'
 
 
 class LandingInfo extends Component {
-  handleTickets = () => {
-    this.context.router.push()
-  }
-
   render() {
     const height = this.props.height
       ? this.props.height
@@ -32,9 +28,14 @@ class LandingInfo extends Component {
             Hotel Novi Sad
           </a>
         </div>
-        <a href="/tickets" style={styles.tickets.link}>
+        <a
+          href="https://www.youtube.com/watch?v=ygNmn2Rhcyg&index=2&list=PLnRmeeuhue8c7stB1lDvTsSERGasE8p3m"
+          style={styles.tickets.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Paper style={styles.tickets}>
-            Get Tickets
+            Watch Videos
           </Paper>
         </a>
       </div>

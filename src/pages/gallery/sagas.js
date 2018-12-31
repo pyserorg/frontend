@@ -7,9 +7,9 @@ export default function* gallerySaga(action) {
   try {
     const result = yield call(
       GalleryService.album,
+      action.album,
       action.page,
       action.year,
-      action.album,
     )
     yield put({ type: GALLERY_SUCCESS, result })
   } catch (error) {
