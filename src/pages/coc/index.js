@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { observer } from 'mobx-react'
 import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
-import actions from 'templates/default/actions'
+import store from 'store'
 import styles from './styles'
-
-
-const mapStateToProps = (/* state */) => ({
-})
 
 
 class CoC extends Component {
   componentWillMount() {
-    this.props.requestTitle('Code of Conduct')
+    this.props.store.title.title = 'Code of Conduct'
   }
 
   render() {
@@ -87,7 +83,7 @@ class CoC extends Component {
             Conference staff will be happy to help participants contact
             hotel/venue security or local law enforcement, provide escorts, or
             otherwise assist those experiencing harassment to feel safe for the
-            duration of the conference. We value your attendance.   We expect
+            duration of the conference. We value your attendance. We expect
             participants to follow these rules at conference and workshop
             venues, conference-related social events and social media.
           </p>
@@ -98,8 +94,12 @@ class CoC extends Component {
 }
 
 CoC.propTypes = {
-  requestTitle: PropTypes.func.isRequired,
+  store: PropTypes.shape({
+    title: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 }
 
 
-export default connect(mapStateToProps, actions)(CoC)
+export default observer((props) => <CoC {...props} store={store} />)

@@ -1,28 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { observer } from 'mobx-react'
 import Paper from '@material-ui/core/Paper'
 import Toolbar from '@material-ui/core/Toolbar'
+import store from 'store'
 import getStyles from './styles'
-import actions from './actions'
 
 
-const mapStateToProps = (state) => ({
-  focused: state.cfsFocus.name,
-})
-
-
+@observer
 class PriceBox extends React.Component {
   handleClick = () => {
-    const focused = this.props.name === this.props.focused
+    const focused = this.props.name === store.cfs.focused
       ? ''
       : this.props.name
-    this.props.requestCfSFocus(focused)
+    store.cfs.focused = focused
   }
 
   render() {
     const styles = getStyles(this.props.backgroundColor)
-    const rootStyle = this.props.name === this.props.focused
+    const rootStyle = this.props.name === store.cfs.focused
       ? styles.price.focused
       : styles.price
     return (
@@ -46,13 +42,10 @@ class PriceBox extends React.Component {
 
 PriceBox.propTypes = {
   children: PropTypes.node,
-  color: PropTypes.string,
   backgroundColor: PropTypes.string,
-  focused: PropTypes.string,
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  requestCfSFocus: PropTypes.func.isRequired,
 }
 
 
-export default connect(mapStateToProps, actions)(PriceBox)
+export default PriceBox

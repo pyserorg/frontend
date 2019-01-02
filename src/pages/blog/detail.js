@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { observer } from 'mobx-react'
 import moment from 'moment'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -9,36 +9,20 @@ import EditIcon from '@material-ui/icons/Edit'
 import ReactMarkdown from 'react-markdown'
 import Template from 'templates/default'
 import Editor from 'components/organisms/editor'
-import titleActions from 'templates/default/actions'
-import errorActions from 'templates/empty/actions'
 import {
   handleEdit,
   handleOver,
   handleValue,
   linkTarget,
 } from 'utils'
-import actions from './actions'
+import store from 'store'
 import styles from './styles'
 
 
-const mapStateToProps = (state) => ({
-  auth: state.auth.state,
-  blog: state.blogDetail.result,
-  blogEdit: state.blogDetailEdit.result,
-  error: state.blogDetail.error,
-  errorEdit: state.blogDetailEdit.error,
-  status: state.blogDetail.status,
-  statusEdit: state.blogDetailEdit.status,
-})
-
-
+@observer
 class BlogDetail extends Component {
   state = {
     editContent: false,
-    // eslint-disable-next-line react/no-unused-state
-    selectionEnd: 0,
-    // eslint-disable-next-line react/no-unused-state
-    selectionStart: 0,
   }
 
   componentWillMount() {
@@ -48,38 +32,11 @@ class BlogDetail extends Component {
       day,
       slug,
     } = this.props.match.params
-    this.props.requestBlogDetail(year, month, day, slug)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 200) {
-      this.setState({
-        content: nextProps.blog.content,
-        title: nextProps.blog.title,
-      })
-      this.props.requestTitle(nextProps.blog.title)
-      this.props.requestBlogDetailReset()
-    } else if (nextProps.status >= 400) {
-      this.props.requestError(nextProps.error)
-      this.props.requestBlogDetailReset()
-    } else if (nextProps.statusEdit === 200) {
-      this.setState({
-        content: nextProps.blogEdit.content,
-        title: nextProps.blogEdit.title,
-      })
-      this.props.requestTitle(nextProps.blogEdit.title)
-      this.props.requestBlogDetailEditReset()
-    } else if (nextProps.statusEdit >= 400) {
-      this.props.requestError(nextProps.errorEdit)
-      this.props.requestBlogDetailEditReset()
-    }
+    store.blog.fetch(year, month, day, slug)
   }
 
   handleEdit = () => {
-    this.setState(prevState => ({
-      editContent: true,
-      oldContent: prevState.content,
-    }))
+    this.setState({ editContent: true })
   }
 
   handleSave = () => {
@@ -89,25 +46,20 @@ class BlogDetail extends Component {
       day,
       slug,
     } = this.props.match.params
-    this.props.requestBlogDetailEdit(
-      year,
-      month,
-      day,
-      slug,
+    store.blog.edit(
+      {
+        year,
+        month,
+        day,
+        slug,
+      },
       { content: this.state.content },
     )
-    this.setState({
-      editContent: false,
-      oldContent: null,
-    })
+    this.setState({ editContent: false })
   }
 
   handleCancel = () => {
-    this.setState(prevState => ({
-      editContent: false,
-      content: prevState.oldContent,
-      oldContent: null,
-    }))
+    this.setState({ editContent: false })
   }
 
   handleSubmit = (item) => (event) => {
@@ -119,11 +71,13 @@ class BlogDetail extends Component {
     } = this.props.match.params
     event.preventDefault()
     if (item === 'title') {
-      this.props.requestBlogDetailEdit(
-        year,
-        month,
-        day,
-        slug,
+      store.blog.edit(
+        {
+          year,
+          month,
+          day,
+          slug,
+        },
         { title: this.state.title },
       )
     }
@@ -132,11 +86,11 @@ class BlogDetail extends Component {
 
   render() {
     const editor = this.state.editContent
-      ? <Editor component={this} value={this.state.content} />
+      ? <Editor item="blog" />
       : ''
-    const date = moment(this.props.blog.date).calendar()
+    const date = moment(store.blog.detail.date).calendar()
     let button
-    if (this.props.auth) {
+    if (store.auth.auth) {
       button = this.state.editContent
         ? (
           <div>
@@ -184,7 +138,7 @@ class BlogDetail extends Component {
       )
     } else {
       let editIcon = ''
-      if (this.props.auth) {
+      if (store.auth.auth) {
         editIcon = this.state.over === 'title'
           ? <EditIcon />
           : ''
@@ -203,7 +157,7 @@ class BlogDetail extends Component {
             onMouseOut={handleOver('title', false, this)}
             onBlur={handleOver('title', false, this)}
           >
-            {this.state.title}
+            {store.blog.detail.title}
           </h1>
           {editIcon}
         </div>
@@ -217,7 +171,7 @@ class BlogDetail extends Component {
             <span style={styles.date}>
               {date}
               &nbsp;
-              {this.props.blog.author.email}
+              {store.blog.detail.author.email}
             </span>
           </div>
           {editor}
@@ -227,7 +181,7 @@ class BlogDetail extends Component {
             style={styles.image}
           />
           <ReactMarkdown
-            source={this.state.content}
+            source={store.blog.detail.content}
             linkTarget={linkTarget}
           />
           <div style={styles.button}>
@@ -240,23 +194,7 @@ class BlogDetail extends Component {
 }
 
 
-export const blogProps = PropTypes.shape({
-  author: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-  }).isRequired,
-  id: PropTypes.number.isRequired,
-  content: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-})
-
-
 BlogDetail.propTypes = {
-  auth: PropTypes.bool,
-  blog: blogProps,
-  blogEdit: blogProps,
-  error: PropTypes.string,
-  errorEdit: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       year: PropTypes.string.isRequired,
@@ -265,30 +203,7 @@ BlogDetail.propTypes = {
       slug: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  requestBlogDetail: PropTypes.func.isRequired,
-  requestBlogDetailEdit: PropTypes.func.isRequired,
-  requestBlogDetailEditReset: PropTypes.func.isRequired,
-  requestBlogDetailReset: PropTypes.func.isRequired,
-  requestError: PropTypes.func.isRequired,
-  requestTitle: PropTypes.func.isRequired,
-  status: PropTypes.number,
-  statusEdit: PropTypes.number,
 }
 
 
-BlogDetail.defaultProps = {
-  blog: {
-    author: {
-      email: '',
-    },
-    id: 0,
-    content: '',
-    date: '2018-11-22T09:01:38',
-    title: '',
-  },
-}
-
-
-export default connect(mapStateToProps, { ...errorActions, ...titleActions, ...actions })(
-  BlogDetail,
-)
+export default BlogDetail

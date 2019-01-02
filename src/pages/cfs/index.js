@@ -1,19 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { observer } from 'mobx-react'
 import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
 import PriceBox from 'components/organisms/price-box'
-import titleActions from 'templates/default/actions'
+import store from 'store'
 import styles from './styles'
 
-
-const mapStateToProps = (/* state */) => ({
-  // error: state.cfs.error,
-  // status: state.cfs.status,
-})
-
-
+@observer
 class CfS extends React.Component {
   state = {
     email: '',
@@ -22,7 +15,7 @@ class CfS extends React.Component {
   }
 
   componentWillMount() {
-    this.props.requestTitle('Call for Sponsors')
+    store.title.title = 'Call for Sponsors'
   }
 
   handleFieldChange = (event, field) => {
@@ -35,7 +28,7 @@ class CfS extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault()
     const { email, organization, message } = this.state
-    this.props.cfs(email, organization, message)
+    store.cfs.send(email, organization, message)
   }
 
   render() {
@@ -211,10 +204,4 @@ class CfS extends React.Component {
 }
 
 
-CfS.propTypes = {
-  cfs: PropTypes.func.isRequired,
-  requestTitle: PropTypes.func.isRequired,
-}
-
-
-export default connect(mapStateToProps, titleActions)(CfS)
+export default CfS

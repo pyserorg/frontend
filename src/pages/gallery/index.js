@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { observer } from 'mobx-react'
 import InfiniteScroll from 'react-infinite-scroller'
 import Gall from 'react-photo-gallery'
 import Lightbox from 'react-images'
@@ -8,25 +8,15 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
-import titleActions from 'templates/default/actions'
-import errorActions from 'templates/empty/actions'
 import GalleryUpload from 'components/organisms/gallery-upload'
 import { API_ROOT } from 'utils'
-import actions from './actions'
+import store from 'store'
 import styles from './styles'
 
 
-const mapStateToProps = (state) => ({
-  auth: state.auth.state,
-  album: state.gallery.result,
-  error: state.gallery.error,
-  status: state.gallery.status,
-})
-
-
+@observer
 class Gallery extends React.Component {
   state = {
-    files: [],
     page: 1,
     open: false,
     isLigthboxOpen: false,
@@ -34,23 +24,11 @@ class Gallery extends React.Component {
   }
 
   componentWillMount() {
-    this.props.requestTitle('Gallery')
-    this.props.requestGallery(
+    store.title.title = 'Gallery'
+    store.gallery.fetch(
       'main',
       this.props.match.params.year,
     )
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 200) {
-      this.setState(prevState => ({
-        files: [...prevState.files, ...nextProps.album.files],
-      }))
-      this.props.requestGalleryReset()
-    } else if (nextProps.status >= 400) {
-      this.props.requestError(this.props.error)
-      this.props.requestGalleryReset()
-    }
   }
 
   openLightbox = (event, photo) => {
@@ -64,7 +42,7 @@ class Gallery extends React.Component {
 
   nextPhoto = () => this.setState(
     prevState => {
-      if (prevState.currentPhoto + 1 >= prevState.files.length) {
+      if (prevState.currentPhoto + 1 >= store.gallery.detail.files.length) {
         this.loadMore()
       }
       return {
@@ -82,14 +60,12 @@ class Gallery extends React.Component {
   }
 
   handleCloseUpload = (files) => {
-    this.setState(prevState => ({
-      files: [...prevState.files, ...files],
-      open: false,
-    }))
+    store.gallery.detail.files = [...store.gallery.detail.files, ...files]
+    this.setState(prevState => ({ open: false }))
   }
 
   loadMore = () => {
-    if (this.state.page >= this.props.album.pages) {
+    if (this.state.page >= store.gallery.detail.album.pages) {
       return
     }
     this.setState(prevState => {
@@ -104,16 +80,16 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const { prefix, name } = this.props.album
+    const { prefix, name } = store.gallery.detail
     const { year } = this.props.match.params
-    const photos = this.state.files.map(picture => ({
+    const photos = store.gallery.detail.files.map(picture => ({
       src: picture.src
         ? picture.src
         : `${prefix}/${year}/${name}/${picture.filename}`,
       height: styles.picture.height,
       width: styles.picture.width,
     }))
-    const uploadButton = this.props.auth
+    const uploadButton = store.auth.auth
       ? (
         <Fab
           color="primary"
@@ -130,7 +106,7 @@ class Gallery extends React.Component {
           <InfiniteScroll
             pageStart={0}
             loadMore={this.loadMore}
-            hasMore={this.state.page < this.props.album.pages}
+            hasMore={this.state.page < store.gallery.detail.pages}
             loader={<div className="loader" key={0}>Loading ...</div>}
           >
             {uploadButton}
@@ -161,49 +137,12 @@ class Gallery extends React.Component {
 
 
 Gallery.propTypes = {
-  album: PropTypes.shape({
-    files: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      filename: PropTypes.string.isRequired,
-    })),
-    id: PropTypes.number.isRequired,
-    mainEvent: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      year: PropTypes.number.isRequired,
-    }),
-    name: PropTypes.string.isRequired,
-    pages: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
-    prefix: PropTypes.string.isRequired,
-  }),
-  auth: PropTypes.bool,
-  error: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
       year: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  requestGallery: PropTypes.func.isRequired,
-  requestGalleryReset: PropTypes.func.isRequired,
-  requestError: PropTypes.func.isRequired,
-  requestTitle: PropTypes.func.isRequired,
-  status: PropTypes.number,
 }
 
 
-Gallery.defaultProps = {
-  album: {
-    id: 0,
-    name: '',
-    files: [],
-    pages: 1,
-    total: 0,
-    prefix: '',
-  },
-}
-
-
-export default connect(
-  mapStateToProps,
-  { ...errorActions, ...titleActions, ...actions },
-)(Gallery)
+export default Gallery

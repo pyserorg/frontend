@@ -19,6 +19,12 @@ export default {
   },
 
   add: {
-    margin: 20,
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+  },
+
+  image: {
+    float: 'left',
   },
 }

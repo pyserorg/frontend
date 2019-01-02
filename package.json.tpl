@@ -1,11 +1,12 @@
 {
-  "name": "frontend-startkit",
-  "version": "0.1.0",
-  "private": true,
+  "name": "pyser",
+  "version": "0.0.1",
   "dependencies": {
     "@material-ui/core": "^3.7.1",
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "mobx": "^5.8.0",
+    "mobx-react": "^5.4.3",
     "moment": "^2.23.0",
     "prop-types": "^15.6.2",
     "radium": "^0.25.1",
@@ -15,13 +16,7 @@
     "react-infinite-scroller": "^1.2.4",
     "react-markdown": "^4.0.4",
     "react-photo-gallery": "^6.2.2",
-    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^1.1.5",
-    "redux": "^4.0.1",
-    "redux-actions": "^2.6.4",
-    "redux-devtools-extension": "^2.13.7",
-    "redux-saga": "^0.16.2",
     "resumablejs": "^1.1.0"
   },
   "devDependencies": {
@@ -32,13 +27,37 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "react-app-rewire-mobx": "^1.0.9",
+    "react-app-rewired": "^1.6.2",
+    "react-scripts": "^1.1.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "pretest": "eslint src",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-app-rewired eject"
   },
-  "proxy": "HTTP_PROXY"
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/service.js",
+      "!src/App.js",
+      "!src/index.js",
+      "!src/registerServiceWorker.js"
+    ]
+  },
+  "proxy": {
+    "/api": {
+      "target": "HTTP_PROXY"
+    },
+    "/media": {
+      "target": "HTTP_PROXY"
+    },
+    "/socket.io": {
+      "target": "HTTP_PROXY",
+      "ws": "true"
+    }
+  }
 }

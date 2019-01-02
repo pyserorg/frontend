@@ -22,14 +22,15 @@ export default function getStyles(theme, height) {
     },
 
     tickets: {
-      height: 90,
-      width: 310,
+      height: 70,
+      width: 290,
       maxWidth: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: theme.palette.primary.main,
       color: 'white',
+      fontSize: 36,
       link: {
         marginTop: 50,
         textDecoration: 'none',
