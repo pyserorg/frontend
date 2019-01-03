@@ -1,21 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { observer } from 'mobx-react'
 import Resumable from 'resumablejs'
 import Button from '@material-ui/core/Button'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import errorActions from 'templates/empty/actions'
 import { getCookie } from 'utils'
+import store from 'store'
 import styles from './styles'
 
 
-const mapStateToProps = (/* state */) => ({
-})
-
-
+@observer
 class GalleryUpload extends React.Component {
   state = {
     files: [],
@@ -64,9 +61,7 @@ class GalleryUpload extends React.Component {
       'error',
       (message, file) => {
         this.setState({ progress: 0, uploading: false })
-        this.props.requestError(
-          `Upload failed on file ${file}. Error message: ${message}`,
-        )
+        store.error.message = `Upload failed on file ${file}. Error message: ${message}`
       },
     )
     uploader.on(
@@ -81,8 +76,7 @@ class GalleryUpload extends React.Component {
             height: 500,
             width: 500,
           }))
-          console.log(files)
-          this.props.requestError('Files uploaded')
+          store.error.message = 'Files uploaded'
           this.setState({ files: [] })
           this.props.onClose(files)
         }
@@ -137,7 +131,6 @@ class GalleryUpload extends React.Component {
 GalleryUpload.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
-  requestError: PropTypes.func.isRequired,
   target: PropTypes.string.isRequired,
 }
 
@@ -147,6 +140,4 @@ GalleryUpload.defaultProps = {
 }
 
 
-export default connect(mapStateToProps, errorActions)(
-  GalleryUpload,
-)
+export default GalleryUpload

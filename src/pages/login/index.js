@@ -1,53 +1,39 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
+import { observer } from 'mobx-react'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import EmptyTemplate from 'templates/empty'
-import errorActions from 'templates/empty/actions'
+import store from 'store'
 import styles from './styles'
-import actions from './actions'
 
 
-const mapStateToProps = (state) => ({
-  error: state.login.error,
-  status: state.login.status,
-})
-
-
-class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 200) {
+@observer
+class Login extends React.Component {
+  handleSubmit = async (event) => {
+    event.preventDefault()
+    const result = await store.auth.login()
+    store.auth.password = ''
+    if (result.status === 200) {
       this.props.history.push('/')
-    } else if (nextProps.status === 403) {
-      this.props.requestError(nextProps.error)
+    } else {
+      store.error.message = result.error
+      store.error.open = true
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    this.props.requestLogin({
-      email: this.state.email,
-      password: this.state.password,
-    })
-  }
-
   handleEmail = (event) => {
-    this.setState({ email: event.target.value })
+    store.auth.email = event.target.value
   }
 
   handlePassword = (event) => {
-    this.setState({ password: event.target.value })
+    store.auth.password = event.target.value
   }
 
   render() {
+    const { auth } = store
     return (
       <EmptyTemplate>
         <div style={styles.root}>
@@ -57,10 +43,10 @@ class Login extends Component {
               <form style={styles.form} onSubmit={this.handleSubmit}>
                 <div>
                   <TextField
-                    label="EMail"
+                    label="Email"
                     margin="normal"
                     onChange={this.handleEmail}
-                    value={this.state.email}
+                    value={auth.email}
                     type="email"
                     required
                     autoFocus
@@ -72,7 +58,7 @@ class Login extends Component {
                     type="password"
                     margin="normal"
                     onChange={this.handlePassword}
-                    value={this.state.password}
+                    value={auth.password}
                     required
                   />
                 </div>
@@ -92,17 +78,10 @@ class Login extends Component {
 
 
 Login.propTypes = {
-  requestLogin: PropTypes.func.isRequired,
-  requestError: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  status: PropTypes.number,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 }
 
 
-export default connect(
-  mapStateToProps,
-  { ...errorActions, ...actions },
-)(withRouter(Login))
+export default withRouter(Login)

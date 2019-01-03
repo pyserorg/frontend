@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { observer } from 'mobx-react'
 import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import ProtectedComponent from 'components/atoms/protected'
-import actions from './actions'
+import store from 'store'
 
 
-const mapStateToProps = state => ({
-  open: state.error.open,
-  error: state.error.message,
-})
-
-
+@observer
 class EmptyTemplate extends Component {
+  handleClose = () => {
+    const { error } = store
+    error.message = ''
+    error.open = false
+  }
+
   render() {
+    const { error } = store
     return (
       <div style={this.props.style}>
         <ProtectedComponent redirect={this.props.secure} />
@@ -22,14 +24,14 @@ class EmptyTemplate extends Component {
         <Snackbar
           autoHideDuration={5000}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={this.props.open}
-          onClose={this.props.requestErrorReset}
-          message={this.props.error}
+          open={error.open}
+          onClose={this.handleClose}
+          message={error.message}
           action={(
             <Button
               color="secondary"
               size="small"
-              onClick={this.props.requestErrorReset}
+              onClick={this.handleClose}
             >
               CLOSE
             </Button>
@@ -43,9 +45,6 @@ class EmptyTemplate extends Component {
 
 EmptyTemplate.propTypes = {
   children: PropTypes.node,
-  error: PropTypes.oneOfType([PropTypes.string, PropTypes.shape()]),
-  open: PropTypes.bool,
-  requestErrorReset: PropTypes.func.isRequired,
   secure: PropTypes.bool,
   style: PropTypes.shape({}),
 }
@@ -58,4 +57,4 @@ EmptyTemplate.defaultProps = {
 }
 
 
-export default connect(mapStateToProps, actions)(EmptyTemplate)
+export default EmptyTemplate

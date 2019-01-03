@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { observer } from 'mobx-react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import BoldIcon from '@material-ui/icons/FormatBold'
@@ -8,61 +8,56 @@ import StrikeThroughIcon from '@material-ui/icons/StrikethroughS'
 import ItalicIcon from '@material-ui/icons/FormatItalic'
 import LinkIcon from '@material-ui/icons/Link'
 import ImageIcon from '@material-ui/icons/Image'
-import errorActions from 'templates/empty/actions'
+import store from 'store'
 
 
-const mapStateToProps = () => ({})
-
-
+@observer
 class Editor extends Component {
+  state = {
+    start: 0,
+    end: 0,
+  }
+
   handleFormat = (formatString) => () => {
-    const { selectionStart, selectionEnd } = this.props.component.state
-    if (selectionEnd - selectionStart > 0) {
-      const before = this.props.component.state.content.slice(0, selectionStart)
-      const selection = this.props.component.state.content.slice(
-        selectionStart,
-        selectionEnd,
-      )
-      const after = this.props.component.state.content.slice(
-        selectionEnd,
-        this.props.component.state.content.length,
-      )
+    const { start, end } = this.state
+    const { detail } = store[this.props.item]
+    if (end - start > 0) {
+      const before = detail.content.slice(0, start)
+      const selection = detail.content.slice(start, end)
+      const after = detail.content.slice(end, detail.content.length)
       const content = `${before}${formatString}${selection}${formatString}${after}`
-      this.props.component.setState({ content })
+      detail.content = content
     }
   }
 
   handleSelect = (event) => {
     const { selectionStart, selectionEnd } = event.target
-    this.props.component.setState({ selectionStart, selectionEnd })
+    this.setState({ start: selectionStart, end: selectionEnd })
   }
 
   handleEdit = (event) => {
-    this.props.component.setState({ content: event.target.value })
+    const { detail } = store.blog
+    detail.content = event.target.value
   }
 
   handleLink = (prefix = '', suffix = '') => () => {
-    const { selectionStart, selectionEnd } = this.props.component.state
+    const { start, end } = this.state
+    const { detail } = store.blog
     let selection
-    const before = this.props.component.state.content.slice(0, selectionStart)
-    const after = this.props.component.state.content.slice(
-      selectionEnd,
-      this.props.component.state.content.length,
-    )
-    if (selectionEnd - selectionStart > 0) {
-      const oldSelection = this.props.component.state.content.slice(
-        selectionStart,
-        selectionEnd,
-      )
+    const before = detail.content.slice(0, start)
+    const after = detail.content.slice(end, detail.content.length)
+    if (end - start > 0) {
+      const oldSelection = detail.content.slice(start, end)
       selection = `${prefix}[${oldSelection}](https://pyser.org/${suffix})`
     } else {
       selection = `${prefix}[link text](https://pyser.org/${suffix})`
     }
     const content = `${before}${selection}${after}`
-    this.props.component.setState({ content })
+    detail.content = content
   }
 
   render() {
+    const { detail } = store.blog
     return (
       <div>
         <Button variant="outlined" onClick={this.handleFormat('**')}>
@@ -89,7 +84,7 @@ class Editor extends Component {
           <ImageIcon />
         </Button>
         <TextField
-          value={this.props.value}
+          value={detail.content}
           onChange={this.handleEdit}
           onSelect={this.handleSelect}
           multiline
@@ -102,16 +97,8 @@ class Editor extends Component {
 
 
 Editor.propTypes = {
-  component: PropTypes.shape({
-    setState: PropTypes.func.isRequired,
-    state: PropTypes.shape({
-      content: PropTypes.string.isRequired,
-      selectionStart: PropTypes.number.isRequired,
-      selectionEnd: PropTypes.number.isRequired,
-    }).isRequired,
-  }).isRequired,
-  value: PropTypes.string.isRequired,
+  item: PropTypes.string.isRequired,
 }
 
 
-export default connect(mapStateToProps, errorActions)(Editor)
+export default Editor
