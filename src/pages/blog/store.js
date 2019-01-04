@@ -94,7 +94,9 @@ export default class BlogStore {
       if (this.detail.id === post.id) {
         this.detail = { ...this.detail, ...data }
       }
-      post = { ...post, ...data }
+      Object.keys(data).forEach(property => {
+        post[property] = data[property]
+      })
       return {
         status: 200,
         error: '',

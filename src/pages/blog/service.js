@@ -24,8 +24,9 @@ async function create(title) {
 
 async function edit(post, data) {
   const csrf = getCookie('csrf_access_token')
+  const date = moment(post.date)
   const response = await axios.patch(
-    `${API_ROOT}/blog/${post.id}`,
+    `${API_ROOT}/blog/${date.format('YYYY/MM/DD')}/${post.slug}`,
     data,
     {
       headers: { 'X-CSRF-TOKEN': csrf },

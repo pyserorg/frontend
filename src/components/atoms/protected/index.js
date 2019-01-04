@@ -20,7 +20,7 @@ class ProtectedComponent extends React.Component {
     clearInterval(this.interval)
   }
 
-  componentWillReact() {
+  render() {
     const { auth, error } = store
     if (auth.auth) {
       if (!this.logged) {
@@ -51,9 +51,6 @@ class ProtectedComponent extends React.Component {
     } else if (this.props.redirect) {
       this.props.history.push('/landing')
     }
-  }
-
-  render() {
     return null
   }
 }
