@@ -24,20 +24,21 @@ export default (talks) => {
   })
   if (start && end) {
     // const duration = end.diff(start, 'minutes')
+    const prestart = moment(start).add(-5, 'minutes')
     const result = {
       ...defaultResult,
 
       schedule: {
         display: 'grid',
-        gridTemplateRows: `[row-${start.format('HH-mm')}] auto`,
+        gridTemplateRows: `[row-${prestart.format('HH-mm')}] auto`,
       },
     }
-    for (let time = start.add(5, 'minutes'); time <= end; time.add(5, 'minutes')) {
-      if (time.minute() % 15 === 0) {
-        console.log(time.minute())
-      }
-      result.schedule.gridTemplateRows += ` [row-${time.format('HH-mm')}] auto`
+    let rows = result.schedule.gridTemplateRows
+    for (let time = start; time <= end; time.add(5, 'minutes')) {
+      rows += ` [row-${time.format('HH-mm')}] auto`
     }
+    rows += ` [row-${end.add(5, 'minutes').format('HH-mm')}]`
+    result.schedule.gridTemplateRows = rows
     return result
   }
   return defaultResult
