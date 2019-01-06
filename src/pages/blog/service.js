@@ -13,9 +13,7 @@ async function create(title) {
       published: false,
     },
     {
-      headers: {
-        'X-CSRF-TOKEN': csrf,
-      },
+      headers: { 'X-CSRF-TOKEN': csrf },
     },
   )
   return response.data
@@ -45,9 +43,15 @@ async function fetch(year, month, day, slug) {
 
 
 async function fetchAll(page) {
+  const csrf = getCookie('csrf_access_token')
   const response = await axios.get(
     `${API_ROOT}/blog`,
-    { headers: { 'X-Page': page } },
+    {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+        'X-Page': page,
+      },
+    },
   )
   return response.data
 }
