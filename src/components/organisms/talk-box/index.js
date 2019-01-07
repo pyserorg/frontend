@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import getStyles from './styles'
 
@@ -9,15 +10,17 @@ class TalkBox extends React.Component {
     const styles = getStyles(this.props.talk)
     return (
       <Paper style={styles.root}>
-        <div>
-          {this.props.talk.title}
-        </div>
-        <div>
-          {this.props.talk.description}
-        </div>
-        <div>
-          {this.props.talk.user.email}
-        </div>
+        <Link to={`/talk/${this.props.talk.id}`} style={styles.link}>
+          <div>
+            {this.props.talk.title}
+          </div>
+          <div>
+            {this.props.talk.description}
+          </div>
+          <div>
+            {this.props.talk.user.email}
+          </div>
+        </Link>
       </Paper>
     )
   }
