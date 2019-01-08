@@ -39,6 +39,10 @@ export default {
     display: 'flex',
     justifyContent: 'center',
     content: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
       width: '100%',
       maxWidth: 600,
     },
