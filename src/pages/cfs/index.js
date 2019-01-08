@@ -1,6 +1,8 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import Template from 'templates/default'
 import PriceBox from 'components/organisms/price-box'
 import store from 'store'
@@ -8,27 +10,29 @@ import styles from './styles'
 
 @observer
 class CfS extends React.Component {
-  state = {
-    email: '',
-    organization: '',
-    message: '',
-  }
-
   componentWillMount() {
     store.title.title = 'Call for Sponsors'
   }
 
-  handleFieldChange = (event, field) => {
-    const result = {}
-    result[field] = event.target.value
-    this.setState({ ...result })
+  handleSubmit = async (event) => {
+    event.preventDefault()
+    const result = await store.cfs.send()
+    if (result.status >= 400) {
+      store.error.message = result.error
+      store.error.open = true
+    }
   }
 
+  handleEmail = (event) => {
+    store.cfs.email = event.target.value
+  }
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    const { email, organization, message } = this.state
-    store.cfs.send(email, organization, message)
+  handleOrganisation = (event) => {
+    store.cfs.organisation = event.target.value
+  }
+
+  handleMessage = (event) => {
+    store.cfs.message = event.target.value
   }
 
   render() {
@@ -197,6 +201,35 @@ class CfS extends React.Component {
               options.
             </p>
           </div>
+          <form style={styles.form} onSubmit={this.handleSubmit}>
+            <div style={styles.form.content}>
+              <TextField
+                onChange={this.handleEmail}
+                label="EMail"
+                value={store.cfs.email}
+                fullWidth
+              />
+              <TextField
+                onChange={this.handleOrganisation}
+                label="Organisation"
+                value={store.cfs.organisation}
+                fullWidth
+              />
+              <TextField
+                onChange={this.handleMessage}
+                label="Message"
+                value={store.cfs.message}
+                fullWidth
+              />
+              <Button
+                type="submit"
+                style={styles.button}
+                variant="outlined"
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
         </Paper>
       </Template>
     )
