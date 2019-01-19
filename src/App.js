@@ -8,6 +8,7 @@ import BlogDetail from 'pages/blog/detail'
 import BlogList from 'pages/blog/list'
 import CfS from 'pages/cfs'
 import CfSDetail from 'pages/cfs/detail'
+import CfSList from 'pages/cfs/list'
 import CoC from 'pages/coc'
 import Dashboard from 'pages/dashboard'
 import Gallery from 'pages/gallery'
@@ -33,6 +34,8 @@ export default class App extends Component {
               <Route exact path="/blog/:year/:month/:day/:slug" component={BlogDetail} />
               <Route exact path="/cfs" component={CfS} />
               <Route exact path="/cfs/:id" component={CfSDetail} />
+              <Route exact path="/:year/cfs" component={CfSList} />
+              <Route exact path="/:year/cfs/:page" component={CfSList} />
               <Route exact path="/coc" component={CoC} />
               <Route exact path="/:year/gallery" component={Gallery} />
               <Route exact path="/:year/schedule" component={Schedule} />

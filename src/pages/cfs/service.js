@@ -14,6 +14,21 @@ async function fetch(id) {
 }
 
 
+async function fetchAll(year, page) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.get(
+    `${API_ROOT}/cfs/${year}`,
+    {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+        'X-Page': page,
+      },
+    },
+  )
+  return response.data
+}
+
+
 async function send(email, organization, message) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.post(
@@ -33,5 +48,6 @@ async function send(email, organization, message) {
 
 export default {
   fetch,
+  fetchAll,
   send,
 }

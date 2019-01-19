@@ -79,4 +79,13 @@ export default {
   email: {
     marginBottom: 20,
   },
+
+  item: {
+    marginBottom: 5,
+    backgroundColor: '#eee',
+  },
+
+  details: {
+    marginRight: 20,
+  },
 }

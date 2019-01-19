@@ -13,6 +13,12 @@ export default class CfSStore {
 
   @observable detail = {}
 
+  @observable list = {
+    data: [],
+    total: 0,
+    pages: 0,
+  }
+
   async send() {
     try {
       const result = await service.send(
@@ -37,6 +43,23 @@ export default class CfSStore {
     try {
       const result = await service.fetch(id)
       this.detail = result
+      return {
+        error: '',
+        status: 200,
+        result,
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
+
+  async fetchAll(year, page = 0) {
+    try {
+      const result = await service.fetchAll(year, page)
+      this.list = result
       return {
         error: '',
         status: 200,
