@@ -20,6 +20,10 @@ class CfS extends React.Component {
     if (result.status >= 400) {
       store.error.message = result.error
       store.error.open = true
+    } else {
+      store.cfs.email = ''
+      store.cfs.organization = ''
+      store.cfs.message = ''
     }
   }
 
@@ -27,8 +31,8 @@ class CfS extends React.Component {
     store.cfs.email = event.target.value
   }
 
-  handleOrganisation = (event) => {
-    store.cfs.organisation = event.target.value
+  handleOrganization = (event) => {
+    store.cfs.organization = event.target.value
   }
 
   handleMessage = (event) => {
@@ -164,7 +168,7 @@ class CfS extends React.Component {
           <div style={styles.text}>
             <p style={styles.paragraph}>
               The main idea of this conference is to bring together experts
-              from academia & business with young people who want to lear more
+              from academia &amp; business with young people who want to lear more
               about Python. Our goal is not just to promote Python but also to
               connect developers with companies who use Python.
             </p>
@@ -207,19 +211,25 @@ class CfS extends React.Component {
                 onChange={this.handleEmail}
                 label="EMail"
                 value={store.cfs.email}
+                type="email"
+                required
+                autoFocus
                 fullWidth
               />
               <TextField
-                onChange={this.handleOrganisation}
-                label="Organisation"
-                value={store.cfs.organisation}
+                onChange={this.handleOrganization}
+                label="Organization"
+                value={store.cfs.organization}
+                required
                 fullWidth
               />
               <TextField
                 onChange={this.handleMessage}
                 label="Message"
                 value={store.cfs.message}
+                required
                 fullWidth
+                multiline
               />
               <Button
                 type="submit"

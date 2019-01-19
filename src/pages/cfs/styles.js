@@ -7,6 +7,9 @@ export default {
 
   h1: {
     marginBottom: 20,
+    small: {
+      margin: 0,
+    },
   },
 
   center: {
@@ -71,5 +74,18 @@ export default {
       fontSize: '40px',
       color: '#aaa',
     },
+  },
+
+  email: {
+    marginBottom: 20,
+  },
+
+  item: {
+    marginBottom: 5,
+    backgroundColor: '#eee',
+  },
+
+  details: {
+    marginRight: 20,
   },
 }

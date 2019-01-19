@@ -6,9 +6,10 @@ import store from 'store'
 import styles from './styles'
 
 
+@observer
 class Dashboard extends Component {
   componentWillMount() {
-    this.props.store.title.title = 'Dashboard'
+    store.title.title = 'Dashboard'
   }
 
   render() {
@@ -25,11 +26,6 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   secure: PropTypes.bool,
-  store: PropTypes.shape({
-    title: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 }
 
 
@@ -38,4 +34,4 @@ Dashboard.defaultProps = {
 }
 
 
-export default observer((props) => <Dashboard {...props} store={store} />)
+export default Dashboard

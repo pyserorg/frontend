@@ -37,10 +37,8 @@ class Template extends Component {
     this.setState({ showMenu: false })
   }
 
-  handleLogout = () => {
-    store.auth.auth = false
-    store.auth.email = ''
-    store.auth.password = ''
+  handleLogout = async () => {
+    await store.auth.logout()
     this.props.history.push('/landing')
   }
 
@@ -57,12 +55,11 @@ class Template extends Component {
       </Button>
     )
     const AuthButton = auth.auth ? LoggedinButton : AnonButton
-    const menuButtonAction = auth.auth ? this.handleMenuOpen : null
     return (
       <div>
         <AppBar position="static">
           <Toolbar>
-            <IconButton color="inherit" onClick={menuButtonAction}>
+            <IconButton color="inherit" onClick={this.handleMenuOpen}>
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" style={styles.flex}>
