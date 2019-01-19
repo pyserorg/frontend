@@ -15,7 +15,7 @@ export default class CfSStore {
     try {
       const result = await service.send(
         this.email,
-        this.organisation,
+        this.organization,
         this.message,
       )
       return {
