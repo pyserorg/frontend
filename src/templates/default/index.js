@@ -37,10 +37,8 @@ class Template extends Component {
     this.setState({ showMenu: false })
   }
 
-  handleLogout = () => {
-    store.auth.auth = false
-    store.auth.email = ''
-    store.auth.password = ''
+  handleLogout = async () => {
+    await store.auth.logout()
     this.props.history.push('/landing')
   }
 
