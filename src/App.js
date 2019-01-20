@@ -17,14 +17,31 @@ import Login from 'pages/login'
 import NoPage from 'pages/nopage'
 import Schedule from 'pages/talk/schedule'
 
+import ResolutionContext from 'resolution'
 import theme from 'theme'
 import reset from 'reset'
 
 
 export default class App extends Component {
+  state = {
+    height: window.innerHeight,
+    width: window.innerWidth,
+  }
+
+  componentWillMount() {
+    window.onresize = () => {
+      this.setState({ height: window.innerHeight })
+      this.setState({ width: window.innerWidth })
+    }
+  }
+
   render() {
+    const context = {
+      height: this.state.height,
+      width: this.state.width,
+    }
     return (
-      <div>
+      <ResolutionContext.Provider value={context}>
         <Style rules={reset} />
         <MuiThemeProvider theme={theme}>
           <BrowserRouter>
@@ -45,7 +62,7 @@ export default class App extends Component {
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
-      </div>
+      </ResolutionContext.Provider>
     )
   }
 }
