@@ -2,6 +2,7 @@ import Auth from 'pages/login/store'
 import Blog from 'pages/blog/store'
 import CfS from 'pages/cfs/store'
 import Error from 'templates/empty/store'
+import Event from 'pages/event/store'
 import Gallery from 'pages/gallery/store'
 import Me from 'pages/me/store'
 import Talk from 'pages/talk/store'
@@ -13,6 +14,7 @@ export default {
   blog: new Blog(),
   cfs: new CfS(),
   error: new Error(),
+  event: new Event(),
   gallery: new Gallery(),
   me: new Me(),
   talk: new Talk(),

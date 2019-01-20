@@ -55,10 +55,11 @@ class Template extends Component {
   render() {
     const { title } = store
     const open = Boolean(this.state.anchorEl)
+    const { year } = store.event.detail
     const menuButtons = this.props.resolution.width > 600
       ? (
         <div>
-          <Link to="/schedule" style={styles.a.white}>
+          <Link to={`/${year}/schedule`} style={styles.a.white}>
             <Button color="inherit">Schedule</Button>
           </Link>
           <Link to="/cfp" style={styles.a.white}>
