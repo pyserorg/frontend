@@ -19,6 +19,7 @@ import Schedule from 'pages/talk/schedule'
 
 import ResolutionContext from 'resolution'
 import theme from 'theme'
+import store from 'store'
 import reset from 'reset'
 
 
@@ -29,6 +30,7 @@ export default class App extends Component {
   }
 
   componentWillMount() {
+    store.event.fetchAll()
     window.onresize = () => {
       this.setState({ height: window.innerHeight })
       this.setState({ width: window.innerWidth })
