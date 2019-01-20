@@ -6,17 +6,10 @@ import { observer } from 'mobx-react'
 // Components
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
-import Drawer from '@material-ui/core/Drawer'
-import IconButton from '@material-ui/core/IconButton'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
+import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-
-// Icons
-import CloseIcon from '@material-ui/icons/Clear'
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import MenuIcon from '@material-ui/icons/Menu'
 
 import EmptyTemplate from 'templates/empty'
 import store from 'store'
@@ -26,15 +19,8 @@ import styles from './styles'
 @observer
 class Template extends Component {
   state = {
-    showMenu: false,
-  }
-
-  handleMenuOpen = () => {
-    this.setState({ showMenu: true })
-  }
-
-  handleMenuClose = () => {
-    this.setState({ showMenu: false })
+    anchorEl: null,
+    menu: [],
   }
 
   handleLogout = async () => {
@@ -42,63 +28,75 @@ class Template extends Component {
     this.props.history.push('/landing')
   }
 
+  handleMenu = (menu) => (event) => {
+    const target = event.currentTarget
+    let menuItems = []
+    if (menu === 'talks') {
+      menuItems = [
+        <MenuItem onClick={this.handleClose}>
+          <Link to="/2019/schedule" style={styles.a.black}>
+            Schedule
+          </Link>
+        </MenuItem>,
+      ]
+    } else if (menu === 'cfs') {
+      menuItems = []
+    }
+    this.setState({
+      anchorEl: target,
+      menu: menuItems,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({ anchorEl: null })
+  }
+
   render() {
-    const { auth, title } = store
-    const AnonButton = (
-      <Link to="/login" style={styles.login}>
-        <Button color="inherit">Login</Button>
-      </Link>
-    )
-    const LoggedinButton = (
-      <Button color="inherit" onClick={this.handleLogout}>
-        Logout
-      </Button>
-    )
-    const AuthButton = auth.auth ? LoggedinButton : AnonButton
+    const { title } = store
+    const open = Boolean(this.state.anchorEl)
     return (
       <div>
         <AppBar position="static">
           <Toolbar>
-            <IconButton color="inherit" onClick={this.handleMenuOpen}>
-              <MenuIcon />
-            </IconButton>
             <Typography variant="title" color="inherit" style={styles.flex}>
               {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
               Frontend Startkit - {title.title}
             </Typography>
-            {AuthButton}
+            <Button
+              onClick={this.handleMenu('talks')}
+              color="inherit"
+            >
+              Talks
+            </Button>
+            <Link to="/cfp" style={styles.a.white}>
+              <Button color="inherit">CfP</Button>
+            </Link>
+            <Link to="/cfs" style={styles.a.white}>
+              <Button color="inherit">CfS</Button>
+            </Link>
+            <Link to="/coc" style={styles.a.white}>
+              <Button color="inherit">CoC</Button>
+            </Link>
+            <Menu
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={this.handleClose}
+            >
+              {this.state.menu}
+            </Menu>
           </Toolbar>
         </AppBar>
         <EmptyTemplate secure={this.props.secure} style={this.props.style}>
           {this.props.children}
-          <Drawer open={this.state.showMenu} onClose={this.handleMenuClose}>
-            <AppBar position="static">
-              <Toolbar>
-                <Typography variant="title" color="inherit" style={styles.flex}>
-                  &nbsp;
-                </Typography>
-                <IconButton color="inherit" onClick={this.handleMenuClose}>
-                  <CloseIcon />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-            <div
-              role="button"
-              onClick={this.handleMenuClose}
-              style={styles.menu}
-              tabIndex={0}
-              onKeyDown={this.handleMenuClose}
-            >
-              <Link to="/" style={styles.a}>
-                <MenuItem>
-                  <ListItemIcon>
-                    <DashboardIcon />
-                  </ListItemIcon>
-                  Dashboard
-                </MenuItem>
-              </Link>
-            </div>
-          </Drawer>
         </EmptyTemplate>
       </div>
     )
