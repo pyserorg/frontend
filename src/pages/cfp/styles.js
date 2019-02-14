@@ -10,4 +10,14 @@ export default {
     justifyContent: 'center',
     flexDirection: 'column',
   },
+
+  talk: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    previous: {
+      marginRight: 20,
+    },
+  },
 }

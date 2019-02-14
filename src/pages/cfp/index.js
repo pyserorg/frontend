@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 
 // Components
 import Button from '@material-ui/core/Button'
+import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
 import Step from '@material-ui/core/Step'
 import StepContent from '@material-ui/core/StepContent'
@@ -17,7 +18,7 @@ import styles from './styles'
 @observer
 class CfP extends React.Component {
   state = {
-    step: 0,
+    step: 1,
     person: {
       bio: '',
       email: '',
@@ -25,12 +26,14 @@ class CfP extends React.Component {
       first: '',
       last: '',
       twitter: '',
+      password: '',
+      passwordRepeat: '',
     },
     talk: {
       description: '',
       title: '',
-      type: null,
-      duration: null,
+      type: 'presentation',
+      duration: 30,
     },
   }
 
@@ -39,17 +42,40 @@ class CfP extends React.Component {
   }
 
   handleFieldChange = (type, field) => (event) => {
-    this.setState({
+    const { value } = event.target
+    this.setState(prevState => ({
       [type]: {
-        [field]: event.target.value,
+        ...prevState[type],
+        [field]: value,
       },
-    })
+    }))
   }
 
-  handleSubmit = (event) => {
+  handleNext = (event) => {
     event.preventDefault()
+    this.setState(prevState => ({ step: prevState.step + 1 }))
+  }
+
+  handlePrevious = (event) => {
+    event.preventDefault()
+    this.setState(prevState => ({ step: prevState.step - 1 }))
+  }
+
+  handleDuration = (event) => {
     this.setState(prevState => ({
-      step: (prevState.step + 1) % 2,
+      talk: {
+        ...prevState.talk,
+        duration: event.target.value,
+      },
+    }))
+  }
+
+  handleType = (event) => {
+    this.setState(prevState => ({
+      talk: {
+        ...prevState.talk,
+        type: event.target.value,
+      },
     }))
   }
 
@@ -59,29 +85,130 @@ class CfP extends React.Component {
         <Paper style={styles.root}>
           <Stepper activeStep={this.state.step} orientation="vertical">
             <Step>
-              <StepLabel>First</StepLabel>
+              <StepLabel>Presenter</StepLabel>
               <StepContent>
-                <form style={styles.form} onSubmit={this.handleSubmit}>
+                <form style={styles.form} onSubmit={this.handleNext}>
                   <TextField
                     label="First Name"
                     onChange={this.handleFieldChange('person', 'first')}
                     value={this.state.person.first}
+                    required
                   />
                   <TextField
                     label="Last Name"
                     onChange={this.handleFieldChange('person', 'last')}
                     value={this.state.person.last}
+                    required
+                  />
+                  <TextField
+                    label="Email"
+                    onChange={this.handleFieldChange('person', 'email')}
+                    value={this.state.person.email}
+                    type="email"
+                    required
+                  />
+                  <TextField
+                    label="Password"
+                    onChange={this.handleFieldChange('person', 'password')}
+                    value={this.state.person.password}
+                    type="password"
+                    required
+                  />
+                  <TextField
+                    label="Repeat Password"
+                    onChange={this.handleFieldChange('person', 'passwordRepeat')}
+                    value={this.state.person.passwordRepeat}
+                    type="password"
+                    required
+                  />
+                  <TextField
+                    label="Facebook"
+                    onChange={this.handleFieldChange('person', 'facebook')}
+                    value={this.state.person.facebook}
+                  />
+                  <TextField
+                    label="Twitter"
+                    onChange={this.handleFieldChange('person', 'twitter')}
+                    value={this.state.person.facebook}
+                  />
+                  <TextField
+                    label="Biography"
+                    onChange={this.handleFieldChange('person', 'bio')}
+                    value={this.state.person.bio}
+                    required
+                    rows={6}
+                    multiline
                   />
                   <Button type="submit">Next</Button>
                 </form>
               </StepContent>
             </Step>
             <Step>
-              <StepLabel>Second</StepLabel>
+              <StepLabel>Talk</StepLabel>
               <StepContent>
-                <form onSubmit={this.handleSubmit}>
-                  <TextField label="second" />
-                  <Button type="submit">Next</Button>
+                <form style={styles.form} onSubmit={this.handleSubmit}>
+                  <TextField
+                    label="Title"
+                    onChange={this.handleFieldChange('talk', 'title')}
+                    value={this.state.talk.title}
+                    required
+                  />
+                  <TextField
+                    label="Description"
+                    onChange={this.handleFieldChange('talk', 'description')}
+                    value={this.state.talk.description}
+                    required
+                    rows={6}
+                    multiline
+                  />
+                  <TextField
+                    label="Duration"
+                    select
+                    required
+                    value={this.state.talk.duration}
+                    onChange={this.handleDuration}
+                    margin="normal"
+                  >
+                    <MenuItem value={30}>
+                      30
+                    </MenuItem>
+                    <MenuItem value={45}>
+                      45
+                    </MenuItem>
+                    <MenuItem value={60}>
+                      60
+                    </MenuItem>
+                    <MenuItem value={90}>
+                      90
+                    </MenuItem>
+                  </TextField>
+                  <TextField
+                    label="Type"
+                    select
+                    required
+                    value={this.state.talk.type}
+                    onChange={this.handleType}
+                    margin="normal"
+                  >
+                    <MenuItem value="presentation">
+                      presentation
+                    </MenuItem>
+                    <MenuItem value="workshop">
+                      workshop
+                    </MenuItem>
+                  </TextField>
+                  <div style={styles.talk}>
+                    <Button
+                      onClick={this.handlePrevious}
+                      variant="outlined"
+                      style={styles.talk.previous}
+                    >
+                      Previous
+                    </Button>
+                    <Button type="submit" color="primary" variant="outlined">
+                      Submit
+                    </Button>
+                  </div>
                 </form>
               </StepContent>
             </Step>
