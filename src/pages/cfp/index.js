@@ -18,23 +18,7 @@ import styles from './styles'
 @observer
 class CfP extends React.Component {
   state = {
-    step: 1,
-    person: {
-      bio: '',
-      email: '',
-      facebook: '',
-      first: '',
-      last: '',
-      twitter: '',
-      password: '',
-      passwordRepeat: '',
-    },
-    talk: {
-      description: '',
-      title: '',
-      type: 'presentation',
-      duration: 30,
-    },
+    step: 0,
   }
 
   componentWillMount() {
@@ -43,12 +27,7 @@ class CfP extends React.Component {
 
   handleFieldChange = (type, field) => (event) => {
     const { value } = event.target
-    this.setState(prevState => ({
-      [type]: {
-        ...prevState[type],
-        [field]: value,
-      },
-    }))
+    store.cfp[type][field] = value
   }
 
   handleNext = (event) => {
@@ -61,22 +40,10 @@ class CfP extends React.Component {
     this.setState(prevState => ({ step: prevState.step - 1 }))
   }
 
-  handleDuration = (event) => {
-    this.setState(prevState => ({
-      talk: {
-        ...prevState.talk,
-        duration: event.target.value,
-      },
-    }))
-  }
-
-  handleType = (event) => {
-    this.setState(prevState => ({
-      talk: {
-        ...prevState.talk,
-        type: event.target.value,
-      },
-    }))
+  handleSubmit = (event) => {
+    event.preventDefault()
+    console.log(this.state)
+    store.cfp.send()
   }
 
   render() {
@@ -90,51 +57,52 @@ class CfP extends React.Component {
                 <form style={styles.form} onSubmit={this.handleNext}>
                   <TextField
                     label="First Name"
-                    onChange={this.handleFieldChange('person', 'first')}
-                    value={this.state.person.first}
+                    onChange={this.handleFieldChange('person', 'firstName')}
+                    value={store.cfp.person.firstName}
+                    autoFocus
                     required
                   />
                   <TextField
                     label="Last Name"
-                    onChange={this.handleFieldChange('person', 'last')}
-                    value={this.state.person.last}
+                    onChange={this.handleFieldChange('person', 'lastName')}
+                    value={store.cfp.person.lastName}
                     required
                   />
                   <TextField
                     label="Email"
                     onChange={this.handleFieldChange('person', 'email')}
-                    value={this.state.person.email}
+                    value={store.cfp.person.email}
                     type="email"
                     required
                   />
                   <TextField
                     label="Password"
                     onChange={this.handleFieldChange('person', 'password')}
-                    value={this.state.person.password}
+                    value={store.cfp.person.password}
                     type="password"
                     required
                   />
                   <TextField
                     label="Repeat Password"
                     onChange={this.handleFieldChange('person', 'passwordRepeat')}
-                    value={this.state.person.passwordRepeat}
+                    value={store.cfp.person.passwordRepeat}
                     type="password"
                     required
                   />
                   <TextField
                     label="Facebook"
                     onChange={this.handleFieldChange('person', 'facebook')}
-                    value={this.state.person.facebook}
+                    value={store.cfp.person.facebook}
                   />
                   <TextField
                     label="Twitter"
                     onChange={this.handleFieldChange('person', 'twitter')}
-                    value={this.state.person.facebook}
+                    value={store.cfp.person.twitter}
                   />
                   <TextField
                     label="Biography"
                     onChange={this.handleFieldChange('person', 'bio')}
-                    value={this.state.person.bio}
+                    value={store.cfp.person.bio}
                     required
                     rows={6}
                     multiline
@@ -150,13 +118,14 @@ class CfP extends React.Component {
                   <TextField
                     label="Title"
                     onChange={this.handleFieldChange('talk', 'title')}
-                    value={this.state.talk.title}
+                    value={store.cfp.talk.title}
+                    autoFocus
                     required
                   />
                   <TextField
                     label="Description"
                     onChange={this.handleFieldChange('talk', 'description')}
-                    value={this.state.talk.description}
+                    value={store.cfp.talk.description}
                     required
                     rows={6}
                     multiline
@@ -165,8 +134,8 @@ class CfP extends React.Component {
                     label="Duration"
                     select
                     required
-                    value={this.state.talk.duration}
-                    onChange={this.handleDuration}
+                    value={store.cfp.talk.duration}
+                    onChange={this.handleFieldChange('talk', 'duration')}
                     margin="normal"
                   >
                     <MenuItem value={30}>
@@ -186,8 +155,8 @@ class CfP extends React.Component {
                     label="Type"
                     select
                     required
-                    value={this.state.talk.type}
-                    onChange={this.handleType}
+                    value={store.cfp.talk.type}
+                    onChange={this.handleFieldChange('talk', 'type')}
                     margin="normal"
                   >
                     <MenuItem value="presentation">
