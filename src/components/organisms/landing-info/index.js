@@ -16,7 +16,7 @@ class LandingInfo extends Component {
       <div style={styles.root}>
         <img src={pyserLogo} alt="PySer Logo" style={styles.logo} />
         <div style={styles.small}>
-          Novi Sad, Serbia, 09. June 2018.
+          Novi Sad, Serbia, 01. June 2019.
         </div>
         <div style={styles.small}>
           <a
