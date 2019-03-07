@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 
 // Components
@@ -14,6 +15,7 @@ import TextField from '@material-ui/core/TextField'
 import Template from 'templates/default'
 import store from 'store'
 import styles from './styles'
+
 
 @observer
 class CfP extends React.Component {
@@ -40,10 +42,15 @@ class CfP extends React.Component {
     this.setState(prevState => ({ step: prevState.step - 1 }))
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault()
-    console.log(this.state)
-    store.cfp.send()
+    const data = await store.cfp.send()
+    if (data.status === 200) {
+      this.props.history.push(`/cfp/${data.result.id}`)
+    } else {
+      store.error.message = data.error
+      store.error.open = true
+    }
   }
 
   render() {
@@ -186,6 +193,13 @@ class CfP extends React.Component {
       </Template>
     )
   }
+}
+
+
+CfP.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 

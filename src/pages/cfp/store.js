@@ -4,13 +4,16 @@ import service from './service'
 
 export default class CfPStore {
   @observable talk = {
+    id: 0,
     description: '',
+    duration: 30,
+    published: false,
     title: '',
     type: 'presentation',
-    duration: 30,
   }
 
   @observable person = {
+    id: 0,
     bio: '',
     email: '',
     facebook: '',
@@ -19,6 +22,65 @@ export default class CfPStore {
     twitter: '',
     password: '',
     passwordRepeat: '',
+  }
+
+  async get(id) {
+    try {
+      const result = await service.get(id)
+      this.talk = result
+      this.person = result.user
+      return {
+        error: '',
+        status: 200,
+        result,
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
+
+  async publish(published) {
+    try {
+      const result = await service.patch(this.talk.id, { published })
+      this.talk = result
+      this.person = result.user
+      return {
+        error: '',
+        status: 200,
+        result,
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
+
+  async startTime(time) {
+    try {
+      const year = time.getFullYear()
+      const month = time.getMonth()
+      const day = time.getDay()
+      const hour = time.getHours()
+      const minute = time.getMinutes()
+      const second = time.getSeconds()
+      const timeString = `${year}-${month}-${day}T${hour}:${minute}:${second}`
+      const result = await service.patch(this.talk.id, { start: timeString })
+      return {
+        error: '',
+        status: 200,
+        result,
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
   }
 
   async send() {

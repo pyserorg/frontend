@@ -2,6 +2,18 @@ import axios from 'axios'
 import { API_ROOT, getCookie } from 'utils'
 
 
+async function get(id) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.get(
+    `${API_ROOT}/talk/${id}`,
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 async function send(talk, person) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.post(
@@ -18,6 +30,21 @@ async function send(talk, person) {
 }
 
 
+async function patch(id, data) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.patch(
+    `${API_ROOT}/talk/${id}`,
+    data,
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 export default {
+  get,
+  patch,
   send,
 }

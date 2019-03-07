@@ -20,4 +20,8 @@ export default {
       marginRight: 20,
     },
   },
+
+  title: {
+    margin: 0,
+  },
 }
