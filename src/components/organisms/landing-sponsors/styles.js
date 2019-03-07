@@ -24,8 +24,9 @@ function getStyles(theme) {
     root: {
       minHeight: '100vh',
       display: 'flex',
+      // justifyContent: 'center',
+      alignItems: 'center',
       flexDirection: 'column',
-      justifyContent: 'center',
       paddingBottom: 50,
     },
 
@@ -44,8 +45,13 @@ function getStyles(theme) {
       },
       small: {
         fontSize: '25px',
-        marginTop: 10,
+        marginTop: 30,
         color: '#888',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
       },
     },
 
@@ -74,6 +80,11 @@ function getStyles(theme) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    
+    button: {
+	  marginTop: 20,
+      width: 200,
     },
   }
   if (window.innerWidth < 700) {
