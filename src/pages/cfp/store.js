@@ -8,6 +8,7 @@ export default class CfPStore {
     description: '',
     duration: 30,
     published: false,
+    start: new Date(),
     title: '',
     type: 'presentation',
   }
@@ -27,6 +28,7 @@ export default class CfPStore {
   async get(id) {
     try {
       const result = await service.get(id)
+      result.start = new Date(result.start)
       this.talk = result
       this.person = result.user
       return {
@@ -45,6 +47,7 @@ export default class CfPStore {
   async publish(published) {
     try {
       const result = await service.patch(this.talk.id, { published })
+      result.start = new Date(result.start)
       this.talk = result
       this.person = result.user
       return {

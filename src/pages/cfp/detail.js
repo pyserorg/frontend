@@ -16,11 +16,6 @@ import styles from './styles'
 
 @observer
 class CfPDetail extends React.Component {
-  state = {
-    time: new Date(),
-  }
-
-
   componentWillMount() {
     store.title.title = 'Call for Papers'
     store.cfp.get(this.props.match.params.id)
@@ -30,13 +25,27 @@ class CfPDetail extends React.Component {
     store.cfp.publish(!store.cfp.talk.published)
   }
 
+  handleDate = (date) => {
+    const newDate = new Date(date)
+    const oldDate = store.cfp.talk.start
+    newDate.setHours(oldDate.getHours())
+    newDate.setMinutes(oldDate.getMinutes())
+    newDate.setSeconds(oldDate.getSeconds())
+    store.cfp.talk.start = newDate
+  }
+
   handleStartTime = (time) => {
-    store.cfp.startTime(time)
+    const newTime = new Date(time)
+    const oldTime = store.cfp.talk.start
+    newTime.setFullYear(oldTime.getFullYear())
+    newTime.setMonth(oldTime.getMonth())
+    newTime.setDate(oldTime.getDate())
+    store.cfp.talk.start = newTime
   }
 
   render() {
     return (
-      <Template style={{}}>
+      <Template style={{}} secure={this.props.secure}>
         <Paper style={styles.root}>
           <h1 style={styles.title}>{store.cfp.talk.title}</h1>
           <div>
@@ -54,11 +63,14 @@ class CfPDetail extends React.Component {
               <DatePicker
                 margin="normal"
                 label="Date picker"
+                value={store.cfp.talk.start}
+                onChange={this.handleDate}
               />
               <TimePicker
                 margin="normal"
                 label="Time picker"
-                onChange={this.handleTime}
+                value={store.cfp.talk.start}
+                onChange={this.handleStartTime}
               />
             </MuiPickersUtilsProvider>
           </div>
@@ -75,6 +87,12 @@ CfPDetail.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  secure: PropTypes.bool,
+}
+
+
+CfPDetail.defaultProps = {
+  secure: true,
 }
 
 
