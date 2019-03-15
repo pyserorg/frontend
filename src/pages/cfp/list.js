@@ -12,17 +12,17 @@ import styles from './styles'
 
 
 @observer
-class CfPDetail extends React.Component {
+class CfPList extends React.Component {
   componentWillMount() {
     store.title.title = 'Call for Papers'
-    store.cfp.get(this.props.match.params.id)
+    store.cfp.fetchAll()
   }
 
   render() {
     return (
       <Template style={{}} secure={this.props.secure}>
         <Paper style={styles.root}>
-          <Talk talk={store.cfp.talk} />
+          {store.cfp.list.data.map(talk => <Talk key={talk.id} talk={talk} />)}
         </Paper>
       </Template>
     )
@@ -30,19 +30,14 @@ class CfPDetail extends React.Component {
 }
 
 
-CfPDetail.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+CfPList.propTypes = {
   secure: PropTypes.bool,
 }
 
 
-CfPDetail.defaultProps = {
+CfPList.defaultProps = {
   secure: true,
 }
 
 
-export default CfPDetail
+export default CfPList

@@ -8,6 +8,7 @@ import BlogDetail from 'pages/blog/detail'
 import BlogList from 'pages/blog/list'
 import CfP from 'pages/cfp'
 import CfPDetail from 'pages/cfp/detail'
+import CfPList from 'pages/cfp/list'
 import CfS from 'pages/cfs'
 import CfSDetail from 'pages/cfs/detail'
 import CfSList from 'pages/cfs/list'
@@ -54,6 +55,7 @@ export default class App extends Component {
               <Route exact path="/blog" component={BlogList} />
               <Route exact path="/blog/:year/:month/:day/:slug" component={BlogDetail} />
               <Route exact path="/cfp" component={CfP} />
+              <Route exact path="/cfp/list" component={CfPList} />
               <Route exact path="/cfp/:id" component={CfPDetail} />
               <Route exact path="/cfs" component={CfS} />
               <Route exact path="/cfs/:id" component={CfSDetail} />

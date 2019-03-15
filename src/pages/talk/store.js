@@ -14,9 +14,7 @@ export default class TalkStore {
   async fetchAll(year) {
     try {
       const result = await service.fetchAll(year)
-      this.list.total = result.total
-      this.list.pages = result.pages
-      this.list.data = result.data
+      this.list = result
       return {
         status: 200,
         error: '',
