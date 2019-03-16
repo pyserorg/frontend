@@ -1,13 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import Talk from 'components/cells/landing-talk'
 import getStyles from './styles'
-import TensorFlow from './tensor-flow.jpg'
 import AWSLambda from './aws-lambda.png'
 import ZeroMQ from './zeromq.png'
+import TGen from './tgen.jpg'
 
 
 class LandingTalks extends Component {
@@ -27,47 +35,90 @@ class LandingTalks extends Component {
     const styles = getStyles(this.props.theme, this.state.over);
     return (
       <div style={styles.root}>
-        <div style={styles.talks}>
-          <Talk
-            title="Introduction to neural networks with Keras and Tensorflow"
-            name="Nemanja Milosević"
-            avatar={TensorFlow}
-          >
-            This workshop is 90 minutes and it will help you get started with
-            machine learning and neural networks. You will learn how neural
-            networks work and are they used for tasks like image and text
-            classification, financial predictions etc. No prior machine
-            learning knowledge is needed
-          </Talk>
-          <Talk
-            title="Python and AWS Lambda – a practical guide"
-            name="Ivica Kolenkaš"
-            avatar={AWSLambda}
-          >
-            This talk showcases a simple cryptocurrency converter written in
-            Python and hosted on AWS, highlighting practical uses for several
-            AWS services such as Lambda, API Gateway, S3 and IAM among others
-          </Talk>
-          <Talk
-            title="Building scalable APIs in Python by using ZMQ and JSON-RPC"
-            name="Alen Sujlkanović"
-            avatar={ZeroMQ}
-          >
-            Application programming interface (API) is a set of clearly defined
-            methods of communication between various software components.
-            Modern large-scale software applications usually comprise of a
-            great number of components written in different programming
-            languages and accompanying technologies
-          </Talk>
-        </div>
-        <Paper
-          onClick={() => this.handleRedirectClick('/talks')}
-          onMouseEnter={() => this.handleMouseOver(true)}
-          onMouseLeave={() => this.handleMouseOver(false)}
-          style={styles.title}
-        >
-          And much more
-        </Paper>
+        <Card style={styles.card}>
+          <CardActionArea>
+            <CardMedia style={styles.media}
+              image={TGen}
+              title="Contemplative Reptile"/>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                 Procedural Trees Generation with Python
+              </Typography>
+              <Typography component="p">
+                 This very interesting talk incorporates Nemanja's 
+                 interests in Fractal geometry and how to develop, 
+                 implement and improve those ideas using Python.
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <a href="https://youtu.be/vs9GIQAD7KU"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="small" color="primary">
+                Watch video
+              </Button>
+            </a>
+         </CardActions>
+        </Card>
+        <Card style={styles.card}>
+          <CardActionArea>
+            <CardMedia style={styles.media}
+              image={AWSLambda}
+              title="Ivica Kolenkaš"/>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                 Python and AWS Lambda – a practical guide
+              </Typography>
+              <Typography component="p">
+                 This talk showcases a simple cryptocurrency converter 
+                 written in Python and hosted on AWS, highlighting 
+                 practical uses for several AWS services such as Lambda, 
+                 API Gateway, S3 and IAM among others.
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+          <a href="https://youtu.be/jxkwmkNTHO0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="small" color="primary">
+                Watch video
+              </Button>
+            </a>
+         </CardActions>
+        </Card>
+        <Card style={styles.card}>
+          <CardActionArea>
+            <CardMedia style={styles.media}
+              image={ZeroMQ}
+              title="Alen Sujlkanović"/>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                 Building scalable APIs in Python by using ZMQ and JSON-RPC
+              </Typography>
+              <Typography component="p">
+                 Application programming interface (API) is a set of clearly defined
+                 methods of communication between various software components.
+                 Modern large-scale software applications usually comprise of a
+                 great number of components written in different programming
+                 languages and accompanying technologies.
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+          <a href="https://youtu.be/fkehJExLXx0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+            <Button size="small" color="primary">
+               Watch video
+            </Button>
+            </a>
+         </CardActions>
+        </Card>
       </div>
     )
   }
