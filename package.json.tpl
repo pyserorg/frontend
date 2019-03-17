@@ -2,9 +2,12 @@
   "name": "pyser",
   "version": "0.0.1",
   "dependencies": {
+    "@date-io/date-fns": "^1.1.0",
     "@material-ui/core": "^3.7.1",
     "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "date-fns": "2.0.0-alpha.27",
+    "material-ui-pickers": "^2.2.4",
     "mobx": "^5.8.0",
     "mobx-react": "^5.4.3",
     "moment": "^2.23.0",
