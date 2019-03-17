@@ -83,8 +83,12 @@ function getStyles(theme) {
     },
 
     button: {
-	  marginTop: 20,
+      marginTop: 20,
       width: 200,
+    },
+
+    link: {
+      textDecoration: 'none',
     },
   }
   if (window.innerWidth < 700) {

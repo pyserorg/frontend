@@ -51,12 +51,6 @@ class CfS extends React.Component {
           >
             <ul style={styles.list}>
               <li style={styles.point}>
-                Listing your Python related job offers for one year on our website
-              </li>
-              <li style={styles.point}>
-                Emailing your Python related job offers to our list of subscribers for one year
-              </li>
-              <li style={styles.point}>
                 Emailing your Python related events to our list of subscribers
               </li>
               <li style={styles.point}>
@@ -77,19 +71,19 @@ class CfS extends React.Component {
               <li style={styles.point}>
                 We will distribute your company's promotional material on our conference
               </li>
+              <li style={styles.point}>
+                We will post an official &quot;thank you&quot; note on social media
+              </li>
             </ul>
           </PriceBox>
           <PriceBox
-            price="500 - 900 &euro;"
+            price="500 - 899 &euro;"
             name="Gold"
             backgroundColor="#d3af37"
           >
             <ul style={styles.list}>
               <li style={styles.point}>
                 Your logo will be on our website
-              </li>
-              <li style={styles.point}>
-                Emailing your Python related job offers to our list of subscribers for one year
               </li>
               <li style={styles.point}>
                 5 conference passes
@@ -101,12 +95,18 @@ class CfS extends React.Component {
                 Logo on our t-shirts
               </li>
               <li style={styles.point}>
-                We will dristribute your company&amp;s promotional material on our conference
+                Logo on Conference Videos
+              </li>
+              <li style={styles.point}>
+                We will distribute your company's promotional material on our conference
+              </li>
+              <li style={styles.point}>
+                We will post an official &quot;thank you&quot; note on social media
               </li>
             </ul>
           </PriceBox>
           <PriceBox
-            price="300 - 500 &euro;"
+            price="300 - 499 &euro;"
             name="Silver"
             backgroundColor="#adb3c1"
           >
@@ -124,12 +124,18 @@ class CfS extends React.Component {
                 Logo on our t-shirts
               </li>
               <li style={styles.point}>
-                We will dristribute your company&amp;s promotional material on our conference
+                Logo on Conference Videos
+              </li>
+              <li style={styles.point}>
+                We will distribute your company's promotional material on our conference
+              </li>
+              <li style={styles.point}>
+                We will post an official &quot;thank you&quot; note on social media
               </li>
             </ul>
           </PriceBox>
           <PriceBox
-            price="100 - 300 &euro;"
+            price="100 - 299 &euro;"
             name="Bronze"
             backgroundColor="#ffb66e"
           >
@@ -141,15 +147,12 @@ class CfS extends React.Component {
                 You will get one conference pass
               </li>
               <li style={styles.point}>
-                We will dristribute your company&amp;s promotional material on our conference
-              </li>
-              <li style={styles.point}>
                 We will post an official &quot;thank you&quot; note on social media
               </li>
             </ul>
           </PriceBox>
           <PriceBox
-            price="50 - 100 &euro;"
+            price="50 - 99 &euro;"
             name="Copper"
             backgroundColor="#ffbd8e"
           >

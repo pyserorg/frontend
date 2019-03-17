@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button';
 
@@ -14,12 +15,14 @@ class LandingSponsors extends Component {
       <Paper style={styles.root}>
         <div style={styles.title.big}>Sponsors</div>
         <div style={styles.title.small}>
-          If you want to sponsor this conference 
+          If you want to sponsor this conference
           checkout our Call for Sponsors page.
         </div>
-        <Button style={styles.button} variant="contained" color="primary">
-          CfS
-        </Button>
+        <Link to="/cfs" style={styles.link}>
+          <Button style={styles.button} variant="contained" color="primary">
+            CfS
+          </Button>
+        </Link>
       </Paper>
     )
   }
