@@ -75,7 +75,7 @@ class CfS extends React.Component {
                 Logo and text on lanyards
               </li>
               <li style={styles.point}>
-                We will dristribute your company&amp;s promotional material on our conference
+                We will distribute your company's promotional material on our conference
               </li>
             </ul>
           </PriceBox>
@@ -213,7 +213,6 @@ class CfS extends React.Component {
                 value={store.cfs.email}
                 type="email"
                 required
-                autoFocus
                 fullWidth
               />
               <TextField

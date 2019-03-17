@@ -1,4 +1,7 @@
-export default function getStyles(theme) {
+export default function getStyles(theme, resolution) {
+  const fontSize = resolution.width > 600
+    ? 80
+    : 48
   const styles = {
     ...theme,
 
@@ -11,7 +14,7 @@ export default function getStyles(theme) {
     },
 
     title: {
-      fontSize: 80,
+      fontSize,
       color: theme.palette.primary.main,
       marginBottom: 50,
       textAlign: 'center',

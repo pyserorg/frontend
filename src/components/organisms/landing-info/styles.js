@@ -9,6 +9,7 @@ export default function getStyles(theme, height) {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      padding: 20,
     },
 
     small: {

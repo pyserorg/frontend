@@ -51,6 +51,7 @@ function getStyles(theme) {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
+        textAlign: 'center',
       },
     },
 

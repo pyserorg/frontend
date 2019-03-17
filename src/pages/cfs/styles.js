@@ -29,6 +29,8 @@ export default {
 
   caption: {
     marginTop: 20,
+    marginLeft: 20,
+    color: '#555',
   },
 
   text: {
