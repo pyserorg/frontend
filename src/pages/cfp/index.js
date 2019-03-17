@@ -46,7 +46,32 @@ class CfP extends React.Component {
     event.preventDefault()
     const data = await store.cfp.send()
     if (data.status === 200) {
-      this.props.history.push(`/cfp/${data.result.id}`)
+      if (store.auth.auth) {
+        this.props.history.push(`/cfp/${data.result.id}`)
+      } else {
+        store.error.message = 'Your talk was submitted'
+        store.error.open = true
+        store.cfp.talk = {
+          id: 0,
+          description: '',
+          duration: 30,
+          published: false,
+          title: '',
+          type: 'presentation',
+        }
+        store.cfp.person = {
+          id: 0,
+          bio: '',
+          email: '',
+          facebook: '',
+          firstName: '',
+          lastName: '',
+          twitter: '',
+          password: '',
+          passwordRepeat: '',
+        }
+        this.setState({ step: 0 })
+      }
     } else {
       store.error.message = data.error
       store.error.open = true

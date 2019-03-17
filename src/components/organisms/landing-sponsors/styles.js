@@ -51,7 +51,6 @@ function getStyles(theme) {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        alignItems: 'center',
       },
     },
 
@@ -81,7 +80,7 @@ function getStyles(theme) {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    
+
     button: {
 	  marginTop: 20,
       width: 200,
