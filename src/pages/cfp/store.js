@@ -101,6 +101,7 @@ export default class CfPStore {
 
   async send() {
     try {
+      delete this.talk.start
       const result = await service.send(
         this.talk,
         this.person,

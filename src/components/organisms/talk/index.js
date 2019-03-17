@@ -34,11 +34,10 @@ class Talk extends React.Component {
     newTime.setDate(oldTime.getDate())
     const year = newTime.getFullYear()
     const month = newTime.getMonth()
-    const day = newTime.getDay()
+    const day = newTime.getDay() + 1
     const hour = newTime.getHours()
     const minute = newTime.getMinutes()
-    const second = newTime.getSeconds()
-    const timeString = `${year}-${month}-${day}T${hour}:${minute}:${second}`
+    const timeString = `${year}-${month}-${day}T${hour}:${minute}:0`
     store.cfp.edit(
       this.props.talk.id,
       { start: timeString },
@@ -47,11 +46,25 @@ class Talk extends React.Component {
 
   handleDate = (date) => {
     const newDate = new Date(date)
-    const oldDate = store.cfp.talk.start
+    let oldDate
+    if (store.cfp.talk.start) {
+      oldDate = new Date(store.cfp.talk.start)
+    } else {
+      oldDate = new Date()
+    }
     newDate.setHours(oldDate.getHours())
     newDate.setMinutes(oldDate.getMinutes())
     newDate.setSeconds(oldDate.getSeconds())
-    store.cfp.talk.start = newDate
+    const year = newDate.getFullYear()
+    const month = newDate.getMonth()
+    const day = newDate.getDay() + 1
+    const hour = newDate.getHours()
+    const minute = newDate.getMinutes()
+    const timeString = `${year}-${month}-${day}T${hour}:${minute}:0`
+    store.cfp.edit(
+      this.props.talk.id,
+      { start: timeString },
+    )
   }
 
   render() {
