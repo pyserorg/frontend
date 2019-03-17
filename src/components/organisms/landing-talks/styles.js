@@ -1,22 +1,8 @@
-const talks = {
-  width: '100%',
-  color: 'white',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-}
-
-const talksWide = {
-  ...talks,
-  flexDirection: 'row',
-  justifyContent: 'space-around',
-  alignItems: 'stretch',
-}
-
-
-function getStyles(theme, over) {
+function getStyles(theme, resolution) {
   const styles = {
-    ...theme,
+    link: {
+      textDecoration: 'none',
+    },
 
     root: {
       display: 'flex',
@@ -27,17 +13,19 @@ function getStyles(theme, over) {
     },
 
     card: {
-	  maxWidth: 300,
-	},
+      maxWidth: 300,
+      marginBottom: 10,
+    },
 
     media: {
       height: 340,
     },
   }
-  if (window.innerWidth > 700) {
-    styles.talks = talksWide
+  if (resolution.width > 900) {
+    styles.root.flexDirection = 'row'
   } else {
-    styles.talks = talks
+    styles.root.flexDirection = 'column'
+    styles.card.maxWidth = '100%'
   }
   return styles
 }

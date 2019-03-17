@@ -131,7 +131,7 @@ class Template extends Component {
                 tabIndex={0}
                 onKeyDown={this.handleMenuClose}
               >
-                <Link to="/schedule" style={styles.a}>
+                <Link to={`/${year}/schedule`} style={styles.a}>
                   <MenuItem>
                     <ListItemIcon>
                       <ScheduleIcon />
@@ -165,7 +165,6 @@ class Template extends Component {
                 </Link>
               </div>
             </Drawer>
-
           </Toolbar>
         </AppBar>
         <EmptyTemplate secure={this.props.secure} style={this.props.style}>
