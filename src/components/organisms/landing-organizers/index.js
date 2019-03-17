@@ -10,7 +10,7 @@ class LandingOrganizers extends Component {
   render() {
     return (
       <Paper style={styles.root}>
-        <div style={styles.title}>Organizers & Partners</div>
+        <div style={styles.title}>Organizers</div>
         <div style={styles.logos}>
           <a
             href="https://tilda.center/"

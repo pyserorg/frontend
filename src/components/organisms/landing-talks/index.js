@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -11,7 +9,6 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Talk from 'components/cells/landing-talk'
 import getStyles from './styles'
 import AWSLambda from './aws-lambda.png'
 import ZeroMQ from './zeromq.png'
@@ -37,22 +34,25 @@ class LandingTalks extends Component {
       <div style={styles.root}>
         <Card style={styles.card}>
           <CardActionArea>
-            <CardMedia style={styles.media}
+            <CardMedia
+              style={styles.media}
               image={TGen}
-              title="Contemplative Reptile"/>
+              title="Contemplative Reptile"
+            />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                  Procedural Trees Generation with Python
               </Typography>
               <Typography component="p">
-                 This very interesting talk incorporates Nemanja's 
-                 interests in Fractal geometry and how to develop, 
+                 This very interesting talk incorporates Nemanja's
+                 interests in fractal geometry and how to develop,
                  implement and improve those ideas using Python.
               </Typography>
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <a href="https://youtu.be/vs9GIQAD7KU"
+            <a
+              href="https://youtu.be/vs9GIQAD7KU"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -60,27 +60,30 @@ class LandingTalks extends Component {
                 Watch video
               </Button>
             </a>
-         </CardActions>
+          </CardActions>
         </Card>
         <Card style={styles.card}>
           <CardActionArea>
-            <CardMedia style={styles.media}
+            <CardMedia
+              style={styles.media}
               image={AWSLambda}
-              title="Ivica Kolenkaš"/>
+              title="Ivica Kolenkaš"
+            />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                  Python and AWS Lambda – a practical guide
               </Typography>
               <Typography component="p">
-                 This talk showcases a simple cryptocurrency converter 
-                 written in Python and hosted on AWS, highlighting 
-                 practical uses for several AWS services such as Lambda, 
+                 This talk showcases a simple cryptocurrency converter
+                 written in Python and hosted on AWS, highlighting
+                 practical uses for several AWS services such as Lambda,
                  API Gateway, S3 and IAM among others.
               </Typography>
             </CardContent>
           </CardActionArea>
           <CardActions>
-          <a href="https://youtu.be/jxkwmkNTHO0"
+            <a
+              href="https://youtu.be/jxkwmkNTHO0"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -88,13 +91,15 @@ class LandingTalks extends Component {
                 Watch video
               </Button>
             </a>
-         </CardActions>
+          </CardActions>
         </Card>
         <Card style={styles.card}>
           <CardActionArea>
-            <CardMedia style={styles.media}
+            <CardMedia
+              style={styles.media}
               image={ZeroMQ}
-              title="Alen Sujlkanović"/>
+              title="Alen Sujlkanović"
+            />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
                  Building scalable APIs in Python by using ZMQ and JSON-RPC
@@ -109,15 +114,16 @@ class LandingTalks extends Component {
             </CardContent>
           </CardActionArea>
           <CardActions>
-          <a href="https://youtu.be/fkehJExLXx0"
+            <a
+              href="https://youtu.be/fkehJExLXx0"
               target="_blank"
               rel="noopener noreferrer"
             >
-            <Button size="small" color="primary">
-               Watch video
-            </Button>
+              <Button size="small" color="primary">
+                Watch video
+              </Button>
             </a>
-         </CardActions>
+          </CardActions>
         </Card>
       </div>
     )

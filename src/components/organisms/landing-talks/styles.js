@@ -1,5 +1,3 @@
-const fontSize = 48
-
 const talks = {
   width: '100%',
   color: 'white',
@@ -17,20 +15,21 @@ const talksWide = {
 
 
 function getStyles(theme, over) {
-  const alpha = over ? 0.1 : 0.02
   const styles = {
     ...theme,
-    
+
     root: {
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'stretch',
+      paddingTop: 20,
+      paddingBottom: 20,
     },
-    
+
     card: {
 	  maxWidth: 300,
 	},
-    
+
     media: {
       height: 340,
     },
