@@ -15,7 +15,7 @@ import getStyles from './styles'
 class Schedule extends React.Component {
   componentWillMount() {
     store.title.title = 'Schedule'
-    store.talk.fetchAll(this.props.match.params.year)
+    store.talk.fetchPublished(this.props.match.params.year)
   }
 
   generateTimes = (talks) => {

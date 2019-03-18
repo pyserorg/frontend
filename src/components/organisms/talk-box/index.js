@@ -18,7 +18,9 @@ class TalkBox extends React.Component {
             {this.props.talk.description}
           </div>
           <div>
-            {this.props.talk.user.email}
+            {this.props.talk.user.firstName}
+            &nbsp;
+            {this.props.talk.user.firstName}
           </div>
         </Link>
       </Paper>
@@ -30,12 +32,14 @@ class TalkBox extends React.Component {
 TalkBox.propTypes = {
   talk: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    start: PropTypes.string.isRequired,
-    end: PropTypes.string.isRequired,
+    start: PropTypes.string,
+    end: PropTypes.string,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     user: PropTypes.shape({
       email: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 }

@@ -7,6 +7,7 @@ export default class CfPStore {
     id: 0,
     description: '',
     duration: 30,
+    hall: '',
     published: false,
     title: '',
     type: 'presentation',
@@ -101,11 +102,10 @@ export default class CfPStore {
 
   async send() {
     try {
-      delete this.talk.start
-      const result = await service.send(
-        this.talk,
-        this.person,
-      )
+      const talk = { ...this.talk }
+      delete talk.start
+      delete talk.hall
+      const result = await service.send(talk, this.person)
       return {
         error: '',
         status: 200,
