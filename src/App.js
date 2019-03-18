@@ -19,6 +19,7 @@ import Landing from 'pages/landing'
 import Login from 'pages/login'
 import NoPage from 'pages/nopage'
 import Schedule from 'pages/talk/schedule'
+import TalkDetail from 'pages/talk/detail'
 
 import ResolutionContext from 'resolution'
 import theme from 'theme'
@@ -66,6 +67,7 @@ export default class App extends Component {
               <Route exact path="/:year/schedule" component={Schedule} />
               <Route exact path="/landing" component={Landing} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/talk/:id" component={TalkDetail} />
               <Route path="*" component={NoPage} />
             </Switch>
           </BrowserRouter>

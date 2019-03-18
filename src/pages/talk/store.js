@@ -11,6 +11,22 @@ export default class TalkStore {
     pages: 0,
   }
 
+  async fetch(id) {
+    try {
+      const result = await service.fetch(id)
+      this.detail = result
+      return {
+        status: 200,
+        error: '',
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
+
   async fetchAll(year) {
     try {
       const result = await service.fetchAll(year)
