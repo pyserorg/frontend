@@ -57,7 +57,7 @@ class CfP extends React.Component {
           duration: 30,
           published: false,
           title: '',
-          type: 'presentation',
+          type: 'presentations',
         }
         store.cfp.person = {
           id: 0,
@@ -187,14 +187,14 @@ class CfP extends React.Component {
                     label="Type"
                     select
                     required
-                    value={store.cfp.talk.type}
-                    onChange={this.handleFieldChange('talk', 'type')}
+                    value={store.cfp.talk.hall}
+                    onChange={this.handleFieldChange('talk', 'hall')}
                     margin="normal"
                   >
-                    <MenuItem value="presentation">
+                    <MenuItem value="presentations">
                       presentation
                     </MenuItem>
-                    <MenuItem value="workshop">
+                    <MenuItem value="workshops">
                       workshop
                     </MenuItem>
                   </TextField>

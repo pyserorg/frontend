@@ -7,10 +7,9 @@ export default class CfPStore {
     id: 0,
     description: '',
     duration: 30,
-    hall: '',
+    hall: 'presentations',
     published: false,
     title: '',
-    type: 'presentation',
   }
 
   @observable person = {
@@ -104,7 +103,6 @@ export default class CfPStore {
     try {
       const talk = { ...this.talk }
       delete talk.start
-      delete talk.hall
       const result = await service.send(talk, this.person)
       return {
         error: '',
