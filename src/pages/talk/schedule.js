@@ -28,13 +28,12 @@ class Schedule extends React.Component {
       if (start === null || talkStart.isBefore(start)) {
         start = talkStart
       }
-      if (end === null || talkEnd.isBefore(end)) {
+      if (end === null || talkEnd.isAfter(end)) {
         end = talkEnd
       }
     })
     if (start && end) {
-      let time
-      for (time = start; time <= end; time = moment(time).add(5, 'minutes')) {
+      for (let time = start; time <= end; time = moment(time).add(5, 'minutes')) {
         result.push(<TimeBox key={`start-${time.format('HH-mm')}`} time={time} />)
         result.push(<TimeBox key={`end-${time.format('HH-mm')}`} time={time} end />)
       }
@@ -51,13 +50,13 @@ class Schedule extends React.Component {
           <div style={styles.schedule}>
             <div style={styles.title}>time</div>
             <div style={styles.title}>
-              <h3>Saloon</h3>
+              <h3>Presentations</h3>
             </div>
             <div style={styles.title}>
-              <h3>202</h3>
+              <h3>Workshops</h3>
             </div>
             <div style={styles.title}>
-              <h3>212</h3>
+              <h3>Business</h3>
             </div>
             <div style={styles.title}>time</div>
             {this.generateTimes(store.talk.list)}

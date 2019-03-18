@@ -1,11 +1,29 @@
 import moment from 'moment'
 
 
+const text = {
+  textAlign: 'justify',
+  textJustify: 'inter-word',
+  paddingLeft: 40,
+  paddingRight: 40,
+}
+
+
 const defaultResult = {
   root: {
     padding: 20,
     minHeight: 'calc(100vh - 65px - 40px)',
     textAlign: 'center',
+  },
+
+  description: {
+    ...text,
+    marginBottom: 20,
+  },
+
+  bio: {
+    ...text,
+    marginBottom: 20,
   },
 }
 
@@ -24,14 +42,14 @@ export default (talks, theme) => {
     if (start === null || talkStart.isBefore(start)) {
       start = talkStart
     }
-    if (end === null || talkEnd.isBefore(end)) {
+    if (end === null || talkEnd.isAfter(end)) {
       end = talkEnd
     }
   })
   if (start && end) {
     const preStart = moment(start).add(-5, 'minutes')
     const timeStart = `[column-time-start] ${timeColumnWidth}px`
-    const content = ' [column-saloon] auto [column-202] auto [column-212] auto'
+    const content = ' [column-presentations] auto [column-workshops] auto [column-business] auto'
     const timeEnd = ` [column-time-end] ${timeColumnWidth}px [column-end]`
     const result = {
       ...defaultResult,

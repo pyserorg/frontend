@@ -116,9 +116,9 @@ class Talk extends React.Component {
             id: 'hall',
           }}
         >
-          <MenuItem value="saloon">Saloon</MenuItem>
-          <MenuItem value="202">202</MenuItem>
-          <MenuItem value="222">222</MenuItem>
+          <MenuItem value="presentations">Presentations</MenuItem>
+          <MenuItem value="workshops">Workshops</MenuItem>
+          <MenuItem value="business">Business</MenuItem>
         </Select>
       </Paper>
     )
