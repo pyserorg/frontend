@@ -5,6 +5,9 @@ import { observer } from 'mobx-react'
 // Components
 import Paper from '@material-ui/core/Paper'
 import Switch from '@material-ui/core/Switch'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers'
 
@@ -67,6 +70,13 @@ class Talk extends React.Component {
     )
   }
 
+  handleHall = (event) => {
+    store.cfp.edit(
+      this.props.talk.id,
+      { hall: event.target.value },
+    )
+  }
+
   render() {
     return (
       <Paper style={styles.content}>
@@ -97,6 +107,19 @@ class Talk extends React.Component {
           checked={this.props.talk.published}
           onChange={this.handlePublished}
         />
+        <InputLabel htmlFor="hall">Hall</InputLabel>
+        <Select
+          value={this.props.talk.hall || ''}
+          onChange={this.handleHall}
+          inputProps={{
+            name: 'hall',
+            id: 'hall',
+          }}
+        >
+          <MenuItem value="saloon">Saloon</MenuItem>
+          <MenuItem value="202">202</MenuItem>
+          <MenuItem value="222">222</MenuItem>
+        </Select>
       </Paper>
     )
   }
@@ -107,6 +130,7 @@ Talk.propTypes = {
   talk: PropTypes.shape({
     id: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
+    hall: PropTypes.string,
     published: PropTypes.bool.isRequired,
     start: PropTypes.shape({}),
     title: PropTypes.string.isRequired,

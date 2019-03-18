@@ -14,6 +14,19 @@ async function fetchAll(year) {
 }
 
 
+async function fetchPublished(year) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.get(
+    `${API_ROOT}/talk/year/${year}/published`,
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 export default {
   fetchAll,
+  fetchPublished,
 }

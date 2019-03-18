@@ -29,4 +29,23 @@ export default class TalkStore {
       }
     }
   }
+
+  async fetchPublished(year) {
+    try {
+      const result = await service.fetchPublished(year)
+      this.list = result
+      return {
+        status: 200,
+        error: '',
+      }
+    } catch (error) {
+      this.list.total = 0
+      this.list.pages = 0
+      this.list.data = []
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
 }
