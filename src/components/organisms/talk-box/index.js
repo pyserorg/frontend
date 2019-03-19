@@ -15,12 +15,9 @@ class TalkBox extends React.Component {
             {this.props.talk.title}
           </div>
           <div>
-            {this.props.talk.description}
-          </div>
-          <div>
             {this.props.talk.user.firstName}
             &nbsp;
-            {this.props.talk.user.firstName}
+            {this.props.talk.user.lastName}
           </div>
         </Link>
       </Paper>

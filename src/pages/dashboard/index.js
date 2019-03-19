@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
 import store from 'store'
 import styles from './styles'
@@ -14,10 +15,10 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Template secure={this.props.secure}>
-        <div style={styles.root}>
+      <Template secure={this.props.secure} style={{}}>
+        <Paper style={styles.root}>
           Dashboard
-        </div>
+        </Paper>
       </Template>
     )
   }
