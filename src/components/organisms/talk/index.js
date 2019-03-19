@@ -27,8 +27,8 @@ class Talk extends React.Component {
   handleStartTime = (time) => {
     const newTime = new Date(time)
     let oldTime
-    if (store.cfp.talk.start) {
-      oldTime = new Date(store.cfp.talk.start)
+    if (this.props.talk.start) {
+      oldTime = new Date(this.props.talk.start)
     } else {
       oldTime = new Date()
     }
@@ -36,8 +36,8 @@ class Talk extends React.Component {
     newTime.setMonth(oldTime.getMonth())
     newTime.setDate(oldTime.getDate())
     const year = newTime.getFullYear()
-    const month = newTime.getMonth()
-    const day = newTime.getDay() + 1
+    const month = newTime.getMonth() + 1
+    const day = newTime.getDate()
     const hour = newTime.getHours()
     const minute = newTime.getMinutes()
     const timeString = `${year}-${month}-${day}T${hour}:${minute}:0`
@@ -50,8 +50,8 @@ class Talk extends React.Component {
   handleDate = (date) => {
     const newDate = new Date(date)
     let oldDate
-    if (store.cfp.talk.start) {
-      oldDate = new Date(store.cfp.talk.start)
+    if (this.props.talk.start) {
+      oldDate = new Date(this.props.talk.start)
     } else {
       oldDate = new Date()
     }
@@ -59,8 +59,8 @@ class Talk extends React.Component {
     newDate.setMinutes(oldDate.getMinutes())
     newDate.setSeconds(oldDate.getSeconds())
     const year = newDate.getFullYear()
-    const month = newDate.getMonth()
-    const day = newDate.getDay() + 1
+    const month = newDate.getMonth() + 1
+    const day = newDate.getDate()
     const hour = newDate.getHours()
     const minute = newDate.getMinutes()
     const timeString = `${year}-${month}-${day}T${hour}:${minute}:0`
