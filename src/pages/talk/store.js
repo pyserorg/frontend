@@ -27,9 +27,28 @@ export default class TalkStore {
     }
   }
 
-  async fetchAll(year) {
+  async fetchAll(year = new Date().getFullYear()) {
     try {
       const result = await service.fetchAll(year)
+      this.list = result
+      return {
+        status: 200,
+        error: '',
+      }
+    } catch (error) {
+      this.list.total = 0
+      this.list.pages = 0
+      this.list.data = []
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
+
+  async fetchAllUser(year = new Date().getFullYear()) {
+    try {
+      const result = await service.fetchAllUser(year)
       this.list = result
       return {
         status: 200,

@@ -6,4 +6,12 @@ export default {
     minHeight: 'calc(100vh - 65px - 40px)',
     padding: 20,
   },
+
+  content: {
+    height: 'calc(100vh - 65px - 40px)',
+  },
+
+  talks: {
+    marginTop: 20,
+  },
 }
