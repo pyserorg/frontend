@@ -4,6 +4,8 @@ import { observer } from 'mobx-react'
 import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
 import store from 'store'
+import AdminDashboard from './admin'
+import UserDashboard from './user'
 import styles from './styles'
 
 
@@ -14,10 +16,14 @@ class Dashboard extends Component {
   }
 
   render() {
+    let dashboard
+    if (store.me.detail.admin !== undefined) {
+      dashboard = store.me.detail.admin ? <AdminDashboard /> : <UserDashboard />
+    }
     return (
       <Template secure={this.props.secure} style={{}}>
         <Paper style={styles.root}>
-          Dashboard
+          {dashboard}
         </Paper>
       </Template>
     )
