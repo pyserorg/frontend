@@ -4,16 +4,21 @@ import { observer } from 'mobx-react'
 import { withRouter, Link } from 'react-router-dom'
 import moment from 'moment'
 import ReactMarkdown from 'react-markdown'
-import Paper from '@material-ui/core/Paper'
-import Fab from '@material-ui/core/Fab'
-import AddIcon from '@material-ui/icons/Add'
+
+// Components
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import Switch from '@material-ui/core/Switch'
 import DialogActions from '@material-ui/core/DialogActions'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Fab from '@material-ui/core/Fab'
+import Paper from '@material-ui/core/Paper'
+import Switch from '@material-ui/core/Switch'
 import TextField from '@material-ui/core/TextField'
+
+// Icons
+import AddIcon from '@material-ui/icons/Add'
+
 import Template from 'templates/default'
 import store from 'store'
 import styles from './styles'
