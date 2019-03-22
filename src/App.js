@@ -14,6 +14,7 @@ import CfSDetail from 'pages/cfs/detail'
 import CfSList from 'pages/cfs/list'
 import CoC from 'pages/coc'
 import Dashboard from 'pages/dashboard'
+import EventList from 'pages/event/list'
 import Gallery from 'pages/gallery'
 import Landing from 'pages/landing'
 import Login from 'pages/login'
@@ -60,11 +61,13 @@ export default class App extends Component {
               <Route exact path="/cfp/:id" component={CfPDetail} />
               <Route exact path="/cfs" component={CfS} />
               <Route exact path="/cfs/:id" component={CfSDetail} />
+              <Route exact path="/events" component={EventList} />
               <Route exact path="/:year/cfs" component={CfSList} />
               <Route exact path="/:year/cfs/:page" component={CfSList} />
               <Route exact path="/coc" component={CoC} />
               <Route exact path="/:year/gallery" component={Gallery} />
               <Route exact path="/:year/schedule" component={Schedule} />
+              <Route exact path="/:year" component={Landing} />
               <Route exact path="/landing" component={Landing} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/talk/:id" component={TalkDetail} />

@@ -2,7 +2,7 @@ import { observable } from 'mobx'
 import service from './service'
 
 
-class EventStore {
+export default class EventStore {
   @observable detail = {}
 
   @observable list = {
@@ -13,10 +13,12 @@ class EventStore {
 
   async fetch(year) {
     try {
-      this.detail = await service.fetch(year)
+      const result = await service.fetch(year)
+      this.detail = result
       return {
         status: 200,
         error: '',
+        result,
       }
     } catch (error) {
       this.detail = {}
@@ -32,9 +34,10 @@ class EventStore {
       const result = await service.fetchAll(page)
       if (!this.detail.year) {
         if (result.data.length > 0) {
-          this.detail = result.data[0]
+          [this.detail] = result.data
         }
       }
+      this.list = result
       return {
         status: 200,
         error: '',
@@ -47,6 +50,24 @@ class EventStore {
       }
     }
   }
-}
 
-export default EventStore
+  async create(year) {
+    try {
+      const result = await service.create(year)
+      this.detail = result
+      this.list.data.push(result)
+      this.list.total += 1
+      return {
+        status: 200,
+        error: '',
+        result,
+      }
+    } catch (error) {
+      this.detail = {}
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
+}
