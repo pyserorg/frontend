@@ -67,9 +67,9 @@ export default class App extends Component {
               <Route exact path="/coc" component={CoC} />
               <Route exact path="/:year/gallery" component={Gallery} />
               <Route exact path="/:year/schedule" component={Schedule} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/:year" component={Landing} />
               <Route exact path="/landing" component={Landing} />
-              <Route exact path="/login" component={Login} />
               <Route exact path="/talk/:id" component={TalkDetail} />
               <Route path="*" component={NoPage} />
             </Switch>
