@@ -87,7 +87,7 @@ class Template extends Component {
           <Toolbar>
             <Typography variant="title" color="inherit" style={styles.flex}>
               {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-              Frontend Startkit - {title.title}
+              PySer - {title.title}
             </Typography>
             {menuButtons}
             <Menu
