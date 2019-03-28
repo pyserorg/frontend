@@ -51,6 +51,9 @@ class CfS extends React.Component {
           >
             <ul style={styles.list}>
               <li style={styles.point}>
+                We will organize one month Python training session for your juniors/interns
+              </li>
+              <li style={styles.point}>
                 Emailing your Python related events to our list of subscribers
               </li>
               <li style={styles.point}>
