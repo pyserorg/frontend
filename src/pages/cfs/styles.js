@@ -6,10 +6,18 @@ export default {
   },
 
   h1: {
-    marginBottom: 20,
+    marginBottom: 30,
+    color: '#3f51b5',
     small: {
       margin: 0,
     },
+    textAlign: 'center',
+  },
+  
+    h2: {
+    color: '#3f51b5',
+    textAlign: 'center',
+    marginBottom: 50,
   },
 
   center: {
