@@ -172,11 +172,25 @@ class CfS extends React.Component {
             Click on price to open the box.
           </div>
           <div style={styles.text}>
+           <h2 style={styles.h2}>Why should you sponsor PySer?< /h2>
             <p style={styles.paragraph}>
-              The main idea of this conference is to bring together experts
-              from academia &amp; business with young people who want to lear more
+              <b>Promote your company!</b> The main idea of this conference is 
+              to bring together well known Python experts from academia &amp; 
+              business and connect them with young people who want to learn more
               about Python. Our goal is not just to promote Python but also to
-              connect developers with companies who use Python.
+              connect developers with companies who use it in their projects.
+            </p>
+             <p style={styles.paragraph}>
+              <b>Do you have a product, service or brand that is loved by 
+              or will be loved by the Python developers?</b>
+            </p>
+            <p style={styles.paragraph}>
+              We know that you are doing a fantastic job and that is the 
+              main reason why we are offering our sponsoring companies 
+              an opportunity to present their work in the business room.
+              Every company that donates more than 300 euros will get one
+              business presentation where you can talk about your projects,
+              ideas and hiring processes.
             </p>
             <p style={styles.paragraph}>
               We believe that if we get to know each other better and exchange
@@ -184,25 +198,9 @@ class CfS extends React.Component {
               on different projects.
             </p>
             <p style={styles.paragraph}>
-              That is the main reason why we are offering our sponsoring
-              companies an opportunity to present their work in the business
-              room. Every company that donates more than 300 euros will get one
-              business presentation where you can talk about your projects,
-              ideas and hiring process. In the end of the business talks we
+              In the end of the business talks we
               highly encourage your HR to continue with the sourcing process if
               you find a desirable candidate.
-            </p>
-            <p style={styles.paragraph}>
-              After the conference we are planning to open a PyDev mailing list.
-              Since we strongly believe in privacy of our developers this
-              mailing list will only be used to promote job offers from our gold
-              and diamond sponsors. The email list will never be used for spam or
-              sold to a third party.
-            </p>
-            <p style={styles.paragraph}>
-              To our diamond sponsors we specially offer an opportunity to
-              promote their job offers on our job board that will be available
-              after the conference.
             </p>
             <p style={styles.paragraph}>
               We are open for any additional ideas you might have on how to
