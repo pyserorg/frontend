@@ -14,4 +14,7 @@ export default {
   talks: {
     marginTop: 20,
   },
+
+  user: {
+  },
 }

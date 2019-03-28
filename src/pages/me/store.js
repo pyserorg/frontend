@@ -22,6 +22,24 @@ class MeStore {
       }
     }
   }
+
+  async edit(data) {
+    try {
+      this.detail = await service.edit(data)
+      return {
+        status: 200,
+        error: '',
+        result: this.detail,
+      }
+    } catch (error) {
+      this.detail = {}
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+        result: this.detail,
+      }
+    }
+  }
 }
 
 export default MeStore
