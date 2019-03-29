@@ -121,12 +121,12 @@ class UserDashboard extends Component {
         </div>
       ) : (
         <Tooltip title="Click to edit" placement="right">
-          <span
+          <div
             onClick={this.handleEdit('email')}
             role="presentation"
           >
             {store.me.detail.email}
-          </span>
+          </div>
         </Tooltip>
       )
     const twitter = this.state.edit === 'twitter'
@@ -148,12 +148,13 @@ class UserDashboard extends Component {
         </div>
       ) : (
         <Tooltip title="Click to edit" placement="right">
-          <span
+          <div
+            style={styles.twitter}
             onClick={this.handleEdit('twitter')}
             role="presentation"
           >
             {store.me.detail.twitter}
-          </span>
+          </div>
         </Tooltip>
       )
     const facebook = this.state.edit === 'facebook'
@@ -175,12 +176,13 @@ class UserDashboard extends Component {
         </div>
       ) : (
         <Tooltip title="Click to edit" placement="right">
-          <span
+          <div
+            style={styles.facebook}
             onClick={this.handleEdit('facebook')}
             role="presentation"
           >
             {store.me.detail.facebook}
-          </span>
+          </div>
         </Tooltip>
       )
     const bio = this.state.edit === 'bio'
@@ -202,12 +204,12 @@ class UserDashboard extends Component {
         </div>
       ) : (
         <Tooltip title="Click to edit" placement="right">
-          <span
+          <div
             onClick={this.handleEdit('bio')}
             role="presentation"
           >
             {store.me.detail.bio}
-          </span>
+          </div>
         </Tooltip>
       )
     return (
