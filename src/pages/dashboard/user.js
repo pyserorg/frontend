@@ -18,6 +18,9 @@ class UserDashboard extends Component {
     firstName: '',
     lastName: '',
     email: '',
+    bio: '',
+    twitter: '',
+    facebook: '',
   }
 
   componentWillMount() {
@@ -32,16 +35,8 @@ class UserDashboard extends Component {
     })
   }
 
-  handleEditCancel = () => {
-    this.setState({ edit: null })
-  }
-
-  handleFirstNameChange = (event) => {
-    this.setState({ firstName: event.target.value })
-  }
-
-  handleLastNameChange = (event) => {
-    this.setState({ lastName: event.target.value })
+  handleFieldChange = (field) => (event) => {
+    this.setState({ [field]: event.target.value })
   }
 
   submitName = () => {
@@ -49,21 +44,25 @@ class UserDashboard extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
     })
+    this.setState({ edit: null })
   }
 
-  handleEditEmail = () => {
+  handleEdit = (field) => () => {
     this.setState({
-      edit: 'email',
-      email: store.me.detail.email,
+      edit: field,
+      [field]: store.me.detail[field],
     })
   }
 
-  handleEmailChange = (event) => {
-    this.setState({ email: event.target.value })
+  handleEditCancel = () => {
+    this.setState({ edit: null })
   }
 
-  submitEmail = () => {
-    store.me.edit({ email: this.state.email })
+  handleSubmit = (field) => () => {
+    store.me.edit({
+      [field]: this.state[field],
+    })
+    this.setState({ edit: null })
   }
 
   render() {
@@ -74,14 +73,14 @@ class UserDashboard extends Component {
             <TextField
               value={this.state.firstName}
               label="First Name"
-              onChange={this.handleFirstNameChange}
+              onChange={this.handleFieldChange('firstName')}
             />
           </div>
           <div>
             <TextField
               value={this.state.lastName}
               label="Last Name"
-              onChange={this.handleLastNameChange}
+              onChange={this.handleFieldChange('lastName')}
             />
           </div>
           <Button variant="outlined" onClick={this.handleEditCancel}>
@@ -110,23 +109,104 @@ class UserDashboard extends Component {
             <TextField
               value={this.state.email}
               label="Email"
-              onChange={this.handleEmailChange}
+              onChange={this.handleFieldChange('email')}
             />
           </div>
           <Button variant="outlined" onClick={this.handleEditCancel}>
             Cancel
           </Button>
-          <Button variant="contained" color="primary" onClick={this.submitEmail}>
+          <Button variant="contained" color="primary" onClick={this.handleSubmit('email')}>
             OK
           </Button>
         </div>
       ) : (
         <Tooltip title="Click to edit" placement="right">
           <span
-            onClick={this.handleEditEmail}
+            onClick={this.handleEdit('email')}
             role="presentation"
           >
             {store.me.detail.email}
+          </span>
+        </Tooltip>
+      )
+    const twitter = this.state.edit === 'twitter'
+      ? (
+        <div>
+          <div>
+            <TextField
+              value={this.state.twitter}
+              label="Twitter"
+              onChange={this.handleFieldChange('twitter')}
+            />
+          </div>
+          <Button variant="outlined" onClick={this.handleEditCancel}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleSubmit('twitter')}>
+            OK
+          </Button>
+        </div>
+      ) : (
+        <Tooltip title="Click to edit" placement="right">
+          <span
+            onClick={this.handleEdit('twitter')}
+            role="presentation"
+          >
+            {store.me.detail.twitter}
+          </span>
+        </Tooltip>
+      )
+    const facebook = this.state.edit === 'facebook'
+      ? (
+        <div>
+          <div>
+            <TextField
+              value={this.state.facebook}
+              label="Facebook"
+              onChange={this.handleFieldChange('facebook')}
+            />
+          </div>
+          <Button variant="outlined" onClick={this.handleEditCancel}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleSubmit('facebook')}>
+            OK
+          </Button>
+        </div>
+      ) : (
+        <Tooltip title="Click to edit" placement="right">
+          <span
+            onClick={this.handleEdit('facebook')}
+            role="presentation"
+          >
+            {store.me.detail.facebook}
+          </span>
+        </Tooltip>
+      )
+    const bio = this.state.edit === 'bio'
+      ? (
+        <div>
+          <div>
+            <TextField
+              value={this.state.bio}
+              label="Biography"
+              onChange={this.handleFieldChange('bio')}
+            />
+          </div>
+          <Button variant="outlined" onClick={this.handleEditCancel}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleSubmit('bio')}>
+            OK
+          </Button>
+        </div>
+      ) : (
+        <Tooltip title="Click to edit" placement="right">
+          <span
+            onClick={this.handleEdit('bio')}
+            role="presentation"
+          >
+            {store.me.detail.bio}
           </span>
         </Tooltip>
       )
@@ -135,10 +215,15 @@ class UserDashboard extends Component {
         <div style={styles.user}>
           {name}
           {email}
+          {twitter}
+          {facebook}
+          {bio}
         </div>
         <div style={styles.talks}>
           {store.talk.list.data.map(talk => (
-            <TalkBox key={talk.id} talk={talk} />
+            <div style={styles.talks.box}>
+              <TalkBox key={talk.id} talk={talk} nouser />
+            </div>
           ))}
         </div>
       </div>
