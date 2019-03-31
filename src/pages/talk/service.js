@@ -2,6 +2,19 @@ import axios from 'axios'
 import { API_ROOT, getCookie } from 'utils'
 
 
+async function edit(id, data) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.patch(
+    `${API_ROOT}/talk/${id}`,
+    data,
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 async function fetch(id) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.get(
@@ -51,6 +64,7 @@ async function fetchPublished(year) {
 
 
 export default {
+  edit,
   fetch,
   fetchAll,
   fetchAllUser,
