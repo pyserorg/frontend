@@ -83,4 +83,20 @@ export default class TalkStore {
       }
     }
   }
+
+  async edit(data) {
+    try {
+      const result = await service.edit(this.detail.id, data)
+      this.detail = result
+      return {
+        status: 200,
+        error: '',
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
 }

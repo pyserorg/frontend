@@ -8,17 +8,22 @@ import getStyles from './styles'
 class TalkBox extends React.Component {
   render() {
     const styles = getStyles(this.props.talk)
+    const user = this.props.nouser
+      ? ''
+      : (
+        <div>
+          {this.props.talk.user.firstName}
+          &nbsp;
+          {this.props.talk.user.lastName}
+        </div>
+      )
     return (
       <Paper style={styles.root}>
         <Link to={`/talk/${this.props.talk.id}`} style={styles.link}>
           <div>
             {this.props.talk.title}
           </div>
-          <div>
-            {this.props.talk.user.firstName}
-            &nbsp;
-            {this.props.talk.user.lastName}
-          </div>
+          {user}
         </Link>
       </Paper>
     )
@@ -27,6 +32,7 @@ class TalkBox extends React.Component {
 
 
 TalkBox.propTypes = {
+  nouser: PropTypes.bool,
   talk: PropTypes.shape({
     id: PropTypes.number.isRequired,
     start: PropTypes.string,

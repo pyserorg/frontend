@@ -10,9 +10,14 @@ import Template from 'templates/default'
 import store from 'store'
 
 
+@observer
 class Landing extends Component {
   componentWillMount() {
-    this.props.store.title.title = 'Landing'
+    store.title.title = 'Landing'
+    const year = Number(this.props.match.params.year)
+    if (year) {
+      store.event.detail.year = year
+    }
   }
 
   render() {
@@ -30,12 +35,12 @@ class Landing extends Component {
 
 
 Landing.propTypes = {
-  store: PropTypes.shape({
-    title: PropTypes.shape({
-      title: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      year: PropTypes.string,
     }).isRequired,
   }).isRequired,
 }
 
 
-export default observer((props) => <Landing {...props} store={store} />)
+export default Landing
