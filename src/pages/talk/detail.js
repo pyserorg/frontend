@@ -16,8 +16,10 @@ import getStyles from './styles'
 @observer
 class TalkDetail extends Component {
   state = {
+    description: '',
     edit: null,
     title: '',
+    video: '',
   }
 
   componentWillMount() {
@@ -32,7 +34,7 @@ class TalkDetail extends Component {
   handleEdit = (field) => () => {
     this.setState({
       edit: field,
-      [field]: store.talk.detail[field],
+      [field]: store.talk.detail[field] || '',
     })
   }
 
@@ -130,6 +132,60 @@ class TalkDetail extends Component {
           </div>
         </Tooltip>
       )
+    let video
+    if (this.state.edit === 'video') {
+      video = (
+        <div>
+          <div>
+            <TextField
+              value={this.state.video}
+              label="video"
+              onChange={this.handleFieldChange('video')}
+              autoFocus
+            />
+          </div>
+          <Button variant="outlined" onClick={this.handleEditCancel}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleSubmit('video')}>
+            OK
+          </Button>
+        </div>
+      )
+    } else if (talk.video) {
+      const embed = (
+        <iframe
+          title="Video"
+          width="560"
+          height="315"
+          src={`https://www.youtube.com/embed/${talk.video}`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      )
+      video = store.me.detail.admin
+        ? (
+          <div>
+            <div>
+              {embed}
+            </div>
+            <Button variant="outlined" onClick={this.handleEdit('video')}>
+              Edit
+            </Button>
+          </div>
+        ) : (
+          <div>
+            {embed}
+          </div>
+        )
+    } else if (store.me.detail.admin) {
+      video = (
+        <Button variant="outlined" onClick={this.handleEdit('video')}>
+          Add Video
+        </Button>
+      )
+    }
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
@@ -147,6 +203,7 @@ class TalkDetail extends Component {
             {talk.hall}
           </div>
           {user}
+          {video}
         </Paper>
       </Template>
     )
