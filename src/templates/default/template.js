@@ -15,12 +15,14 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 
 // Icons
+import BlogIcon from '@material-ui/icons/Description'
+import CfSIcon from '@material-ui/icons/MonetizationOn'
 import CloseIcon from '@material-ui/icons/Clear'
 import CoCIcon from '@material-ui/icons/Accessibility'
-import CfSIcon from '@material-ui/icons/MonetizationOn'
+import EventIcon from '@material-ui/icons/Event'
 import GalleryIcon from '@material-ui/icons/Dashboard'
-import ScheduleIcon from '@material-ui/icons/Schedule'
 import MenuIcon from '@material-ui/icons/Menu'
+import ScheduleIcon from '@material-ui/icons/Schedule'
 
 import EmptyTemplate from 'templates/empty'
 import store from 'store'
@@ -56,7 +58,7 @@ class Template extends Component {
     const { title } = store
     const open = Boolean(this.state.anchorEl)
     const { year } = store.event.detail
-    const menuButtons = this.props.resolution.width > 600
+    const menuButtons = this.props.resolution.width > 750
       ? (
         <div>
           <Link to={`/${year}/schedule`} style={styles.a.white}>
@@ -70,6 +72,15 @@ class Template extends Component {
           </Link>
           <Link to="/coc" style={styles.a.white}>
             <Button color="inherit">CoC</Button>
+          </Link>
+          <Link to={`/${year}/gallery`} style={styles.a.white}>
+            <Button color="inherit">Gallery</Button>
+          </Link>
+          <Link to="/blog" style={styles.a.white}>
+            <Button color="inherit">Blog</Button>
+          </Link>
+          <Link to="/events" style={styles.a.white}>
+            <Button color="inherit">Events</Button>
           </Link>
         </div>
       )
@@ -139,7 +150,7 @@ class Template extends Component {
                     Schedule
                   </MenuItem>
                 </Link>
-                <Link to="/gallery" style={styles.a}>
+                <Link to={`/${year}/gallery`} style={styles.a}>
                   <MenuItem>
                     <ListItemIcon>
                       <GalleryIcon />
@@ -161,6 +172,22 @@ class Template extends Component {
                       <CoCIcon />
                     </ListItemIcon>
                     CoC
+                  </MenuItem>
+                </Link>
+                <Link to="/blog" style={styles.a}>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <BlogIcon />
+                    </ListItemIcon>
+                    Blog
+                  </MenuItem>
+                </Link>
+                <Link to="/events" style={styles.a}>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <EventIcon />
+                    </ListItemIcon>
+                    Events
                   </MenuItem>
                 </Link>
               </div>
