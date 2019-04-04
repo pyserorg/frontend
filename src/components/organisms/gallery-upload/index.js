@@ -49,6 +49,7 @@ class GalleryUpload extends React.Component {
   handleUploadStart = () => {
     const cookie = getCookie('csrf_access_token')
     const uploader = new Resumable({
+      simultaneousUploads: 1,
       target: this.props.target,
       testChunks: false,
       headers: {

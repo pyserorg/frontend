@@ -17,7 +17,7 @@ import styles from './styles'
 @observer
 class Gallery extends React.Component {
   state = {
-    page: 1,
+    page: 0,
     open: false,
     isLigthboxOpen: false,
     currentPhoto: 1,
@@ -42,7 +42,7 @@ class Gallery extends React.Component {
 
   nextPhoto = () => this.setState(
     prevState => {
-      if (prevState.currentPhoto + 1 >= store.gallery.detail.files.length) {
+      if (prevState.currentPhoto + 1 >= store.gallery.list.files.length) {
         this.loadMore()
       }
       return {
@@ -60,17 +60,17 @@ class Gallery extends React.Component {
   }
 
   handleCloseUpload = (files) => {
-    store.gallery.detail.files = [...store.gallery.detail.files, ...files]
-    this.setState(prevState => ({ open: false }))
+    store.gallery.list.files = [...store.gallery.list.files, ...files]
+    this.setState({ open: false })
   }
 
   loadMore = () => {
-    if (this.state.page >= store.gallery.detail.album.pages) {
+    if (this.state.page > store.gallery.list.pages) {
       return
     }
     this.setState(prevState => {
       const nextPage = prevState.page + 1
-      this.requestGallery(
+      store.gallery.fetchAggregate(
         'main',
         this.props.match.params.year,
         nextPage,
@@ -80,16 +80,16 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const { prefix, name } = store.gallery.detail
+    const { prefix, name } = store.gallery.list
     const { year } = this.props.match.params
-    const photos = store.gallery.detail.files.map(picture => ({
+    const photos = store.gallery.list.files.map(picture => ({
       src: picture.src
         ? picture.src
         : `${prefix}/${year}/${name}/${picture.filename}`,
       height: styles.picture.height,
       width: styles.picture.width,
     }))
-    const uploadButton = store.auth.auth
+    const uploadButton = store.me.detail.admin
       ? (
         <Fab
           color="primary"
@@ -106,7 +106,7 @@ class Gallery extends React.Component {
           <InfiniteScroll
             pageStart={0}
             loadMore={this.loadMore}
-            hasMore={this.state.page < store.gallery.detail.pages}
+            hasMore={this.state.page < store.gallery.list.pages}
             loader={<div className="loader" key={0}>Loading ...</div>}
           >
             {uploadButton}
