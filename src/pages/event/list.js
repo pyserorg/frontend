@@ -50,16 +50,20 @@ class EventList extends Component {
   }
 
   render() {
+    const add = store.me.detail.admin
+      ? (
+        <Fab
+          color="primary"
+          onClick={this.handleOpenCreate}
+          style={styles.add}
+        >
+          <AddIcon />
+        </Fab>
+      ) : null
     return (
-      <Template style={{}} secure>
+      <Template style={{}}>
         <Paper style={styles.root}>
-          <Fab
-            color="primary"
-            onClick={this.handleOpenCreate}
-            style={styles.add}
-          >
-            <AddIcon />
-          </Fab>
+          {add}
           {store.event.list.data.map(event => (
             <Link key={event.year} to={`/${event.year}`} style={styles.link}>
               <h2>{event.year}</h2>
