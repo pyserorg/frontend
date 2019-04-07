@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography'
 
 // Icons
 import BlogIcon from '@material-ui/icons/Description'
+import CfPIcon from '@material-ui/icons/Bookmarks'
 import CfSIcon from '@material-ui/icons/MonetizationOn'
 import CloseIcon from '@material-ui/icons/Clear'
 import CoCIcon from '@material-ui/icons/Accessibility'
@@ -156,6 +157,14 @@ class Template extends Component {
                       <GalleryIcon />
                     </ListItemIcon>
                     Gallery
+                  </MenuItem>
+                </Link>
+                <Link to="/cfp" style={styles.a}>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <CfPIcon />
+                    </ListItemIcon>
+                    CfP
                   </MenuItem>
                 </Link>
                 <Link to="/cfs" style={styles.a}>
