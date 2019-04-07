@@ -82,6 +82,8 @@ class CfP extends React.Component {
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
+          <h1>Call for Papers</h1>
+          <span>Open until 5th of May 2019</span>
           <Stepper activeStep={this.state.step} orientation="vertical">
             <Step>
               <StepLabel>Presenter</StepLabel>
