@@ -32,5 +32,7 @@ setup() {
 
   cd ${PROJECT_ROOT}
   sed -e "s;HTTP_PROXY;${HTTP_PROXY};g" package.json.tpl >package.json
-  "${PACKAGE_MANAGER}" install
+  if [ "${OFFLINE}" != "yes" ]; then
+    "${PACKAGE_MANAGER}" install
+  fi
 }
