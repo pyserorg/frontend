@@ -98,8 +98,11 @@ class Template extends Component {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="title" color="inherit" style={styles.flex}>
-              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-              PySer - {title.title}
+              <Link to="/" style={styles.a.white}>
+                PySer -
+                &nbsp;
+                {title.title}
+              </Link>
             </Typography>
             {menuButtons}
             <Menu
