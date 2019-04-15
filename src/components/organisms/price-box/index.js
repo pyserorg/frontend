@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import Paper from '@material-ui/core/Paper'
 import Toolbar from '@material-ui/core/Toolbar'
+import ResolutionContext from 'resolution'
 import store from 'store'
 import getStyles from './styles'
 
@@ -17,7 +18,7 @@ class PriceBox extends React.Component {
   }
 
   render() {
-    const styles = getStyles(this.props.backgroundColor)
+    const styles = getStyles(this.props.backgroundColor, this.props.resolution)
     const rootStyle = this.props.name === store.cfs.focused
       ? styles.price.focused
       : styles.price
@@ -45,7 +46,15 @@ PriceBox.propTypes = {
   backgroundColor: PropTypes.string,
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
+  resolution: PropTypes.shape({
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 
-export default PriceBox
+export default (props) => (
+  <ResolutionContext.Consumer>
+    {resolution => <PriceBox {...props} resolution={resolution} />}
+  </ResolutionContext.Consumer>
+)
