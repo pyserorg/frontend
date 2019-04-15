@@ -1,6 +1,5 @@
 const priceBox = {
   width: '100%',
-  height: 500,
   margin: 5,
   textAlign: 'left',
   transition: 'all 0.3s ease-in-out',
@@ -8,14 +7,15 @@ const priceBox = {
 }
 
 
-export default (backgroundColor = null) => {
+export default (backgroundColor = null, resolution = {}) => {
+  console.log(resolution)
   const styles = {
     price: {
       ...priceBox,
-      maxHeight: 64,
+      maxHeight: resolution.width < 600 ? 56 : 64,
       focused: {
         ...priceBox,
-        maxHeight: 400,
+        maxHeight: 800,
       },
     },
 
