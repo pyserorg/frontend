@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import getStyles from './styles'
@@ -28,16 +29,11 @@ class LandingInfo extends Component {
             Hotel Novi Sad
           </a>
         </div>
-        <a
-          href="https://www.youtube.com/watch?v=ygNmn2Rhcyg&index=2&list=PLnRmeeuhue8c7stB1lDvTsSERGasE8p3m"
-          style={styles.tickets.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link to="/cfp" style={styles.tickets.link}>
           <Paper style={styles.tickets}>
-            Watch Videos
+            Call for Papers
           </Paper>
-        </a>
+        </Link>
       </div>
     )
   }
