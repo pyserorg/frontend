@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 
 // Components
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
 import Step from '@material-ui/core/Step'
@@ -21,6 +22,7 @@ import styles from './styles'
 class CfP extends React.Component {
   state = {
     step: 0,
+    submitting: false,
   }
 
   componentWillMount() {
@@ -44,7 +46,9 @@ class CfP extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault()
+    this.setState({ submitting: true })
     const data = await store.cfp.send()
+    this.setState({ submitting: false })
     if (data.status === 200) {
       if (store.auth.auth) {
         this.props.history.push(`/cfp/${data.result.id}`)
@@ -79,6 +83,25 @@ class CfP extends React.Component {
   }
 
   render() {
+    const buttons = this.state.submitting
+      ? (
+        <div style={styles.talk}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <div style={styles.talk}>
+          <Button
+            onClick={this.handlePrevious}
+            variant="outlined"
+            style={styles.talk.previous}
+          >
+            Previous
+          </Button>
+          <Button type="submit" color="primary" variant="outlined">
+            Submit
+          </Button>
+        </div>
+      )
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
@@ -200,18 +223,7 @@ class CfP extends React.Component {
                       workshop
                     </MenuItem>
                   </TextField>
-                  <div style={styles.talk}>
-                    <Button
-                      onClick={this.handlePrevious}
-                      variant="outlined"
-                      style={styles.talk.previous}
-                    >
-                      Previous
-                    </Button>
-                    <Button type="submit" color="primary" variant="outlined">
-                      Submit
-                    </Button>
-                  </div>
+                  {buttons}
                 </form>
               </StepContent>
             </Step>
