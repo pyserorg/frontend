@@ -29,7 +29,6 @@ class EventList extends Component {
 
   componentWillMount() {
     store.title.title = 'Event List'
-    store.event.fetchAll()
   }
 
   handleOpenCreate = () => {

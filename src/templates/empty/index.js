@@ -9,6 +9,10 @@ import store from 'store'
 
 @observer
 class EmptyTemplate extends Component {
+  componentWillMount() {
+    store.event.fetchAll()
+  }
+
   handleClose = () => {
     const { error } = store
     error.message = ''

@@ -1,14 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import InfiniteScroll from 'react-infinite-scroller'
-import Gall from 'react-photo-gallery'
-import Lightbox from 'react-images'
+import { withRouter } from 'react-router-dom'
+
+// Components
 import Fab from '@material-ui/core/Fab'
-import AddIcon from '@material-ui/icons/Add'
-import Paper from '@material-ui/core/Paper'
-import Template from 'templates/default'
+import Gall from 'react-photo-gallery'
 import GalleryUpload from 'components/organisms/gallery-upload'
+import InfiniteScroll from 'react-infinite-scroller'
+import Lightbox from 'react-images'
+import Paper from '@material-ui/core/Paper'
+import YearSwitch from 'components/organisms/year-switch'
+
+// Icons
+import AddIcon from '@material-ui/icons/Add'
+
+import Template from 'templates/default'
 import { API_ROOT } from 'utils'
 import store from 'store'
 import styles from './styles'
@@ -79,6 +86,10 @@ class Gallery extends React.Component {
     })
   }
 
+  handleYearChange = () => {
+    this.props.history.push(`/${store.event.detail.year}/gallery`)
+  }
+
   render() {
     const { prefix, name } = store.gallery.list
     const { year } = this.props.match.params
@@ -103,6 +114,7 @@ class Gallery extends React.Component {
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
+          <YearSwitch onChange={this.handleYearChange} />
           <InfiniteScroll
             pageStart={0}
             loadMore={this.loadMore}
@@ -142,7 +154,10 @@ Gallery.propTypes = {
       year: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 
-export default Gallery
+export default withRouter(Gallery)
