@@ -57,7 +57,7 @@ class Schedule extends React.Component {
       <Template style={{}}>
         <Paper style={styles.root}>
           <h1>Schedule</h1>
-          <YearSwitch onChange={this.handleYearSwitch} />
+          <YearSwitch onChange={this.handleYearChange} />
           <div style={styles.schedule}>
             <div style={styles.title}>time</div>
             <div style={styles.title}>
