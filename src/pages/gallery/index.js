@@ -87,6 +87,7 @@ class Gallery extends React.Component {
   }
 
   handleYearChange = () => {
+    store.gallery.fetch('main', store.event.detail.year)
     this.props.history.push(`/${store.event.detail.year}/gallery`)
   }
 
@@ -149,13 +150,13 @@ class Gallery extends React.Component {
 
 
 Gallery.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       year: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
   }).isRequired,
 }
 
