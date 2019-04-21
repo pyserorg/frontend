@@ -20,7 +20,6 @@ import CfPIcon from '@material-ui/icons/Bookmarks'
 import CfSIcon from '@material-ui/icons/MonetizationOn'
 import CloseIcon from '@material-ui/icons/Clear'
 import CoCIcon from '@material-ui/icons/Accessibility'
-import EventIcon from '@material-ui/icons/Event'
 import GalleryIcon from '@material-ui/icons/Dashboard'
 import MenuIcon from '@material-ui/icons/Menu'
 import ScheduleIcon from '@material-ui/icons/Schedule'
@@ -79,9 +78,6 @@ class Template extends Component {
           </Link>
           <Link to="/blog" style={styles.a.white}>
             <Button color="inherit">Blog</Button>
-          </Link>
-          <Link to="/events" style={styles.a.white}>
-            <Button color="inherit">Events</Button>
           </Link>
         </div>
       )
@@ -192,14 +188,6 @@ class Template extends Component {
                       <BlogIcon />
                     </ListItemIcon>
                     Blog
-                  </MenuItem>
-                </Link>
-                <Link to="/events" style={styles.a}>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <EventIcon />
-                    </ListItemIcon>
-                    Events
                   </MenuItem>
                 </Link>
               </div>
