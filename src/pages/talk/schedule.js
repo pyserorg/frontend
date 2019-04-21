@@ -2,11 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { withTheme } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 import moment from 'moment'
+
+// Components
 import Paper from '@material-ui/core/Paper'
 import Template from 'templates/default'
 import TalkBox from 'components/organisms/talk-box'
 import TimeBox from 'components/organisms/time-box'
+import YearSwitch from 'components/organisms/year-switch'
+
 import store from 'store'
 import getStyles from './styles'
 
@@ -41,12 +46,18 @@ class Schedule extends React.Component {
     return result
   }
 
+  handleYearChange = () => {
+    store.talk.fetchPublished(store.event.detail.year)
+    this.props.history.push(`/${store.event.detail.year}/schedule`)
+  }
+
   render() {
     const styles = getStyles(store.talk.list, this.props.theme)
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
           <h1>Schedule</h1>
+          <YearSwitch onChange={this.handleYearSwitch} />
           <div style={styles.schedule}>
             <div style={styles.title}>time</div>
             <div style={styles.title}>
@@ -74,6 +85,9 @@ class Schedule extends React.Component {
 
 
 Schedule.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       year: PropTypes.string.isRequired,
@@ -83,4 +97,4 @@ Schedule.propTypes = {
 }
 
 
-export default withTheme()(Schedule)
+export default withTheme()(withRouter(Schedule))
