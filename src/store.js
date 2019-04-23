@@ -8,6 +8,7 @@ import Gallery from 'pages/gallery/store'
 import Me from 'pages/me/store'
 import Talk from 'pages/talk/store'
 import Title from 'templates/default/store'
+import User from 'pages/user/store'
 
 
 export default {
@@ -21,4 +22,5 @@ export default {
   me: new Me(),
   talk: new Talk(),
   title: new Title(),
+  user: new User(),
 }
