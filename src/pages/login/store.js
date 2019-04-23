@@ -82,6 +82,22 @@ class AuthStore {
       }
     }
   }
+
+  async register(email, password) {
+    try {
+      await service.register(email, password)
+      this.email = email
+      return {
+        status: 200,
+        error: '',
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
 }
 
 

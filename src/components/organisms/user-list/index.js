@@ -12,25 +12,25 @@ import styles from './styles'
 
 
 @observer
-class CfPList extends Component {
+class UserList extends Component {
   componentWillMount() {
-    store.cfp.fetchAll()
+    store.user.fetchAll()
   }
 
   render() {
     return (
-      <Badge badgeContent={store.cfp.list.data.length} color="primary">
+      <Badge badgeContent={store.user.list.data.length} color="primary">
         <Card>
           <CardContent>
             <Typography variant="h5">
-              CfP
+              Users
             </Typography>
             <Typography color="textSecondary">
-              Call for papers
+              All users
             </Typography>
           </CardContent>
           <CardActions>
-            <Link to="/cfp/list" style={styles.link}>
+            <Link to="/users" style={styles.link}>
               <Button variant="outlined" size="small">Explore</Button>
             </Link>
           </CardActions>
@@ -41,4 +41,4 @@ class CfPList extends Component {
 }
 
 
-export default CfPList
+export default UserList

@@ -18,8 +18,11 @@ import Gallery from 'pages/gallery'
 import Landing from 'pages/landing'
 import Login from 'pages/login'
 import NoPage from 'pages/nopage'
+import Register from 'pages/register'
 import Schedule from 'pages/talk/schedule'
 import TalkDetail from 'pages/talk/detail'
+import UserDetail from 'pages/user/detail'
+import UserList from 'pages/user/list'
 
 import ResolutionContext from 'resolution'
 import theme from 'theme'
@@ -66,9 +69,13 @@ export default class App extends Component {
               <Route exact path="/:year/gallery" component={Gallery} />
               <Route exact path="/:year/schedule" component={Schedule} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/talk/:id" component={TalkDetail} />
+              <Route exact path="/user/:id" component={UserDetail} />
+              <Route exact path="/users" component={UserList} />
+              <Route exact path="/users/:page" component={UserList} />
               <Route exact path="/:year" component={Landing} />
               <Route exact path="/landing" component={Landing} />
-              <Route exact path="/talk/:id" component={TalkDetail} />
               <Route path="*" component={NoPage} />
             </Switch>
           </BrowserRouter>
