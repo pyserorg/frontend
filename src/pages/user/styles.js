@@ -13,8 +13,8 @@ export default {
     },
     textAlign: 'center',
   },
-  
-    h2: {
+
+  h2: {
     color: '#3f51b5',
     textAlign: 'center',
     marginBottom: 50,
@@ -23,8 +23,7 @@ export default {
   center: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'baseline',
-    height: '45%',
+    alignItems: 'center',
   },
 
   list: {
@@ -97,5 +96,10 @@ export default {
 
   details: {
     marginRight: 20,
+  },
+
+  page: {
+    marginLeft: 10,
+    marginRight: 10,
   },
 }
