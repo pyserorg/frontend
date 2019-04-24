@@ -21,6 +21,8 @@ import CfSIcon from '@material-ui/icons/MonetizationOn'
 import CloseIcon from '@material-ui/icons/Clear'
 import CoCIcon from '@material-ui/icons/Accessibility'
 import GalleryIcon from '@material-ui/icons/Dashboard'
+import LoginIcon from '@material-ui/icons/ArrowForward'
+import LogoutIcon from '@material-ui/icons/ArrowBack'
 import MenuIcon from '@material-ui/icons/Menu'
 import ScheduleIcon from '@material-ui/icons/Schedule'
 
@@ -54,10 +56,46 @@ class Template extends Component {
     this.setState({ showMenu: false })
   }
 
+  handleLogout = async () => {
+    const result = await store.auth.logout()
+    if (result.status === 200) {
+      this.props.history.push('/landing')
+    } else {
+      store.error.error = result.error
+      store.error.open = true
+    }
+  }
+
   render() {
     const { title } = store
     const open = Boolean(this.state.anchorEl)
     const { year } = store.event.detail
+    const authButton = store.auth.auth
+      ? (
+        <MenuItem onClick={this.handleLogout}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      ) : (
+        <Link to="/login" style={styles.a}>
+          <MenuItem>
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            Login
+          </MenuItem>
+        </Link>
+      )
+    const authButtonMenu = store.auth.auth
+      ? (
+        <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
+      ) : (
+        <Link to="/login" style={styles.a.white}>
+          <Button color="inherit">Login</Button>
+        </Link>
+      )
     const menuButtons = this.props.resolution.width > 750
       ? (
         <div>
@@ -79,6 +117,7 @@ class Template extends Component {
           <Link to="/blog" style={styles.a.white}>
             <Button color="inherit">Blog</Button>
           </Link>
+          {authButtonMenu}
         </div>
       )
       : (
@@ -190,6 +229,7 @@ class Template extends Component {
                     Blog
                   </MenuItem>
                 </Link>
+                {authButton}
               </div>
             </Drawer>
           </Toolbar>
