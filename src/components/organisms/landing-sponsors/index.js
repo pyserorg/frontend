@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button';
+
+import EryceIcon from './eryce.svg'
 
 import getStyles from './styles'
 
@@ -14,15 +14,14 @@ class LandingSponsors extends Component {
     return (
       <Paper style={styles.root}>
         <div style={styles.title.big}>Sponsors</div>
-        <div style={styles.title.small}>
-          If you want to sponsor this conference
-          checkout our Call for Sponsors page.
+        <div style={styles.sponsors}>
+          <div style={styles.title}>Silver</div>
+          <img
+            src={EryceIcon}
+            alt="Eryce"
+            style={styles.icon.silver}
+          />
         </div>
-        <Link to="/cfs" style={styles.link}>
-          <Button style={styles.button} variant="contained" color="primary">
-            CfS
-          </Button>
-        </Link>
       </Paper>
     )
   }
