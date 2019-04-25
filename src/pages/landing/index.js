@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import LandingAbout from 'components/organisms/landing-about'
@@ -11,7 +11,7 @@ import store from 'store'
 
 
 @observer
-class Landing extends Component {
+class Landing extends React.Component {
   componentWillMount() {
     store.title.title = 'Landing'
     const year = Number(this.props.match.params.year)
