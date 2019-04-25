@@ -16,11 +16,13 @@ class LandingSponsors extends Component {
         <div style={styles.title.big}>Sponsors</div>
         <div style={styles.sponsors}>
           <div style={styles.title}>Silver</div>
-          <img
-            src={EryceIcon}
-            alt="Eryce"
-            style={styles.icon.silver}
-          />
+          <a href="https://eryce.com/">
+            <img
+              src={EryceIcon}
+              alt="Eryce"
+              style={styles.icon.silver}
+            />
+          </a>
         </div>
       </Paper>
     )
