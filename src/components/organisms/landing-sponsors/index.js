@@ -16,7 +16,11 @@ class LandingSponsors extends Component {
         <div style={styles.title.big}>Sponsors</div>
         <div style={styles.sponsors}>
           <div style={styles.title}>Silver</div>
-          <a href="https://eryce.com/">
+          <a
+            href="https://eryce.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src={EryceIcon}
               alt="Eryce"
