@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import getStyles from './styles'
@@ -9,9 +8,7 @@ import pyserLogo from './pyser-logo.svg'
 
 class LandingInfo extends Component {
   render() {
-    const height = this.props.height
-      ? this.props.height
-      : 'calc(100vh - 64px)'
+    const height = this.props.height || 'calc(100vh - 64px)'
     const styles = getStyles(this.props.theme, height);
     return (
       <div style={styles.root}>
@@ -29,11 +26,16 @@ class LandingInfo extends Component {
             Hotel Novi Sad
           </a>
         </div>
-        <Link to="/cfp" style={styles.tickets.link}>
+        <a
+          href="https://ti.to/tilda-center/pyser"
+          style={styles.tickets.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Paper style={styles.tickets}>
-            Call for Papers
+            Get Tickets
           </Paper>
-        </Link>
+        </a>
       </div>
     )
   }
