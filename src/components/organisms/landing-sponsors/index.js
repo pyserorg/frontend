@@ -4,6 +4,7 @@ import { withTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
 import EryceIcon from './eryce.svg'
+import SBGenomicsIcon from './sbgenomics.svg'
 
 import getStyles from './styles'
 
@@ -15,6 +16,18 @@ class LandingSponsors extends Component {
       <Paper style={styles.root}>
         <div style={styles.title.big}>Sponsors</div>
         <div style={styles.sponsors}>
+          <div style={styles.title}>Gold</div>
+          <a
+            href="https://www.sevenbridges.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={SBGenomicsIcon}
+              alt="Seven Bridge Genomics"
+              style={styles.icon.gold}
+            />
+          </a>
           <div style={styles.title}>Silver</div>
           <a
             href="https://eryce.com/"
