@@ -60,7 +60,7 @@ function getStyles(theme) {
       maxWidth: 500,
       gold: {
         ...iconWidth,
-        maxWidth: 250,
+        maxWidth: 300,
       },
       silver: {
         ...iconWidth,
