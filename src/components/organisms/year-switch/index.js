@@ -13,6 +13,7 @@ import store from 'store'
 class YearSwitch extends React.Component {
   handleYearChange = (event) => {
     store.event.detail.year = event.target.value
+    store.event.fetch(event.target.value)
     if (this.props.onChange) {
       this.props.onChange()
     }
