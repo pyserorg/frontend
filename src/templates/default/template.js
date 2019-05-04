@@ -59,6 +59,7 @@ class Template extends Component {
   handleLogout = async () => {
     const result = await store.auth.logout()
     if (result.status === 200) {
+      store.me.detail = {}
       this.props.history.push('/landing')
     } else {
       store.error.error = result.error

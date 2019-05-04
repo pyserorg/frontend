@@ -12,4 +12,9 @@ export default {
     padding: 20,
     marginBottom: 10,
   },
+
+  link: {
+    textDecoration: 'none',
+    color: 'black',
+  },
 }

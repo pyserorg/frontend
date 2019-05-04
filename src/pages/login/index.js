@@ -17,6 +17,7 @@ class Login extends React.Component {
     const result = await store.auth.login()
     store.auth.password = ''
     if (result.status === 200) {
+      store.me.fetch()
       this.props.history.push('/')
     } else {
       store.error.message = result.error
