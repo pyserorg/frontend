@@ -25,6 +25,12 @@ const defaultResult = {
     ...text,
     marginBottom: 20,
   },
+
+  switch: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }
 
 

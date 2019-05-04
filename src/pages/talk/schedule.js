@@ -7,9 +7,11 @@ import moment from 'moment'
 
 // Components
 import Paper from '@material-ui/core/Paper'
-import Template from 'templates/default'
+import Switch from '@material-ui/core/Switch'
 import TalkBox from 'components/organisms/talk-box'
+import Template from 'templates/default'
 import TimeBox from 'components/organisms/time-box'
+import Tooltip from '@material-ui/core/Tooltip'
 import YearSwitch from 'components/organisms/year-switch'
 
 import store from 'store'
@@ -51,32 +53,56 @@ class Schedule extends React.Component {
     this.props.history.push(`/${store.event.detail.year}/schedule`)
   }
 
+  handlePublished = () => {
+    console.log(store.event.detail.published)
+    store.event.edit(
+      this.props.match.params.year,
+      { published: !store.event.detail.published },
+    )
+  }
+
   render() {
     const styles = getStyles(store.talk.list, this.props.theme)
+    const publishSwitch = store.me.detail.admin
+      ? (
+        <Tooltip title="publish" placement="right">
+          <Switch
+            onChange={this.handlePublished}
+            checked={store.event.detail.published}
+          />
+        </Tooltip>
+      ) : null
+    const scheduleView = store.event.detail.published || store.me.detail.admin
+      ? (
+        <div style={styles.schedule}>
+          <div style={styles.title}>time</div>
+          <div style={styles.title}>
+            <h3>Presentations</h3>
+          </div>
+          <div style={styles.title}>
+            <h3>Workshops</h3>
+          </div>
+          <div style={styles.title}>
+            <h3>Business</h3>
+          </div>
+          <div style={styles.title}>time</div>
+          {this.generateTimes(store.talk.list)}
+          {
+            store.talk.list.data.map(
+              talk => <TalkBox key={talk.id} talk={talk} />,
+            )
+          }
+        </div>
+      ) : ''
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
           <h1>Schedule</h1>
-          <YearSwitch onChange={this.handleYearChange} />
-          <div style={styles.schedule}>
-            <div style={styles.title}>time</div>
-            <div style={styles.title}>
-              <h3>Presentations</h3>
-            </div>
-            <div style={styles.title}>
-              <h3>Workshops</h3>
-            </div>
-            <div style={styles.title}>
-              <h3>Business</h3>
-            </div>
-            <div style={styles.title}>time</div>
-            {this.generateTimes(store.talk.list)}
-            {
-              store.talk.list.data.map(
-                talk => <TalkBox key={talk.id} talk={talk} />,
-              )
-            }
+          <div style={styles.switch}>
+            <YearSwitch onChange={this.handleYearChange} />
+            {publishSwitch}
           </div>
+          {scheduleView}
         </Paper>
       </Template>
     )
