@@ -3,7 +3,12 @@ import service from './service'
 
 
 export default class UserStore {
-  @observable detail = {}
+  @observable detail = {
+    active: false,
+    admin: false,
+    firstName: '',
+    lastName: '',
+  }
 
   @observable list = {
     data: [],
@@ -46,8 +51,9 @@ export default class UserStore {
 
   async edit(id, data) {
     try {
-      const result = await service.edit(id, data)
-      if (this.detail.id === id) {
+      const numId = Number(id)
+      const result = await service.edit(numId, data)
+      if (this.detail.id === numId) {
         this.detail = result
       }
       for (let i = 0; i < this.list.data.length; i += 1) {
