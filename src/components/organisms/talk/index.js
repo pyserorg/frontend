@@ -80,53 +80,53 @@ class Talk extends React.Component {
 
   render() {
     return (
-      <Link
-        to={`/talk/${this.props.talk.id}`}
-        style={styles.link}
-      >
-        <Paper style={styles.content}>
-          Presentation Title:
+      <Paper style={styles.content}>
+        Presentation Title:
+        <Link
+          to={`/talk/${this.props.talk.id}`}
+          style={styles.link}
+        >
           <h1 style={styles.title}>{this.props.talk.title}</h1>
-          Presentation Description:
-          <div style={styles.description}>
-            {this.props.talk.description}
-          </div>
-          <div>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DatePicker
-                margin="normal"
-                label="Date picker"
-                value={this.props.talk.start}
-                onChange={this.handleDate}
-              />
-              <TimePicker
-                margin="normal"
-                label="Time picker"
-                value={this.props.talk.start}
-                onChange={this.handleStartTime}
-              />
-            </MuiPickersUtilsProvider>
-          </div>
-          Publish the talk
-          <Switch
-            checked={this.props.talk.published}
-            onChange={this.handlePublished}
-          />
-          <InputLabel htmlFor="hall">Hall</InputLabel>
-          <Select
-            value={this.props.talk.hall || ''}
-            onChange={this.handleHall}
-            inputProps={{
-              name: 'hall',
-              id: 'hall',
-            }}
-          >
-            <MenuItem value="presentations">Presentations</MenuItem>
-            <MenuItem value="workshops">Workshops</MenuItem>
-            <MenuItem value="business">Business</MenuItem>
-          </Select>
-        </Paper>
-      </Link>
+        </Link>
+        Presentation Description:
+        <div style={styles.description}>
+          {this.props.talk.description}
+        </div>
+        <div>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DatePicker
+              margin="normal"
+              label="Date picker"
+              value={this.props.talk.start}
+              onChange={this.handleDate}
+            />
+            <TimePicker
+              margin="normal"
+              label="Time picker"
+              value={this.props.talk.start}
+              onChange={this.handleStartTime}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        Publish the talk
+        <Switch
+          checked={this.props.talk.published}
+          onChange={this.handlePublished}
+        />
+        <InputLabel htmlFor="hall">Hall</InputLabel>
+        <Select
+          value={this.props.talk.hall || ''}
+          onChange={this.handleHall}
+          inputProps={{
+            name: 'hall',
+            id: 'hall',
+          }}
+        >
+          <MenuItem value="presentations">Presentations</MenuItem>
+          <MenuItem value="workshops">Workshops</MenuItem>
+          <MenuItem value="business">Business</MenuItem>
+        </Select>
+      </Paper>
     )
   }
 }

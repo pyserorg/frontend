@@ -54,7 +54,6 @@ class Schedule extends React.Component {
   }
 
   handlePublished = () => {
-    console.log(store.event.detail.published)
     store.event.edit(
       this.props.match.params.year,
       { published: !store.event.detail.published },
