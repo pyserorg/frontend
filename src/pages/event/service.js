@@ -42,8 +42,22 @@ async function create(year) {
 }
 
 
+async function edit(year, data) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.patch(
+    `${API_ROOT}/event/${year}`,
+    data,
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 export default {
+  create,
+  edit,
   fetch,
   fetchAll,
-  create,
 }
