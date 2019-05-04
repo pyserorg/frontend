@@ -24,7 +24,7 @@ class Landing extends React.Component {
 
   render() {
     const years = store.event.list.data.map(event => event.year)
-    return years.includes(this.year)
+    return years.includes(this.year) || this.props.match.params.year === 'landing'
       ? (
         <Template style={{}}>
           <LandingInfo />
