@@ -42,6 +42,9 @@ class CfPList extends React.Component {
 
 CfPList.propTypes = {
   secure: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 
