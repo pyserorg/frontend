@@ -114,6 +114,7 @@ class TalkDetail extends Component {
               onChange={this.handleFieldChange('description')}
               autoFocus
               fullWidth
+              multiline
             />
           </div>
           <Button variant="outlined" onClick={this.handleEditCancel}>
