@@ -193,6 +193,7 @@ class UserDashboard extends Component {
               value={this.state.bio}
               label="Biography"
               onChange={this.handleFieldChange('bio')}
+              multiline
             />
           </div>
           <Button variant="outlined" onClick={this.handleEditCancel}>
