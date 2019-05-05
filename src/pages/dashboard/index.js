@@ -19,6 +19,8 @@ class Dashboard extends Component {
     admin: false,
   }
 
+  reacted = false
+
   componentWillMount() {
     store.title.title = 'Dashboard'
     this.setState({ admin: store.me.detail.admin })
@@ -26,6 +28,13 @@ class Dashboard extends Component {
 
   toggleAdmin = () => {
     this.setState(prevState => ({ admin: !prevState.admin }))
+  }
+
+  componentWillReact() {
+    if (!this.reacted) {
+      this.reacted = true
+      this.setState({ admin: store.me.detail.admin })
+    }
   }
 
   render() {
