@@ -16,11 +16,17 @@ export default {
     padding: 20,
   },
 
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   content: {
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 'calc(100vh - 65px - 40px)',
+    height: 'calc(100vh - 65px - 40px - 40px)',
   },
 
   talks: {
@@ -28,9 +34,6 @@ export default {
     box: {
       marginBottom: 10,
     },
-  },
-
-  user: {
   },
 
   twitter: {
