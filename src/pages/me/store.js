@@ -3,40 +3,42 @@ import service from './service'
 
 
 class MeStore {
-  @observable detail = {}
+  @observable detail = {
+    admin: false,
+  }
 
   async fetch() {
     try {
-      this.detail = await service.fetch()
+      const result = await service.fetch()
+      this.detail = result
       return {
         status: 200,
         error: '',
-        result: this.detail,
+        result,
       }
     } catch (error) {
       this.detail = {}
       return {
         error: error.response.data.message,
         status: error.response.status,
-        result: this.detail,
       }
     }
   }
 
   async edit(data) {
     try {
-      this.detail = await service.edit(data)
+      const result = await service.edit(data)
+      this.detail = result
       return {
         status: 200,
         error: '',
-        result: this.detail,
+        result,
       }
     } catch (error) {
       this.detail = {}
       return {
         error: error.response.data.message,
         status: error.response.status,
-        result: this.detail,
       }
     }
   }
