@@ -99,4 +99,19 @@ export default class TalkStore {
       }
     }
   }
+
+  async announce(year) {
+    try {
+      await service.announce(year)
+      return {
+        status: 200,
+        error: '',
+      }
+    } catch (error) {
+      return {
+        error: error.response.data.message,
+        status: error.response.status,
+      }
+    }
+  }
 }

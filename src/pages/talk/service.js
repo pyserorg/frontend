@@ -63,7 +63,21 @@ async function fetchPublished(year) {
 }
 
 
+async function announce(year) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.post(
+    `${API_ROOT}/talk/year/${year}/announce`,
+    {},
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 export default {
+  announce,
   edit,
   fetch,
   fetchAll,
