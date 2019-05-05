@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 
 // Components
+import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Switch from '@material-ui/core/Switch'
 import TalkBox from 'components/organisms/talk-box'
@@ -60,6 +61,10 @@ class Schedule extends React.Component {
     )
   }
 
+  handleAnnouncement = () => {
+    store.talk.announce(store.event.detail.year)
+  }
+
   render() {
     const styles = getStyles(store.talk.list, this.props.theme)
     const publishSwitch = store.me.detail.admin
@@ -70,6 +75,12 @@ class Schedule extends React.Component {
             checked={store.event.detail.published}
           />
         </Tooltip>
+      ) : null
+    const announce = store.me.detail.admin
+      ? (
+        <Button onClick={this.handleAnnouncement} variant="outlined">
+          Announce
+        </Button>
       ) : null
     const scheduleView = store.event.detail.published || store.me.detail.admin
       ? (
@@ -92,7 +103,7 @@ class Schedule extends React.Component {
             )
           }
         </div>
-      ) : ''
+      ) : null
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
@@ -100,6 +111,7 @@ class Schedule extends React.Component {
           <div style={styles.switch}>
             <YearSwitch onChange={this.handleYearChange} />
             {publishSwitch}
+            {announce}
           </div>
           {scheduleView}
         </Paper>
