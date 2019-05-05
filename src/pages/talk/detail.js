@@ -84,6 +84,7 @@ class TalkDetail extends Component {
               label="Title"
               onChange={this.handleFieldChange('title')}
               autoFocus
+              fullWidth
             />
           </div>
           <Button variant="outlined" onClick={this.handleEditCancel}>
@@ -112,6 +113,7 @@ class TalkDetail extends Component {
               label="description"
               onChange={this.handleFieldChange('description')}
               autoFocus
+              fullWidth
             />
           </div>
           <Button variant="outlined" onClick={this.handleEditCancel}>
