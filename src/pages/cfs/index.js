@@ -172,21 +172,25 @@ class CfS extends React.Component {
             Click on price to open the box.
           </div>
           <div style={styles.text}>
-           <h2 style={styles.h2}>Why should you sponsor PySer?< /h2>
+            <h2 style={styles.h2}>Why should you sponsor PySer?</h2>
             <p style={styles.paragraph}>
-              <b>Promote your company!</b> The main idea of this conference is 
-              to bring together well known Python experts from academia &amp; 
+              <b>Promote your company!</b>
+              &nbsp;
+              The main idea of this conference is
+              to bring together well known Python experts from academia &amp;
               business and connect them with young people who want to learn more
               about Python. Our goal is not just to promote Python but also to
               connect developers with companies who use it in their projects.
             </p>
-             <p style={styles.paragraph}>
-              <b>Do you have a product, service or brand that is loved by 
-              or will be loved by the Python developers?</b>
+            <p style={styles.paragraph}>
+              <b>
+                Do you have a product, service or brand that is loved by
+                or will be loved by the Python developers?
+              </b>
             </p>
             <p style={styles.paragraph}>
-              We know that you are doing a fantastic job and that is the 
-              main reason why we are offering our sponsoring companies 
+              We know that you are doing a fantastic job and that is the
+              main reason why we are offering our sponsoring companies
               an opportunity to present their work in the business room.
               Every company that donates more than 300 euros will get one
               business presentation where you can talk about your projects,
