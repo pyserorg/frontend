@@ -9,6 +9,7 @@ import Me from 'pages/me/store'
 import Talk from 'pages/talk/store'
 import Title from 'templates/default/store'
 import User from 'pages/user/store'
+import Volunteering from 'pages/volunteering/store'
 
 
 export default {
@@ -23,4 +24,5 @@ export default {
   talk: new Talk(),
   title: new Title(),
   user: new User(),
+  volunteering: new Volunteering(),
 }

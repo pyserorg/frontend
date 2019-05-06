@@ -25,6 +25,7 @@ import LoginIcon from '@material-ui/icons/ArrowForward'
 import LogoutIcon from '@material-ui/icons/ArrowBack'
 import MenuIcon from '@material-ui/icons/Menu'
 import ScheduleIcon from '@material-ui/icons/Schedule'
+import VolunteeringIcon from '@material-ui/icons/SupervisorAccount'
 
 import EmptyTemplate from 'templates/empty'
 import store from 'store'
@@ -97,7 +98,7 @@ class Template extends Component {
           <Button color="inherit">Login</Button>
         </Link>
       )
-    const menuButtons = this.props.resolution.width > 750
+    const menuButtons = this.props.resolution.width > 900
       ? (
         <div>
           <Link to={`/${year}/schedule`} style={styles.a.white}>
@@ -105,6 +106,9 @@ class Template extends Component {
           </Link>
           <Link to="/cfp" style={styles.a.white}>
             <Button color="inherit">CfP</Button>
+          </Link>
+          <Link to="/volunteering" style={styles.a.white}>
+            <Button color="inherit">Volunteering</Button>
           </Link>
           <Link to="/cfs" style={styles.a.white}>
             <Button color="inherit">CfS</Button>
@@ -204,6 +208,14 @@ class Template extends Component {
                       <CfPIcon />
                     </ListItemIcon>
                     CfP
+                  </MenuItem>
+                </Link>
+                <Link to="/volunteering" style={styles.a}>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <VolunteeringIcon />
+                    </ListItemIcon>
+                    Volunteering
                   </MenuItem>
                 </Link>
                 <Link to="/cfs" style={styles.a}>
