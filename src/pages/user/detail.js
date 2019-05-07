@@ -60,6 +60,13 @@ class UserDetail extends React.Component {
                 checked={store.user.detail.admin}
               />
             </div>
+            <div>
+              Volunteer:
+              <Switch
+                onChange={this.handleVolunteer}
+                checked={store.user.detail.volunteer}
+              />
+            </div>
           </Paper>
         </Template>
       )

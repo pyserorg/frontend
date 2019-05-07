@@ -2,6 +2,21 @@ import axios from 'axios'
 import { API_ROOT, getCookie } from 'utils'
 
 
+async function fetchAll(page) {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.get(
+    `${API_ROOT}/users/volunteering`,
+    {
+      headers: {
+        'X-CSRF-TOKEN': csrf,
+        'X-Page': page,
+      },
+    },
+  )
+  return response.data
+}
+
+
 async function send(data) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.post(
@@ -16,5 +31,6 @@ async function send(data) {
 
 
 export default {
+  fetchAll,
   send,
 }
