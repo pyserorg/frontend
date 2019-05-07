@@ -15,7 +15,7 @@ export default class VolunteersStore {
     total: 0,
   }
 
-  async fetchAll(page) {
+  async fetchAll(page = 0) {
     try {
       const result = await service.fetchAll(page)
       this.list = result

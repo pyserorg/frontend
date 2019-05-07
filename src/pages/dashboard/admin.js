@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 import CfPList from 'components/organisms/cfp-list'
 import EventList from 'components/organisms/event-list'
 import UserList from 'components/organisms/user-list'
+import VolunteerList from 'components/organisms/volunteer-list'
 import styles from './styles'
 
 
@@ -14,6 +15,7 @@ class AdminDashboard extends React.Component {
         <CfPList />
         <EventList />
         <UserList />
+        <VolunteerList />
       </div>
     )
   }
