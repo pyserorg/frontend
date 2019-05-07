@@ -28,4 +28,15 @@ export default {
   button: {
     marginTop: 20,
   },
+
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  page: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
 }

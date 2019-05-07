@@ -8,6 +8,7 @@ export default class UserStore {
     admin: false,
     firstName: '',
     lastName: '',
+    volunteer: false,
   }
 
   @observable list = {

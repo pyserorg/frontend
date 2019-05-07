@@ -24,6 +24,7 @@ import Schedule from 'pages/talk/schedule'
 import TalkDetail from 'pages/talk/detail'
 import UserDetail from 'pages/user/detail'
 import UserList from 'pages/user/list'
+import VolunteerList from 'pages/volunteering/list'
 import Volunteering from 'pages/volunteering'
 
 import ResolutionContext from 'resolution'
@@ -78,6 +79,8 @@ export default class App extends Component {
               <Route exact path="/users" component={UserList} />
               <Route exact path="/users/:page" component={UserList} />
               <Route exact path="/volunteering" component={Volunteering} />
+              <Route exact path="/volunteers" component={VolunteerList} />
+              <Route exact path="/volunteers/:page" component={VolunteerList} />
               <Route exact path="/:year" component={Landing} />
               <Route exact path="/landing" component={Landing} />
               <Route path="*" component={NoPage} />
