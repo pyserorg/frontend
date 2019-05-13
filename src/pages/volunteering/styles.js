@@ -23,6 +23,9 @@ export default {
       width: '100%',
       maxWidth: 600,
     },
+    description: {
+      marginBottom: 50,
+    },
   },
 
   button: {

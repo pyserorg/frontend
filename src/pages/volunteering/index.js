@@ -42,10 +42,12 @@ class Volunteering extends React.Component {
       <Template style={{}}>
         <Paper style={styles.root}>
           <h1 style={styles.h1}>Volunteering</h1>
-          Conference is nothing without volunteers.
-          Help us make the conference great!
           <form style={styles.form} onSubmit={this.handleSubmit}>
             <div style={styles.form.content}>
+              <div style={styles.form.description}>
+                Conference is nothing without volunteers.
+                Help us make the conference great!
+              </div>
               <TextField
                 onChange={this.handleEmail}
                 label="EMail"
