@@ -2,6 +2,7 @@ import Auth from 'pages/login/store'
 import Blog from 'pages/blog/store'
 import CfP from 'pages/cfp/store'
 import CfS from 'pages/cfs/store'
+import Email from 'pages/mass-email/store'
 import Error from 'templates/empty/store'
 import Event from 'pages/event/store'
 import Gallery from 'pages/gallery/store'
@@ -17,6 +18,7 @@ export default {
   blog: new Blog(),
   cfp: new CfP(),
   cfs: new CfS(),
+  email: new Email(),
   error: new Error(),
   event: new Event(),
   gallery: new Gallery(),

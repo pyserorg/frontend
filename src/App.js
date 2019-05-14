@@ -18,6 +18,7 @@ import EventList from 'pages/event/list'
 import Gallery from 'pages/gallery'
 import Landing from 'pages/landing'
 import Login from 'pages/login'
+import MassEmail from 'pages/mass-email'
 import NoPage from 'pages/nopage'
 import Register from 'pages/register'
 import Schedule from 'pages/talk/schedule'
@@ -73,6 +74,7 @@ export default class App extends Component {
               <Route exact path="/:year/gallery" component={Gallery} />
               <Route exact path="/:year/schedule" component={Schedule} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/mass-email" component={MassEmail} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/talk/:id" component={TalkDetail} />
               <Route exact path="/user/:id" component={UserDetail} />
