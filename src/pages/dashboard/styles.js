@@ -45,4 +45,8 @@ export default {
     ...social,
     backgroundImage: `url("${facebook}")`,
   },
+
+  link: {
+    textDecoration: 'none',
+  },
 }

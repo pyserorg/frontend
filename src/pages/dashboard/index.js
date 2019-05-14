@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import { Link } from 'react-router-dom'
 
 // Components
 import Button from '@material-ui/core/Button'
@@ -46,11 +47,18 @@ class Dashboard extends Component {
       : 'admin'
     const viewButton = store.me.detail.admin
       ? (
-        <Button onClick={this.toggleAdmin} variant="outlined">
-          View as
-          &nbsp;
-          {user}
-        </Button>
+        <div>
+          <Button onClick={this.toggleAdmin} variant="outlined">
+            View as
+            &nbsp;
+            {user}
+          </Button>
+          <Link to="/mass-email" style={styles.link}>
+            <Button onClick={this.toggleAdmin} variant="outlined">
+              Send mass email
+            </Button>
+          </Link>
+        </div>
       ) : null
     return (
       <Template secure={this.props.secure} style={{}}>
