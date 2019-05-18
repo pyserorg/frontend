@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 
 import store from 'store'
+import styles from './styles'
 
 
 @observer
@@ -24,11 +25,11 @@ class YearSwitch extends React.Component {
     return (
       <TextField
         label="Year"
-        select
-        required
         value={store.event.detail.year || currentYear}
         onChange={this.handleYearChange}
         margin="normal"
+        style={styles.year}
+        select
       >
         {store.event.list.data.map((event) => (
           <MenuItem key={event.year} value={event.year}>

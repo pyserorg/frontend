@@ -7,10 +7,12 @@ import moment from 'moment'
 
 // Components
 import Button from '@material-ui/core/Button'
+import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
 import Switch from '@material-ui/core/Switch'
 import TalkBox from 'components/organisms/talk-box'
 import Template from 'templates/default'
+import TextField from '@material-ui/core/TextField'
 import TimeBox from 'components/organisms/time-box'
 import Tooltip from '@material-ui/core/Tooltip'
 import YearSwitch from 'components/organisms/year-switch'
@@ -21,6 +23,10 @@ import getStyles from './styles'
 
 @observer
 class Schedule extends React.Component {
+  state = {
+    hall: 'presentations',
+  }
+
   componentWillMount() {
     store.title.title = 'Schedule'
     store.talk.fetchPublished(this.props.match.params.year)
@@ -65,6 +71,10 @@ class Schedule extends React.Component {
     store.talk.announce(store.event.detail.year)
   }
 
+  handleHallChange = (event) => {
+    this.setState({ hall: event.target.value })
+  }
+
   render() {
     const styles = getStyles(store.talk.list, this.props.theme)
     const publishSwitch = store.me.detail.admin
@@ -82,23 +92,20 @@ class Schedule extends React.Component {
           Announce
         </Button>
       ) : null
+    const talks = store.talk.list.data.filter(
+      talk => talk.hall === this.state.hall,
+    )
     const scheduleView = store.event.detail.published || store.me.detail.admin
       ? (
         <div style={styles.schedule}>
           <div style={styles.title}>time</div>
           <div style={styles.title}>
-            <h3>Presentations</h3>
-          </div>
-          <div style={styles.title}>
-            <h3>Workshops</h3>
-          </div>
-          <div style={styles.title}>
-            <h3>Business</h3>
+            <h3 style={styles.hall}>{this.state.hall}</h3>
           </div>
           <div style={styles.title}>time</div>
           {this.generateTimes(store.talk.list)}
           {
-            store.talk.list.data.map(
+            talks.map(
               talk => <TalkBox key={talk.id} talk={talk} />,
             )
           }
@@ -110,6 +117,23 @@ class Schedule extends React.Component {
           <h1>Schedule</h1>
           <div style={styles.switch}>
             <YearSwitch onChange={this.handleYearChange} />
+            <TextField
+              label="Hall"
+              value={this.state.hall}
+              onChange={this.handleHallChange}
+              margin="normal"
+              select
+            >
+              <MenuItem value="presentations">
+                Presentations
+              </MenuItem>
+              <MenuItem value="workshops">
+                Workshops
+              </MenuItem>
+              <MenuItem value="business">
+                Business
+              </MenuItem>
+            </TextField>
             {publishSwitch}
             {announce}
           </div>

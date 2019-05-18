@@ -4,7 +4,7 @@ import moment from 'moment'
 export default (talk) => {
   const styles = {
     root: {
-      gridColumnStart: `column-${talk.hall}`,
+      gridColumnStart: 'column-hall',
       gridRowStart: `row-${moment(talk.start).format('HH-mm')}`,
       gridRowEnd: `row-${moment(talk.end).format('HH-mm')}`,
       backgroundColor: '#f5f5f5',
