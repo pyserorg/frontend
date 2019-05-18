@@ -31,6 +31,10 @@ const defaultResult = {
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  hall: {
+    textTransform: 'capitalize',
+  },
 }
 
 
@@ -55,7 +59,7 @@ export default (talks, theme) => {
   if (start && end) {
     const preStart = moment(start).add(-5, 'minutes')
     const timeStart = `[column-time-start] ${timeColumnWidth}px`
-    const content = ' [column-presentations] auto [column-workshops] auto [column-business] auto'
+    const content = ' [column-hall] auto'
     const timeEnd = ` [column-time-end] ${timeColumnWidth}px [column-end]`
     const result = {
       ...defaultResult,
