@@ -7,10 +7,8 @@ const title = {
 }
 
 const iconMarginSide = 10
-const iconMarginSideTotal = 2 * iconMarginSide
 
 const iconWidth = {
-  width: `calc(100% - ${iconMarginSideTotal}px)`,
   marginLeft: iconMarginSide,
   marginRight: iconMarginSide,
   marginBottom: 10,
@@ -57,22 +55,22 @@ function getStyles(theme) {
 
     icon: {
       ...iconWidth,
-      maxWidth: 500,
+      width: 500,
       gold: {
         ...iconWidth,
-        maxWidth: 300,
+        width: 300,
       },
       silver: {
         ...iconWidth,
-        maxWidth: 250,
+        width: 250,
       },
       bronze: {
         ...iconWidth,
-        maxWidth: 200,
+        width: 200,
       },
       copper: {
         ...iconWidth,
-        maxWidth: 100,
+        width: 100,
       },
     },
 
