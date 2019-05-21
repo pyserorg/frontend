@@ -60,6 +60,11 @@ class TalkDetail extends Component {
             &nbsp;
             {talk.user.lastName}
           </h3>
+          {
+            store.me.detail.admin
+              ? <h4>{talk.user.email}</h4>
+              : null
+          }
           <div style={styles.bio}>
             {talk.user.bio}
           </div>
