@@ -3,7 +3,10 @@ import service from './service'
 
 
 export default class TalkStore {
-  @observable detail = {}
+  @observable detail = {
+    user: {
+    },
+  }
 
   @observable list = {
     data: [],
