@@ -30,7 +30,20 @@ async function send(data) {
 }
 
 
+async function count() {
+  const csrf = getCookie('csrf_access_token')
+  const response = await axios.get(
+    `${API_ROOT}/users/volunteering/count`,
+    {
+      headers: { 'X-CSRF-TOKEN': csrf },
+    },
+  )
+  return response.data
+}
+
+
 export default {
+  count,
   fetchAll,
   send,
 }
