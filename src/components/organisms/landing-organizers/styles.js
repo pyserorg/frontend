@@ -1,10 +1,9 @@
 export default {
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+    display: 'grid',
+    gridGap: 10,
+    gridTemplateColumns: 'auto auto',
+    padding: 20,
   },
 
   title: {
@@ -17,5 +16,16 @@ export default {
     height: 100,
     marginRight: 40,
     marginLeft: 40,
+  },
+
+  organizer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+
+  send: {
+    marginTop: 20,
   },
 }
