@@ -52,6 +52,7 @@ class TalkDetail extends Component {
   render() {
     const styles = getStyles({ data: [] })
     const talk = store.talk.detail
+    const enableEdit = talk.user.id === store.me.detail.id || store.me.detail.admin
     const user = talk.user
       ? (
         <div>
@@ -80,68 +81,100 @@ class TalkDetail extends Component {
           </div>
         </div>
       ) : null
-    const title = this.state.edit === 'title'
-      ? (
-        <div>
+    let title;
+    if (enableEdit)
+    {
+      if (this.state.edit === 'title') {
+        title = (
           <div>
-            <TextField
-              value={this.state.title}
-              label="Title"
-              onChange={this.handleFieldChange('title')}
-              autoFocus
-              fullWidth
-            />
+            <div>
+              <TextField
+                value={this.state.title}
+                label="Title"
+                onChange={this.handleFieldChange('title')}
+                autoFocus
+                fullWidth
+              />
+            </div>
+            <Button variant="outlined" onClick={this.handleEditCancel}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={this.handleSubmit('title')}>
+              OK
+            </Button>
           </div>
-          <Button variant="outlined" onClick={this.handleEditCancel}>
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" onClick={this.handleSubmit('title')}>
-            OK
-          </Button>
-        </div>
-      ) : (
-        <Tooltip title="Click to edit" placement="right">
-          <h1
-            onClick={this.handleEdit('title')}
-            role="presentation"
-          >
-            {talk.title}
-          </h1>
-        </Tooltip>
+        )
+      } else {
+        title = (
+          <Tooltip title="Click to edit" placement="right">
+            <h1
+              onClick={this.handleEdit('title')}
+              role="presentation"
+            >
+              {talk.title}
+            </h1>
+          </Tooltip>
+        )
+      }
+    } else {
+      title = (
+        <h1
+          onClick={this.handleEdit('title')}
+          role="presentation"
+        >
+          {talk.title}
+        </h1>
       )
-    const description = this.state.edit === 'description'
-      ? (
-        <div>
+    }
+    let description;
+    if (enableEdit) {
+      if (this.state.edit === 'description') {
+        description = (
           <div>
-            <TextField
-              value={this.state.description}
-              label="description"
-              onChange={this.handleFieldChange('description')}
-              autoFocus
-              fullWidth
-              multiline
-            />
+            <div>
+              <TextField
+                value={this.state.description}
+                label="description"
+                onChange={this.handleFieldChange('description')}
+                autoFocus
+                fullWidth
+                multiline
+              />
+            </div>
+            <Button variant="outlined" onClick={this.handleEditCancel}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={this.handleSubmit('description')}>
+              OK
+            </Button>
           </div>
-          <Button variant="outlined" onClick={this.handleEditCancel}>
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary" onClick={this.handleSubmit('description')}>
-            OK
-          </Button>
+        )
+      } else {
+        description = (
+          <Tooltip title="Click to edit" placement="right">
+            <div
+              style={styles.description}
+              onClick={this.handleEdit('description')}
+              role="presentation"
+            >
+              {talk.description}
+            </div>
+          </Tooltip>
+        )
+      }
+    } else {
+      description = (
+        <div
+          style={styles.description}
+          onClick={this.handleEdit('description')}
+          role="presentation"
+        >
+          {talk.description}
         </div>
-      ) : (
-        <Tooltip title="Click to edit" placement="right">
-          <div
-            style={styles.description}
-            onClick={this.handleEdit('description')}
-            role="presentation"
-          >
-            {talk.description}
-          </div>
-        </Tooltip>
       )
+    }
     let video
-    if (this.state.edit === 'video') {
+    if (this.state.edit === 'video' && enableEdit) {
       video = (
         <div>
           <div>
