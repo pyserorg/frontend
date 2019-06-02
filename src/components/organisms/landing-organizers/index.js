@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 
 // Components
@@ -6,9 +7,10 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 
+import ResolutionContext from 'resolution'
 import store from 'store'
 import TildaLogo from './logo-tilda.svg'
-import styles from './styles'
+import getStyles from './styles'
 
 
 @observer
@@ -32,6 +34,7 @@ class LandingOrganizers extends React.Component {
   }
 
   render() {
+    const styles = getStyles(this.props.resolution)
     return (
       <Paper style={styles.root}>
         <div style={styles.organizer}>
@@ -86,4 +89,16 @@ class LandingOrganizers extends React.Component {
 }
 
 
-export default LandingOrganizers
+LandingOrganizers.propTypes = {
+  resolution: PropTypes.shape({
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+  }).isRequired,
+}
+
+
+export default (props) => (
+  <ResolutionContext.Consumer>
+    {resolution => <LandingOrganizers {...props} resolution={resolution} />}
+  </ResolutionContext.Consumer>
+)

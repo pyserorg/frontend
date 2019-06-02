@@ -56,6 +56,10 @@ function getStyles(theme) {
     icon: {
       ...iconWidth,
       width: 500,
+      diamond: {
+        ...iconWidth,
+        width: 450,
+      },
       gold: {
         ...iconWidth,
         width: 300,
