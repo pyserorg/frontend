@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import EryceIcon from './eryce.svg'
 import FourityIcon from './fourity.svg'
 import SBGenomicsIcon from './sbgenomics.svg'
+import PSFIcon from './python-foundation.svg'
 
 import getStyles from './styles'
 
@@ -17,6 +18,18 @@ class LandingSponsors extends Component {
       <Paper style={styles.root}>
         <div style={styles.title.big}>Sponsors</div>
         <div style={styles.sponsors}>
+          <div style={styles.title}>Diamond</div>
+          <a
+            href="https://www.python.org/psf/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={PSFIcon}
+              alt="Python Software Foundation"
+              style={styles.icon.diamond}
+            />
+          </a>
           <div style={styles.title}>Gold</div>
           <a
             href="https://www.sevenbridges.com/"

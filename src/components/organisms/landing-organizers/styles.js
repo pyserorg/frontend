@@ -1,9 +1,15 @@
-export default {
+const organizers = {
+  display: 'grid',
+  gridGap: 10,
+  padding: 20,
+}
+
+
+export default (resolution) => ({
   root: {
-    display: 'grid',
-    gridGap: 10,
-    gridTemplateColumns: 'auto auto',
-    padding: 20,
+    ...organizers,
+    gridTemplateColumns: resolution.width > 600 ? 'auto auto' : 'auto',
+    gridTemplateRows: resolution.width <= 600 ? 'auto auto' : 'auto',
   },
 
   title: {
@@ -28,4 +34,4 @@ export default {
   send: {
     marginTop: 20,
   },
-}
+})
