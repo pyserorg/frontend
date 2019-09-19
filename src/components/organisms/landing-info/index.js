@@ -27,13 +27,13 @@ class LandingInfo extends Component {
           </a>
         </div>
         <a
-          href="https://ti.to/tilda-center/pyser"
+          href="https://www.youtube.com/watch?v=sTQaCm_ax8Q&list=PLnRmeeuhue8fc0XAhmOIIxe3-5ZVmses6"
           style={styles.tickets.link}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Paper style={styles.tickets}>
-            Get Tickets
+            Watch Videos
           </Paper>
         </a>
       </div>
@@ -48,4 +48,4 @@ LandingInfo.propTypes = {
 }
 
 
-export default withTheme()(LandingInfo)
+export default withTheme(LandingInfo)

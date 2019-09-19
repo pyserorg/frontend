@@ -6,7 +6,6 @@ import LandingAbout from 'components/organisms/landing-about'
 import LandingInfo from 'components/organisms/landing-info'
 import LandingOrganizers from 'components/organisms/landing-organizers'
 import LandingSponsors from 'components/organisms/landing-sponsors'
-import LandingTalks from 'components/organisms/landing-talks'
 import Template from 'templates/default'
 import NoPage from 'pages/nopage'
 import store from 'store'
@@ -24,16 +23,14 @@ class Landing extends React.Component {
 
   render() {
     const years = store.event.list.data.map(event => event.year)
-    return years.includes(this.year) || this.props.match.params.year === 'landing'
-      ? (
-        <Template style={{}}>
-          <LandingInfo />
-          <LandingAbout />
-          <LandingTalks />
-          <LandingSponsors />
-          <LandingOrganizers />
-        </Template>
-      ) : <NoPage />
+    return (
+      <Template style={{}}>
+        <LandingInfo />
+        <LandingAbout />
+        <LandingSponsors />
+        <LandingOrganizers />
+      </Template>
+    )
   }
 }
 

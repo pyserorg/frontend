@@ -1,34 +1,42 @@
+import store from 'store'
+
+
 export const API_ROOT = '/api/v0'
+let timeout;
 
 
-export const getCookie = (name) => {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
-  return null
+export function getCookie(name) {
+  var value = "; " + document.cookie
+  var parts = value.split("; " + name + "=")
+  if (parts.length === 2) return parts.pop().split(";").shift()
 }
 
-export const linkTarget = (url) => {
-  if (url.length < 4) {
-    return '_blank'
-  }
-  if (url[0] === '/') {
-    if (url[1] !== '/') {
-      return ''
+
+const refreshTimeout = () => {
+  const accessTimeout = store.auth.accessExpire === 0
+    ? 0
+    : (store.auth.accessExpire - 5) * 1000
+  timeout = setTimeout(refreshExecute, accessTimeout)
+}
+
+
+export const refreshExecute = async (timeout) => {
+  await store.auth.refresh()
+  if (store.auth.status === 200) {
+    store.me.fetch()
+    if (2 * store.auth.accessExpire > store.auth.refreshExpire) {
+      store.error.message = 'Refresh token is soon to expire! Please go to login page.'
+      store.error.open = true
     }
-  }
-  return '_blank'
-}
-
-
-export const handleOver = (item, over, component) => () => {
-  if (over) {
-    component.setState({ over: item })
-  } else {
-    component.setState({ over: null })
+    refreshTimeout()
   }
 }
 
+
+export const timeoutClear = () => {
+  clearTimeout(timeout)
+  timeout = null
+}
 
 export const handleEdit = (item, edit, component) => () => {
   handleOver(item, false, component)()
@@ -43,6 +51,15 @@ export const handleEdit = (item, edit, component) => () => {
 }
 
 
+export const handleOver = (item, over, component) => () => {
+  if (over) {
+    component.setState({ over: item })
+  } else {
+    component.setState({ over: null })
+  }
+}
+
+
 export const handleValue = (item, component, reset = false) => (event) => {
   if (reset) {
     component.setState(prevState => ({
@@ -53,4 +70,17 @@ export const handleValue = (item, component, reset = false) => (event) => {
   } else {
     component.setState({ [item]: event.target.value })
   }
+}
+
+
+export const linkTarget = (url) => {
+  if (url.length < 4) {
+    return '_blank'
+  }
+  if (url[0] === '/') {
+    if (url[1] !== '/') {
+      return ''
+    }
+  }
+  return '_blank'
 }

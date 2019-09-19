@@ -123,4 +123,4 @@ VolunteerList.propTypes = {
 }
 
 
-export default withTheme()(VolunteerList)
+export default withTheme(VolunteerList)

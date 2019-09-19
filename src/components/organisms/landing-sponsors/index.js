@@ -77,4 +77,4 @@ LandingSponsors.propTypes = {
 }
 
 
-export default withTheme()(LandingSponsors)
+export default withTheme(LandingSponsors)

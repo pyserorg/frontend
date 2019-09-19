@@ -11,4 +11,9 @@ export default {
     backgroundSize: '100% 100%',
     backgroundAttachment: 'fixed',
   },
+
+  a: {
+    'textDecoration': 'none',
+    'color': 'inherit',
+  },
 }

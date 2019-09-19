@@ -1,71 +1,64 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { PropTypes } from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import store from 'store'
+import { refreshExecute, timeoutClear } from 'utils'
+import styles from './styles'
 
 
 @observer
 class ProtectedComponent extends React.Component {
   logged = false
 
-  async componentWillMount() {
-    const { auth, me } = store
-    const result = await auth.refresh()
-    auth.auth = result.status === 200
-    if (auth.auth) {
-      me.fetch()
+  constructor(props) {
+    super(props)
+    this.refresh()
+  }
+
+  refresh = async () => {
+    await refreshExecute()
+    if (store.auth.status >= 400 && this.props.secure) {
+      this.props.history.push('/')
     }
   }
 
   componentWillUnmount() {
     this.logged = false
-    clearInterval(this.interval)
+    timeoutClear()
   }
 
-  refresh = async () => {
+  componentWillUpdate() {
     const { auth, error } = store
-    const result = await auth.refresh()
-    if (2 * auth.accessExpire > auth.refreshExpire) {
-      error.message = 'Refresh token is soon to expire! Please go to login page.'
-      error.open = true
+    if (auth.status === 200) {
+      if (!this.logged) {
+        this.logged = true
+      }
+    } else if (auth.status >= 400) {
+      timeoutClear()
+      if (this.logged) {
+        this.logged = false
+        error.message = 'Error refreshing login token! Please login!'
+        error.open = true
+        this.props.history.push('/login')
+      }
     }
-    store.auth.auth = result.status === 200
   }
 
   render() {
-    const { auth } = store
-    if (auth.auth) {
-      if (!this.logged) {
-        if (auth.accessExpire > 1) {
-          this.logged = true
-          this.interval = setInterval(
-            this.refresh,
-            (auth.accessExpire - 1) * 1000,
-          )
-        }
-      }
-    } else if (this.logged) {
-      clearInterval(this.interval)
-      if (this.props.redirect) {
-        this.props.history.push('/login')
-      }
-    } else if (this.props.redirect && auth.auth === false) {
-      this.props.history.push('/landing')
-    }
-    return null
+    return (
+      <div style={styles.root}>
+        {store.auth.auth}
+        {store.auth.status}
+      </div>
+    )
   }
 }
 
 
 ProtectedComponent.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
-  redirect: PropTypes.bool,
-}
-
-
-ProtectedComponent.defaultProps = {
-  redirect: false,
+  secure: PropTypes.bool,
 }
 
 

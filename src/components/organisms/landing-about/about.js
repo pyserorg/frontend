@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import getStyles from './styles'
 
 
-class LandingAbout extends Component {
+class LandingAbout extends React.Component {
   render() {
     const styles = getStyles(this.props.theme, this.props.resolution)
     return (
@@ -65,4 +65,4 @@ LandingAbout.propTypes = {
 }
 
 
-export default withTheme()(LandingAbout)
+export default withTheme(LandingAbout)

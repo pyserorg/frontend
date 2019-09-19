@@ -2,20 +2,22 @@ const a = {
   textDecoration: 'none',
 }
 
+
 export default {
   flex: {
     flex: 1,
   },
 
+  menu: {
+    width: 200,
+  },
+
   a: {
     ...a,
-    white: {
-      ...a,
-      color: 'white',
-    },
-    black: {
-      ...a,
-      color: 'black',
-    },
+  },
+
+  login: {
+    ...a,
+    color: 'white',
   },
 }

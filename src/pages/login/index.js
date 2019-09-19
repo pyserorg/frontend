@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { observer } from 'mobx-react'
@@ -7,34 +7,37 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import EmptyTemplate from 'templates/empty'
 import store from 'store'
+import { refreshExecute } from 'utils'
 import styles from './styles'
 
 
-@observer
-class Login extends React.Component {
+class Login extends Component {
   handleSubmit = async (event) => {
     event.preventDefault()
-    const result = await store.auth.login()
-    store.auth.password = ''
-    if (result.status === 200) {
-      store.me.fetch()
-      this.props.history.push('/')
+    const { auth, error } = this.props.store
+    await auth.login()
+    auth.password = ''
+    if (auth.auth) {
+      refreshExecute()
+      this.props.history.push('/dashboard')
     } else {
-      store.error.message = result.error
-      store.error.open = true
+      error.message = auth.error
+      error.open = true
     }
   }
 
   handleEmail = (event) => {
-    store.auth.email = event.target.value
+    const { auth } = this.props.store
+    auth.email = event.target.value
   }
 
   handlePassword = (event) => {
-    store.auth.password = event.target.value
+    const { auth } = this.props.store
+    auth.password = event.target.value
   }
 
   render() {
-    const { auth } = store
+    const { auth } = this.props.store
     return (
       <EmptyTemplate>
         <div style={styles.root}>
@@ -82,7 +85,19 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  store: PropTypes.shape({
+    auth: PropTypes.shape({
+      auth: PropTypes.bool.isRequired,
+      email: PropTypes.string.isRequired,
+      login: PropTypes.func.isRequired,
+      password: PropTypes.string.isRequired,
+    }).isRequired,
+    error: PropTypes.shape({
+      message: PropTypes.string.isRequired,
+      open: PropTypes.bool.isRequired,
+    }).isRequired,
+  }).isRequired,
 }
 
 
-export default withRouter(Login)
+export default withRouter(observer((props) => <Login {...props} store={store} />))

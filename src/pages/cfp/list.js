@@ -22,7 +22,7 @@ class CfPList extends React.Component {
     }
   }
 
-  componentWillReact() {
+  componentWillUpdate() {
     if (store.me.detail.admin === false) {
       this.props.history.push('/landing')
     }
