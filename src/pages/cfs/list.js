@@ -65,4 +65,4 @@ CfSList.propTypes = {
 }
 
 
-export default withTheme()(CfSList)
+export default withTheme(CfSList)

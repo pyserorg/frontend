@@ -2,7 +2,7 @@ import { observable } from 'mobx'
 import service from './service'
 
 
-class AuthStore {
+export default class AuthStore {
   @observable accessToken = ''
 
   @observable accessExpire = 0
@@ -11,7 +11,11 @@ class AuthStore {
 
   @observable refreshExpire = 0
 
-  @observable auth = null
+  @observable auth = false
+
+  @observable error = null
+
+  @observable status = 0
 
   @observable email = ''
 
@@ -24,81 +28,65 @@ class AuthStore {
         password: this.password,
       })
       this.auth = true
+      this.error = null
+      this.status = 200
       this.accessToken = result.access
       this.accessExpire = result.accessExpire
       this.refreshToken = result.refresh
       this.refreshExpire = result.refreshExpire
-      return {
-        status: 200,
-        error: '',
-      }
     } catch (error) {
       this.auth = false
+      this.error = error.response.data.message
+      this.status = error.response.status
       this.access = null
       this.accessExpire = null
       this.refresh = null
       this.refreshExpire = null
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
-      }
-    }
-  }
-
-  async logout() {
-    try {
-      await service.logout()
-      this.auth = false
-      this.accessToken = ''
-      this.accessExpire = 0
-      this.refreshToken = ''
-      this.refreshExpire = 0
-      return {
-        status: 200,
-        error: '',
-      }
-    } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
-      }
     }
   }
 
   async refresh() {
     try {
       const result = await service.refresh()
+      this.auth = true
+      this.error = null
+      this.status = 200
       this.accessToken = result.access
       this.accessExpire = result.accessExpire
       this.refreshExpire = result.refreshExpire
-      return {
-        status: 200,
-        error: '',
-      }
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      if (error.response) {
+        this.status = error.response.status
+        if (error.response.data) {
+          this.error = error.response.data.message
+        }
+      } else {
+        this.status = 401
       }
     }
   }
 
-  async register(email, password) {
+  async logout() {
     try {
-      await service.register(email, password)
-      this.email = email
-      return {
-        status: 200,
-        error: '',
-      }
+      const result = await service.logout()
+      this.auth = false
+      this.error = null
+      this.status = 0
+      this.accessToken = ''
+      this.accessExpire = 0
+      this.refreshToken = ''
+      this.refreshExpire = 0
+      this.password = ''
+      this.email = ''
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      if (error.response) {
+        this.status = error.response.status
+        if (error.response.data) {
+          this.error = error.response.data.message
+        }
+      } else {
+        this.status = 401
       }
     }
   }
 }
-
-
-export default AuthStore

@@ -9,10 +9,6 @@ import store from 'store'
 
 @observer
 class EmptyTemplate extends Component {
-  componentWillMount() {
-    store.event.fetchAll()
-  }
-
   handleClose = () => {
     const { error } = store
     error.message = ''
@@ -23,7 +19,7 @@ class EmptyTemplate extends Component {
     const { error } = store
     return (
       <div style={this.props.style}>
-        <ProtectedComponent redirect={this.props.secure} />
+        <ProtectedComponent secure={this.props.secure} />
         {this.props.children}
         <Snackbar
           autoHideDuration={5000}
@@ -49,6 +45,7 @@ class EmptyTemplate extends Component {
 
 EmptyTemplate.propTypes = {
   children: PropTypes.node,
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   secure: PropTypes.bool,
   style: PropTypes.shape({}),
 }

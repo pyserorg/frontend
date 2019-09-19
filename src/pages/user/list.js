@@ -123,4 +123,4 @@ UserList.propTypes = {
 }
 
 
-export default withTheme()(UserList)
+export default withTheme(UserList)

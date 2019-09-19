@@ -1,9 +1,6 @@
 import { observable } from 'mobx'
 
 
-class TitleStore {
+export default class TitleStore {
   @observable title = ''
 }
-
-
-export default TitleStore

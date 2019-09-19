@@ -158,4 +158,4 @@ Schedule.propTypes = {
 }
 
 
-export default withTheme()(withRouter(Schedule))
+export default withTheme(withRouter(Schedule))

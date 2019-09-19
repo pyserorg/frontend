@@ -44,6 +44,7 @@ export default class EventStore {
       }
     } catch (error) {
       this.detail = {}
+      console.log(error)
       return {
         error: error.response.data.message,
         status: error.response.status,

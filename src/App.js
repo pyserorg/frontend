@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import { Style } from 'radium'
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
-import { MuiThemeProvider } from '@material-ui/core/styles'
 
 // Pages
 import BlogDetail from 'pages/blog/detail'
@@ -28,19 +27,20 @@ import UserList from 'pages/user/list'
 import VolunteerList from 'pages/volunteering/list'
 import Volunteering from 'pages/volunteering'
 
-import ResolutionContext from 'resolution'
-import theme from 'theme'
 import store from 'store'
-import reset from 'reset'
+import styles from 'styles'
+import ResolutionContext from 'resolution'
 
 
-export default class App extends Component {
+
+class App extends React.Component {
   state = {
     height: window.innerHeight,
     width: window.innerWidth,
   }
 
-  componentWillMount() {
+  constructor(props) {
+    super(props)
     store.event.fetchAll()
     window.onresize = () => {
       this.setState({ height: window.innerHeight })
@@ -55,41 +55,40 @@ export default class App extends Component {
     }
     return (
       <ResolutionContext.Provider value={context}>
-        <Style rules={reset} />
-        <MuiThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route exact path="/blog" component={BlogList} />
-              <Route exact path="/blog/:year/:month/:day/:slug" component={BlogDetail} />
-              <Route exact path="/cfp" component={CfP} />
-              <Route exact path="/cfp/list" component={CfPList} />
-              <Route exact path="/cfp/:id" component={CfPDetail} />
-              <Route exact path="/cfs" component={CfS} />
-              <Route exact path="/cfs/:id" component={CfSDetail} />
-              <Route exact path="/:year/cfs" component={CfSList} />
-              <Route exact path="/:year/cfs/:page" component={CfSList} />
-              <Route exact path="/coc" component={CoC} />
-              <Route exact path="/events" component={EventList} />
-              <Route exact path="/:year/gallery" component={Gallery} />
-              <Route exact path="/:year/schedule" component={Schedule} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/mass-email" component={MassEmail} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/talk/:id" component={TalkDetail} />
-              <Route exact path="/user/:id" component={UserDetail} />
-              <Route exact path="/users" component={UserList} />
-              <Route exact path="/users/:page" component={UserList} />
-              <Route exact path="/volunteering" component={Volunteering} />
-              <Route exact path="/volunteers" component={VolunteerList} />
-              <Route exact path="/volunteers/:page" component={VolunteerList} />
-              <Route exact path="/:year" component={Landing} />
-              <Route exact path="/landing" component={Landing} />
-              <Route path="*" component={NoPage} />
-            </Switch>
-          </BrowserRouter>
-        </MuiThemeProvider>
+        <Style rules={styles} />
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/blog" component={BlogList} />
+          <Route exact path="/blog/:year/:month/:day/:slug" component={BlogDetail} />
+          <Route exact path="/cfp" component={CfP} />
+          <Route exact path="/cfp/list" component={CfPList} />
+          <Route exact path="/cfp/:id" component={CfPDetail} />
+          <Route exact path="/cfs" component={CfS} />
+          <Route exact path="/cfs/:id" component={CfSDetail} />
+          <Route exact path="/:year/cfs" component={CfSList} />
+          <Route exact path="/:year/cfs/:page" component={CfSList} />
+          <Route exact path="/coc" component={CoC} />
+          <Route exact path="/events" component={EventList} />
+          <Route exact path="/:year/gallery" component={Gallery} />
+          <Route exact path="/:year/schedule" component={Schedule} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/mass-email" component={MassEmail} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/talk/:id" component={TalkDetail} />
+          <Route exact path="/user/:id" component={UserDetail} />
+          <Route exact path="/users" component={UserList} />
+          <Route exact path="/users/:page" component={UserList} />
+          <Route exact path="/volunteering" component={Volunteering} />
+          <Route exact path="/volunteers" component={VolunteerList} />
+          <Route exact path="/volunteers/:page" component={VolunteerList} />
+          <Route exact path="/:year" component={Landing} />
+          <Route path="*" component={NoPage} />
+        </Switch>
       </ResolutionContext.Provider>
     )
   }
 }
+
+export default App

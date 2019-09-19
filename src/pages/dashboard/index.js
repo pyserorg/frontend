@@ -31,7 +31,7 @@ class Dashboard extends Component {
     this.setState(prevState => ({ admin: !prevState.admin }))
   }
 
-  componentWillReact() {
+  componentWillUpdate() {
     if (!this.reacted) {
       this.reacted = true
       this.setState({ admin: store.me.detail.admin })
