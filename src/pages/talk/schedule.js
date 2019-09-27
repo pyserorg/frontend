@@ -27,7 +27,8 @@ class Schedule extends React.Component {
     hall: 'presentations',
   }
 
-  componentWillMount() {
+  constructor(props) {
+    super(props)
     store.title.title = 'Schedule'
     store.talk.fetchPublished(this.props.match.params.year)
   }
@@ -95,6 +96,7 @@ class Schedule extends React.Component {
     const talks = store.talk.list.data.filter(
       talk => talk.hall === this.state.hall,
     )
+    const times = this.generateTimes(store.talk.list)
     const scheduleView = store.event.detail.published || store.me.detail.admin
       ? (
         <div style={styles.schedule}>
@@ -103,7 +105,7 @@ class Schedule extends React.Component {
             <h3 style={styles.hall}>{this.state.hall}</h3>
           </div>
           <div style={styles.title}>time</div>
-          {this.generateTimes(store.talk.list)}
+          {times}
           {
             talks.map(
               talk => <TalkBox key={talk.id} talk={talk} />,

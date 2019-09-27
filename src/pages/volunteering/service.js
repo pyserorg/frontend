@@ -5,7 +5,7 @@ import { API_ROOT, getCookie } from 'utils'
 async function fetchAll(page) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.get(
-    `${API_ROOT}/users/volunteering`,
+    `${API_ROOT}/user/volunteering`,
     {
       headers: {
         'X-CSRF-TOKEN': csrf,
@@ -20,7 +20,7 @@ async function fetchAll(page) {
 async function send(data) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.post(
-    `${API_ROOT}/users/volunteering`,
+    `${API_ROOT}/user/volunteering`,
     data,
     {
       headers: { 'X-CSRF-TOKEN': csrf },
@@ -33,7 +33,7 @@ async function send(data) {
 async function count() {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.get(
-    `${API_ROOT}/users/volunteering/count`,
+    `${API_ROOT}/user/volunteering/count`,
     {
       headers: { 'X-CSRF-TOKEN': csrf },
     },
