@@ -111,7 +111,6 @@ class Gallery extends React.Component {
         </Fab>
       )
       : ''
-    console.log(photos)
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
@@ -119,7 +118,7 @@ class Gallery extends React.Component {
           <InfiniteScroll
             pageStart={0}
             loadMore={this.loadMore}
-            hasMore={this.state.page < store.gallery.list.pages}
+            hasMore={this.state.page < store.gallery.list.files.pages}
             loader={<div className="loader" key={0}>Loading ...</div>}
           >
             {uploadButton}
