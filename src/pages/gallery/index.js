@@ -94,7 +94,7 @@ class Gallery extends React.Component {
     const { prefix, name } = store.gallery.list
     const { year } = this.props.match.params
     const photos = store.gallery.list.files.data.map(picture => ({
-      source: picture.src
+      src: picture.src
         ? picture.src
         : `${prefix}/${year}/${name}/${picture.filename}`,
       height: styles.picture.height,
