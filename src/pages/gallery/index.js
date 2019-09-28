@@ -8,7 +8,6 @@ import Fab from '@material-ui/core/Fab'
 import Gall from 'react-photo-gallery'
 import GalleryUpload from 'components/organisms/gallery-upload'
 import InfiniteScroll from 'react-infinite-scroller'
-import Lightbox from 'react-images'
 import Paper from '@material-ui/core/Paper'
 import YearSwitch from 'components/organisms/year-switch'
 
@@ -94,8 +93,8 @@ class Gallery extends React.Component {
   render() {
     const { prefix, name } = store.gallery.list
     const { year } = this.props.match.params
-    const photos = store.gallery.list.files.map(picture => ({
-      src: picture.src
+    const photos = store.gallery.list.files.data.map(picture => ({
+      source: picture.src
         ? picture.src
         : `${prefix}/${year}/${name}/${picture.filename}`,
       height: styles.picture.height,
@@ -112,6 +111,7 @@ class Gallery extends React.Component {
         </Fab>
       )
       : ''
+    console.log(photos)
     return (
       <Template style={{}}>
         <Paper style={styles.root}>
@@ -127,14 +127,6 @@ class Gallery extends React.Component {
               photos={photos}
               onClick={this.openLightbox}
               columns={6}
-            />
-            <Lightbox
-              images={photos}
-              isOpen={this.state.isLigthboxOpen}
-              onClose={this.closeLightbox}
-              onClickNext={this.nextPhoto}
-              onClickPrev={this.prevPhoto}
-              currentImage={this.state.currentPhoto}
             />
             <GalleryUpload
               open={this.state.open}
