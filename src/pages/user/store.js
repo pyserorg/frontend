@@ -43,6 +43,7 @@ export default class UserStore {
         error: '',
       }
     } catch (error) {
+      console.log(error)
       return {
         error: error.response.data.message,
         status: error.response.status,
