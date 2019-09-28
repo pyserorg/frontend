@@ -19,6 +19,10 @@ if (process.env.BACKEND_URL) {
     target: process.env.BACKEND_URL,
     changeOrigin: true
   }))
+  server.use('/media', proxy({
+    target: process.env.BACKEND_URL,
+    changeOrigin: true
+  }))
 }
 
 server.get('/*', (req, res) => {

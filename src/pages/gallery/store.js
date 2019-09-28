@@ -34,7 +34,7 @@ export default class GalleryStore {
   async fetchAggregate(albumName, year = null, page = 0) {
     try {
       const result = await service.fetch(albumName, year, page)
-      this.list.files.data = this.list.files.data.concat(result.files)
+      this.list.files.data = this.list.files.data.concat(result.files.data)
       return {
         status: 200,
         error: '',
