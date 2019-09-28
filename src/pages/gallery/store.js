@@ -4,7 +4,11 @@ import service from './service'
 
 export default class GalleryStore {
   @observable list = {
-    files: [],
+    files: {
+      data: [],
+      'total': 0,
+      'pages': 0,
+    },
     name: '',
     pages: 0,
     prefix: '',
