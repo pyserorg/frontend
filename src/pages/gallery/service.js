@@ -6,7 +6,7 @@ async function fetch(albumName, year = null, page = 0) {
   const suffix = year ? `${albumName}/${year}` : albumName
   const response = await axios.get(
     `${API_ROOT}/gallery/album/${suffix}`,
-    { headers: { 'X-Page': page } },
+    { headers: { 'Page': page } },
   )
   return response.data
 }
