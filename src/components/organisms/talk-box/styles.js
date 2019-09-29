@@ -2,11 +2,11 @@ import moment from 'moment'
 
 
 export default (talk) => {
+  const span = talk.duration / 5
   const styles = {
     root: {
       gridColumnStart: 'column-hall',
-      gridRowStart: `row-${moment(talk.start).format('HH-mm')}`,
-      gridRowEnd: `row-${moment(talk.end).format('HH-mm')}`,
+      gridRow: `row-${moment(talk.start).format('HH-mm')} / span ${span}`,
       backgroundColor: '#f5f5f5',
       padding: 20,
     },

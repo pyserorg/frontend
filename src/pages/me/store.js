@@ -1,47 +1,51 @@
-import { observable } from 'mobx'
 import service from './service'
+import initial from './initial'
 
 
-class MeStore {
-  @observable detail = {
-    admin: false,
+export default class MeStore {
+  constructor(detail) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
   }
 
-  async fetch() {
+  fetch = async () => {
     try {
-      const result = await service.fetch()
-      this.detail = result
-      return {
-        status: 200,
-        error: '',
-        result,
+      const response = await service.fetch()
+      const result = {
+        ...response,
+        ok: true
       }
+      this.setDetail(result)
+      return result
     } catch (error) {
-      this.detail = {}
+      const result = {
+        ok: false,
+      }
+      this.setDetail({
+        ...initial.detail,
+        ...result,
+      })
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ...result,
       }
     }
   }
 
-  async edit(data) {
+  edit = async (data) => {
     try {
-      const result = await service.edit(data)
-      this.detail = result
-      return {
-        status: 200,
-        error: '',
-        result,
+      const response = await service.edit(data)
+      const result = {
+        ...response,
+        ok: true
       }
+      this.setDetail(result)
+      return result
     } catch (error) {
-      this.detail = {}
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ok: false,
       }
     }
   }
 }
-
-export default MeStore

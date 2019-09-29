@@ -48,7 +48,7 @@ export default (talks, theme) => {
   let end = null
   talks.data.forEach(talk => {
     const talkStart = moment(talk.start)
-    const talkEnd = moment(talk.end)
+    const talkEnd = moment(talk.start).add(talk.duration, 'minutes')
     if (start === null || talkStart.isBefore(start)) {
       start = talkStart
     }

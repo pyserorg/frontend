@@ -1,75 +1,31 @@
-import { observable } from 'mobx'
 import service from './service'
+import initial from './initial'
 
 
 export default class CfSStore {
-  @observable focused = ''
-
-  @observable email = ''
-
-  @observable organization = ''
-
-  @observable message = ''
-
-  @observable detail = {}
-
-  @observable list = {
-    data: [],
-    total: 0,
-    pages: 0,
+  constructor(detail) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
   }
 
-  async send() {
+  send = async (data) => {
     try {
-      const result = await service.send(
-        this.email,
-        this.organization,
-        this.message,
-      )
-      return {
-        error: '',
-        status: 200,
-        result,
+      const response = await service.send(data)
+      const result = {
+        ...response,
+        ok: true,
       }
-    } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
-      }
-    }
-  }
+      this.setDetail(result)
+      return result
 
-  async fetch(id) {
-    try {
-      const result = await service.fetch(id)
-      this.detail = result
-      return {
-        error: '',
-        status: 200,
-        result,
-      }
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      const result = {
+        ...initial,
+        ...error,
+        ok: false,
       }
-    }
-  }
-
-  async fetchAll(year, page = 0) {
-    try {
-      const result = await service.fetchAll(year, page)
-      this.list = result
-      return {
-        error: '',
-        status: 200,
-        result,
-      }
-    } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
-      }
+      this.setDetail(result)
+      return result
     }
   }
 }

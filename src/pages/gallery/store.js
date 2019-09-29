@@ -1,49 +1,55 @@
-import { observable } from 'mobx'
 import service from './service'
 
 
 export default class GalleryStore {
-  @observable list = {
-    files: {
-      data: [],
-      'total': 0,
-      'pages': 0,
-    },
-    name: '',
-    pages: 0,
-    prefix: '',
-    total: 0,
+  constructor(detail, list) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
+    this.list = list[0]
+    this.setList = list[1]
   }
 
-  async fetch(albumName, year = null, page = 0) {
+  fetch = async (albumName, year = null, page = 0) => {
     try {
-      const result = await service.fetch(albumName, year, page)
-      this.list = result
-      return {
-        status: 200,
-        error: '',
+      const response = await service.fetch(albumName, year, page)
+      const data = {
+        ...response,
+        ok: true,
       }
+      this.setDetail(data)
+      return data
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      const data = {
+        ...error,
+        ok: false,
       }
+      return data
     }
   }
 
-  async fetchAggregate(albumName, year = null, page = 0) {
+  fetchAggregate = async (albumName, year = null, page = 0) => {
     try {
-      const result = await service.fetch(albumName, year, page)
-      this.list.files.data = this.list.files.data.concat(result.files.data)
-      return {
-        status: 200,
-        error: '',
+      const response = await service.fetch(albumName, year, page)
+      const data = {
+        ...response,
+        files: {
+          data: [
+            ...this.detail.files.data,
+            ...response.files.data,
+          ],
+          total: this.detail.files.total + response.files.data.length,
+          pages: this.detail.files.pages,
+        },
+        ok: true,
       }
+      this.setDetail(data)
+      return data
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      const data = {
+        ...error,
+        ok: false,
       }
+      return data
     }
   }
 }

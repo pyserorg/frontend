@@ -1,4 +1,4 @@
-import background from 'background.png';
+import background from 'background.png'
 
 
 export default {

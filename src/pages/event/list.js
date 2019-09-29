@@ -1,35 +1,40 @@
-import React, { Component } from 'react'
-import { observer } from 'mobx-react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStore } from 'store'
+import { errors } from 'utils'
 
 // Components
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Fab from '@material-ui/core/Fab'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Fab,
+  Paper,
+  TextField,
+} from '@material-ui/core'
 
 // Icons
 import AddIcon from '@material-ui/icons/Add'
 
-import Template from 'templates/default'
-import store from 'store'
+import Template from 'templates/default/detail'
 import styles from './styles'
 
 
-@observer
-class EventList extends Component {
+class EventList extends React.Component {
   state = {
     createOpen: false,
     year: new Date().getFullYear(),
   }
 
-  componentWillMount() {
-    store.title.title = 'Event List'
-    store.event.fetchAll()
+  fetch = async () => {
+    const { event, notification } = this.props.store
+    const response = await event.fetchAll()
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    }
   }
 
   handleOpenCreate = () => {
@@ -41,7 +46,7 @@ class EventList extends Component {
   }
 
   handleEventCreate = () => {
-    store.event.create(this.state.year)
+    this.props.store.event.create(this.state.year)
     this.handleCloseCreate()
   }
 
@@ -49,22 +54,36 @@ class EventList extends Component {
     this.setState({ year: event.target.value })
   }
 
+  handleEvent = (year) => async () => {
+    const { event, history, notification } = this.props.store
+    const response = await event.fetch(year)
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    } else {
+      history.push(`/${year}`)
+    }
+  }
+
   render() {
-    return (
-      <Template style={{}} secure>
-        <Paper style={styles.root}>
-          <Fab
-            color="primary"
-            onClick={this.handleOpenCreate}
-            style={styles.add}
+    const { data } = this.props.store.event.list
+    const eventsView = data.map(event => (
+        <h2 key={event.id}>
+          <span
+            style={styles.title}
+            onClick={this.handleEvent(event.year)}
           >
+            {event.year}
+          </span>
+        </h2>
+    ))
+    return (
+      <Template style={{}}>
+        <Paper style={styles.root}>
+          {eventsView}
+          <Fab color="primary" onClick={this.handleOpenCreate} data-id="add">
             <AddIcon />
           </Fab>
-          {store.event.list.data.map(event => (
-            <Link key={event.year} to={`/${event.year}`} style={styles.link}>
-              <h2>{event.year}</h2>
-            </Link>
-          ))}
         </Paper>
         <Dialog open={this.state.createOpen}>
           <DialogTitle>Add new event</DialogTitle>
@@ -79,7 +98,7 @@ class EventList extends Component {
             <Button onClick={this.handleCloseCreate} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleEventCreate} color="primary" autoFocus>
+            <Button onClick={this.handleEventCreate} color="primary">
               Create
             </Button>
           </DialogActions>
@@ -90,4 +109,17 @@ class EventList extends Component {
 }
 
 
-export default EventList
+EventList.propTypes = {
+  store: PropTypes.shape({
+    event: PropTypes.shape({
+      list: PropTypes.shape({
+        data: PropTypes.array.isRequired,
+        pages: PropTypes.number.isRequired,
+        total: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
+}
+
+
+export default withStore(EventList)

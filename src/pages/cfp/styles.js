@@ -33,4 +33,8 @@ export default {
   content: {
     padding: 20,
   },
+
+  subtitle: {
+    marginBottom: 20,
+  },
 }

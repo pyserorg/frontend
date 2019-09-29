@@ -1,25 +1,40 @@
 import React, { Component } from 'react'
-import { observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import Badge from '@material-ui/core/Badge'
-import store from 'store'
+import { withStore } from 'store'
+
+// Components
+import {
+  Badge,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+} from '@material-ui/core'
+
+import { errors } from 'utils'
 import styles from './styles'
 
 
-@observer
 class EventList extends Component {
-  componentWillMount() {
-    store.event.fetchAll()
+  constructor(props) {
+    super(props)
+    this.fetch()
+  }
+
+  fetch = async () => {
+    const { event, notification } = this.props.store
+    const response = await event.fetchAll()
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    }
   }
 
   render() {
+    const { event } = this.props.store
     return (
-      <Badge badgeContent={store.event.list.data.length} color="primary">
+      <Badge badgeContent={event.list.data.length} color="primary">
         <Card>
           <CardContent>
             <Typography variant="h5">
@@ -41,8 +56,4 @@ class EventList extends Component {
 }
 
 
-EventList.propTypes = {
-}
-
-
-export default EventList
+export default withStore(EventList)

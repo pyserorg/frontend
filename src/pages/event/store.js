@@ -1,94 +1,94 @@
-import { observable } from 'mobx'
 import service from './service'
+import initial from './initial'
 
 
 export default class EventStore {
-  @observable detail = {}
-
-  @observable list = {
-    data: [],
-    total: 0,
-    pages: 0,
+  constructor(detail, list) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
+    this.list = list[0]
+    this.setList = list[1]
   }
 
-  async fetch(year) {
+  create = async (year) => {
     try {
-      const result = await service.fetch(year)
-      this.detail = result
-      return {
-        status: 200,
-        error: '',
-        result,
+      const response = await service.create(year)
+      const result = {
+        ...this.list,
+        ok: true
       }
+      result.data.push(response)
+      result.total += 1
+      this.setList(result)
+      if (!this.detail.id) {
+        this.setDetail(response)
+      }
+      return result
     } catch (error) {
-      this.detail = {}
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ok: false,
       }
     }
   }
 
-  async fetchAll(page = 0) {
+  fetch = async (year) => {
     try {
-      const result = await service.fetchAll(page)
-      if (!this.detail.year) {
-        if (result.data.length > 0) {
-          [this.detail] = result.data
-        }
+      const response = await service.fetch(year)
+      const result = {
+        ...response,
+        ok: true
       }
-      this.list = result
-      return {
-        status: 200,
-        error: '',
-      }
+      this.setDetail(result)
+      return result
     } catch (error) {
-      this.detail = {}
-      console.log(error)
+      const result = {
+        ...initial.detail,
+        ok: false,
+      }
+      this.setDetail(result)
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ...result,
       }
     }
   }
 
-  async create(year) {
+  fetchAll = async (page = 0, perpage = 10) => {
     try {
-      const result = await service.create(year)
-      this.detail = result
-      this.list.data.push(result)
-      this.list.total += 1
+      const response = await service.fetchAll(page, perpage)
+      this.setList(response)
+      if (!this.detail.id && response.total > 0) {
+        this.setDetail(response.data[0])
+      }
       return {
-        status: 200,
-        error: '',
-        result,
+        ...response,
+        ok: true
       }
     } catch (error) {
-      this.detail = {}
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ok: false,
       }
     }
   }
 
-  async edit(year, data) {
+  edit = async (id, data) => {
     try {
-      const result = await service.edit(year, data)
-      this.detail = result
-      this.list.data.push(result)
-      this.list.total += 1
-      return {
-        status: 200,
-        error: '',
-        result,
+      const response = await service.edit(id, data)
+      const result = {
+        ...response,
+        ok: true
       }
+      this.setDetail(result)
+      return result
     } catch (error) {
-      this.detail = {}
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      const result = {
+        ...error,
+        ok: false,
       }
+      this.setDetail(result)
+      return result
     }
   }
 }

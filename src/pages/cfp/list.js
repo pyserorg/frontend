@@ -1,38 +1,49 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
+import { withStore } from 'store'
+import { errors } from 'utils'
 
 // Components
-import Paper from '@material-ui/core/Paper'
+import {
+  Paper,
+} from '@material-ui/core'
 import Talk from 'components/organisms/talk'
 
-import Template from 'templates/default'
-import store from 'store'
+import Template from 'templates/default/detail'
 import styles from './styles'
 
 
-@observer
 class CfPList extends React.Component {
-  componentWillMount() {
-    store.title.title = 'Call for Papers'
-    store.cfp.fetchAll()
-    if (store.me.detail.admin === false) {
+  constructor(props) {
+    super(props)
+    this.fetch()
+  }
+
+  fetch = async () => {
+    const { cfp, me, notification } = this.props.store
+    if (me.detail.admin === false) {
       this.props.history.push('/landing')
+    }
+    const response = await cfp.fetchAll()
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
     }
   }
 
-  componentWillUpdate() {
-    if (store.me.detail.admin === false) {
+  componentDidUpdate = async () => {
+    if (this.props.store.me.detail.admin === false) {
       this.props.history.push('/landing')
     }
   }
 
   render() {
+    const { data } = this.props.store.cfp.list
     return (
-      <Template style={{}} secure={this.props.secure}>
+      <Template style={{}} secure>
         <Paper style={styles.root}>
-          {store.cfp.list.data.map(talk => <Talk key={talk.id} talk={talk} />)}
+          {data.map(talk => <Talk key={talk.id} talk={talk} />)}
         </Paper>
       </Template>
     )
@@ -41,16 +52,10 @@ class CfPList extends React.Component {
 
 
 CfPList.propTypes = {
-  secure: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 }
 
 
-CfPList.defaultProps = {
-  secure: true,
-}
-
-
-export default withRouter(CfPList)
+export default withRouter(withStore(CfPList))

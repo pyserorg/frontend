@@ -1,27 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { withTheme } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
+import { withStore } from 'store'
 import moment from 'moment'
+import { errors } from 'utils'
 
 // Components
-import Button from '@material-ui/core/Button'
-import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
-import Switch from '@material-ui/core/Switch'
+import {
+  Button,
+  MenuItem,
+  Paper,
+  Switch,
+  TextField,
+  Tooltip,
+} from '@material-ui/core'
 import TalkBox from 'components/organisms/talk-box'
-import Template from 'templates/default'
-import TextField from '@material-ui/core/TextField'
+import Template from 'templates/default/detail'
 import TimeBox from 'components/organisms/time-box'
-import Tooltip from '@material-ui/core/Tooltip'
 import YearSwitch from 'components/organisms/year-switch'
 
-import store from 'store'
 import getStyles from './styles'
 
 
-@observer
 class Schedule extends React.Component {
   state = {
     hall: 'presentations',
@@ -29,8 +30,17 @@ class Schedule extends React.Component {
 
   constructor(props) {
     super(props)
-    store.title.title = 'Schedule'
-    store.talk.fetchPublished(this.props.match.params.year)
+    this.fetch()
+  }
+
+  fetch = async () => {
+    const { notification, talk } = this.props.store
+    const { year } = this.props.match.params
+    const response = await talk.fetchPublished(year)
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    }
   }
 
   generateTimes = (talks) => {
@@ -39,7 +49,7 @@ class Schedule extends React.Component {
     const result = []
     talks.data.forEach(talk => {
       const talkStart = moment(talk.start)
-      const talkEnd = moment(talk.end)
+      const talkEnd = moment(talk.start).add(talk.duration, 'minutes')
       if (start === null || talkStart.isBefore(start)) {
         start = talkStart
       }
@@ -57,11 +67,13 @@ class Schedule extends React.Component {
   }
 
   handleYearChange = () => {
+    const { store } = this.props
     store.talk.fetchPublished(store.event.detail.year)
     this.props.history.push(`/${store.event.detail.year}/schedule`)
   }
 
   handlePublished = () => {
+    const { store } = this.props
     store.event.edit(
       this.props.match.params.year,
       { published: !store.event.detail.published },
@@ -69,6 +81,7 @@ class Schedule extends React.Component {
   }
 
   handleAnnouncement = () => {
+    const { store } = this.props
     store.talk.announce(store.event.detail.year)
   }
 
@@ -77,27 +90,28 @@ class Schedule extends React.Component {
   }
 
   render() {
-    const styles = getStyles(store.talk.list, this.props.theme)
-    const publishSwitch = store.me.detail.admin
+    const { talk, me, event } = this.props.store
+    const styles = getStyles(talk.list, this.props.theme)
+    const publishSwitch = me.detail.admin
       ? (
         <Tooltip title="publish" placement="right">
           <Switch
             onChange={this.handlePublished}
-            checked={store.event.detail.published}
+            checked={event.detail.published}
           />
         </Tooltip>
       ) : null
-    const announce = store.me.detail.admin
+    const announce = me.detail.admin
       ? (
         <Button onClick={this.handleAnnouncement} variant="outlined">
           Announce
         </Button>
       ) : null
-    const talks = store.talk.list.data.filter(
+    const talks = talk.list.data.filter(
       talk => talk.hall === this.state.hall,
     )
-    const times = this.generateTimes(store.talk.list)
-    const scheduleView = store.event.detail.published || store.me.detail.admin
+    const times = this.generateTimes(talk.list)
+    const scheduleView = event.detail.published || me.detail.admin
       ? (
         <div style={styles.schedule}>
           <div style={styles.title}>time</div>
@@ -160,4 +174,4 @@ Schedule.propTypes = {
 }
 
 
-export default withTheme(withRouter(Schedule))
+export default withTheme(withRouter(withStore(Schedule)))

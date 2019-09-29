@@ -1,20 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { errors } from 'utils'
 
 // Components
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import Tooltip from '@material-ui/core/Tooltip'
+import {
+  Button,
+  Paper,
+  TextField,
+  Tooltip,
+} from '@material-ui/core'
 
-import Template from 'templates/default'
-import store from 'store'
+import Template from 'templates/default/detail'
+import { withStore } from 'store'
 import getStyles from './styles'
 
 
-@observer
-class TalkDetail extends Component {
+class TalkDetail extends React.Component {
   state = {
     description: '',
     edit: null,
@@ -22,9 +23,18 @@ class TalkDetail extends Component {
     video: '',
   }
 
-  componentWillMount() {
-    store.title.title = 'Talk Detail'
-    store.talk.fetch(this.props.match.params.id)
+  constructor(props) {
+    super(props)
+    this.fetch()
+  }
+
+  fetch = async () => {
+    const { notification, talk } = this.props.store
+    const response = await talk.fetch(this.props.match.params.id)
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    }
   }
 
   handleFieldChange = (field) => (event) => {
@@ -34,7 +44,7 @@ class TalkDetail extends Component {
   handleEdit = (field) => () => {
     this.setState({
       edit: field,
-      [field]: store.talk.detail[field] || '',
+      [field]: this.props.store.talk.detail[field] || '',
     })
   }
 
@@ -43,41 +53,41 @@ class TalkDetail extends Component {
   }
 
   handleSubmit = (field) => () => {
-    store.talk.edit({
+    this.props.store.talk.edit({
       [field]: this.state[field],
     })
     this.setState({ edit: null })
   }
 
   render() {
+    const { me, talk } = this.props.store
     const styles = getStyles({ data: [] })
-    const talk = store.talk.detail
-    const enableEdit = talk.user.id === store.me.detail.id || store.me.detail.admin
-    const user = talk.user
+    const enableEdit = talk.detail.user.id === me.detail.id || me.detail.admin
+    const user = talk.detail.user.id
       ? (
         <div>
           <h3>
-            {talk.user.firstName}
+            {talk.detail.user.firstName}
             &nbsp;
-            {talk.user.lastName}
+            {talk.detail.user.lastName}
           </h3>
           {
-            store.me.detail.admin
-              ? <h4>{talk.user.email}</h4>
+            me.detail.admin
+              ? <h4>{talk.detail.user.email}</h4>
               : null
           }
           <div style={styles.bio}>
-            {talk.user.bio}
+            {talk.detail.user.bio}
           </div>
           <div>
             facebook:
             &nbsp;
-            {talk.user.facebook}
+            {talk.detail.user.facebook}
           </div>
           <div>
             twitter:
             &nbsp;
-            {talk.user.twitter}
+            {talk.detail.user.twitter}
           </div>
         </div>
       ) : null
@@ -111,7 +121,7 @@ class TalkDetail extends Component {
               onClick={this.handleEdit('title')}
               role="presentation"
             >
-              {talk.title}
+              {talk.detail.title}
             </h1>
           </Tooltip>
         )
@@ -122,7 +132,7 @@ class TalkDetail extends Component {
           onClick={this.handleEdit('title')}
           role="presentation"
         >
-          {talk.title}
+          {talk.detail.title}
         </h1>
       )
     }
@@ -157,7 +167,7 @@ class TalkDetail extends Component {
               onClick={this.handleEdit('description')}
               role="presentation"
             >
-              {talk.description}
+              {talk.detail.description}
             </div>
           </Tooltip>
         )
@@ -205,7 +215,7 @@ class TalkDetail extends Component {
           allowFullScreen
         />
       )
-      video = store.me.detail.admin
+      video = me.detail.admin
         ? (
           <div>
             <div>
@@ -220,7 +230,7 @@ class TalkDetail extends Component {
             {embed}
           </div>
         )
-    } else if (store.me.detail.admin) {
+    } else if (me.detail.admin) {
       video = (
         <Button variant="outlined" onClick={this.handleEdit('video')}>
           Add Video
@@ -235,13 +245,13 @@ class TalkDetail extends Component {
           <div>
             Duration:
             &nbsp;
-            {talk.duration}
+            {talk.detail.duration}
             min
           </div>
           <div>
             Hall:
             &nbsp;
-            {talk.hall}
+            {talk.detail.hall}
           </div>
           {user}
           {video}
@@ -261,4 +271,4 @@ TalkDetail.propTypes = {
 }
 
 
-export default TalkDetail
+export default withStore(TalkDetail)
