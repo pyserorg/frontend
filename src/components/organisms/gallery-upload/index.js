@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import Resumable from 'resumablejs'
-import Button from '@material-ui/core/Button'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  CircularProgress,
+} from '@material-ui/core'
 import { getCookie } from 'utils'
-import store from 'store'
+import { withStore } from 'store'
 import styles from './styles'
 
 
-@observer
 class GalleryUpload extends React.Component {
   state = {
     files: [],
@@ -61,13 +61,17 @@ class GalleryUpload extends React.Component {
     uploader.on(
       'error',
       (message, file) => {
+        const { notification } = this.props.store
         this.setState({ progress: 0, uploading: false })
-        store.error.message = `Upload failed on file ${file}. Error message: ${message}`
+        notification.show(
+          `Upload failed on file ${file}. Error message: ${message}`,
+        )
       },
     )
     uploader.on(
       'progress',
       () => {
+        const { notification } = this.props.store
         const progress = uploader.progress() * 100
         const uploading = progress !== 100
         this.setState({ progress, uploading })
@@ -77,13 +81,17 @@ class GalleryUpload extends React.Component {
             height: 500,
             width: 500,
           }))
-          store.error.message = 'Files uploaded'
+          notification.show('Files uploaded')
           this.setState({ files: [] })
           this.props.onClose(files)
         }
       },
     )
     uploader.addFiles(this.state.files.map(file => file.file))
+  }
+
+  handleClose = () => {
+    this.props.onClose([])
   }
 
   render() {
@@ -96,12 +104,18 @@ class GalleryUpload extends React.Component {
       />
     ))
     const upload = this.state.uploading
-      ? <CircularProgress variant="static" value={this.state.progress} />
+      ? (
+        <CircularProgress
+          variant="static"
+          value={this.state.progress}
+          color="secondary"
+        />
+      )
       : 'Start upload'
     return (
       <Dialog
         open={this.props.open}
-        onClose={this.props.onClose}
+        onClose={this.handleClose}
       >
         <DialogTitle>Upload pictures</DialogTitle>
         <input
@@ -116,10 +130,18 @@ class GalleryUpload extends React.Component {
           {filePreview}
         </div>
         <DialogActions>
-          <Button variant="outlined" color="primary" onClick={this.handleUpload}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={this.handleUpload}
+          >
             Select files
           </Button>
-          <Button variant="contained" color="primary" onClick={this.handleUploadStart}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleUploadStart}
+          >
             {upload}
           </Button>
         </DialogActions>
@@ -141,4 +163,4 @@ GalleryUpload.defaultProps = {
 }
 
 
-export default GalleryUpload
+export default withStore(GalleryUpload)

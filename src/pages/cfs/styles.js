@@ -1,50 +1,55 @@
+const titleBase = {
+  marginLeft: 20,
+}
+
+const color = {
+  color: '#555'
+}
+
+
 export default {
   root: {
-    display: 'block',
-    minHeight: 'calc(100vh - 65px - 40px)',
+    ...color,
     padding: 20,
+    minHeight: 'calc(100vh - 65px - 40px)',
   },
 
-  h1: {
-    marginBottom: 30,
-    color: '#3f51b5',
-    small: {
-      margin: 0,
-    },
-    textAlign: 'center',
-  },
-  
-    h2: {
-    color: '#3f51b5',
-    textAlign: 'center',
-    marginBottom: 50,
-  },
-
-  center: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'baseline',
-    height: '45%',
-  },
-
-  list: {
-    listStyleType: 'circle',
-  },
-
-  point: {
-    fontSize: '1.2rem',
-  },
-
-  caption: {
-    marginTop: 20,
-    marginLeft: 20,
-    color: '#555',
-  },
-
-  text: {
-    textAlign: 'left',
+  title: {
+    ...titleBase,
     marginTop: 50,
-    fontSize: '1.2rem',
+    main: {
+      ...titleBase,
+      marginBottom: 30,
+    },
+  },
+
+  diamond: {
+    ...color,
+  },
+
+  gold: {
+    ...color,
+    backgroundColor: '#d3af37',
+  },
+
+  silver: {
+    ...color,
+    backgroundColor: '#adb3c1',
+  },
+
+  bronze: {
+    ...color,
+    backgroundColor: '#ffb66e',
+  },
+
+  copper: {
+    ...color,
+    backgroundColor: '#ffbd8e',
+  },
+
+  description: {
+    marginTop: 10,
+    marginLeft: 10,
   },
 
   form: {
@@ -63,39 +68,5 @@ export default {
 
   button: {
     marginTop: 20,
-  },
-
-  paragraph: {
-    marginBottom: 20,
-  },
-
-  success: {
-    height: 300,
-    display: 'flex',
-    justifyContent: 'center',
-    content: {
-      maxWidth: 600,
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    thank: {
-      fontSize: '40px',
-      color: '#aaa',
-    },
-  },
-
-  email: {
-    marginBottom: 20,
-  },
-
-  item: {
-    marginBottom: 5,
-    backgroundColor: '#eee',
-  },
-
-  details: {
-    marginRight: 20,
   },
 }

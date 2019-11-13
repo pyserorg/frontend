@@ -1,8 +1,17 @@
-import { observable } from 'mobx'
+export default class NotificationStore {
+  constructor(detail) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
+  }
 
+  show = async (message) => {
+    this.setDetail({
+      message,
+      show: true,
+    })
+  }
 
-export default class ErrorStore {
-  @observable message = ''
-
-  @observable open = false
+  close = async () => {
+    this.setDetail({ show: false })
+  }
 }

@@ -1,52 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withTheme } from '@material-ui/core/styles'
+import { withStore } from 'store'
 import { Link } from 'react-router-dom'
-import { observer } from 'mobx-react'
 
 // Components
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemText from '@material-ui/core/ListItemText'
-import Paper from '@material-ui/core/Paper'
-import Switch from '@material-ui/core/Switch'
+import {
+  Avatar,
+  Button,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Paper,
+  Switch,
+} from '@material-ui/core'
 
-import NoPage from 'pages/nopage'
-import Template from 'templates/default'
-import store from 'store'
+import Template from 'templates/default/detail'
+
 import styles from './styles'
 
-@observer
-class UserList extends React.Component {
-  componentWillMount() {
-    store.title.title = 'User List'
-    const page = Number(this.props.match.params.page || '0')
-    store.user.fetchAll(page)
-  }
 
-  componentWillReceiveProps(nextProps) {
-    const oldPage = Number(this.props.match.params.page || '0')
-    const newPage = Number(nextProps.match.params.page || '0')
-    if (oldPage !== newPage) {
-      store.user.fetchAll(newPage)
-    }
+class UserList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.props.store.user.fetchAll(this.props.match.params.page)
   }
 
   handleUserActive = (user) => () => {
-    store.user.edit(user.id, { active: !user.active })
+    this.props.store.user.edit(user.id, { active: !user.active })
   }
 
   render() {
     const page = Number(this.props.match.params.page || '0')
     const previous = page !== 0
       ? (
-        <Link
-          to={page !== 1 ? `/users/${page - 1}` : '/users'}
-          style={this.props.theme.overrides.noDecorationLink}
-        >
+        <Link to={page !== 1 ? `/users/${page - 1}` : '/users'}>
           <Button variant="outlined">
             &lt;
           </Button>
@@ -57,12 +45,9 @@ class UserList extends React.Component {
           &lt;
         </Button>
       )
-    const next = page !== store.user.list.pages - 1
+    const next = page < this.props.store.user.list.pages - 1
       ? (
-        <Link
-          to={`/users/${page + 1}`}
-          style={this.props.theme.overrides.noDecorationLink}
-        >
+        <Link to={`/users/${page + 1}`}>
           <Button variant="outlined">
             &gt;
           </Button>
@@ -73,21 +58,23 @@ class UserList extends React.Component {
           &gt;
         </Button>
       )
-    const userList = store.user.list.data.map(user => (
+    const userList = this.props.store.user.list.data.map(user => (
       <List style={styles.item} key={user.id}>
         <ListItem dense button>
-          <Avatar>{user.id}</Avatar>
+          <Avatar style={styles.avatar}>{user.id}</Avatar>
           <ListItemText primary={user.email} />
           <ListItemSecondaryAction>
             <Switch
               onChange={this.handleUserActive(user)}
               checked={user.active}
+              disabled={user.id === this.props.store.me.detail.id}
             />
-            <Link
-              to={`/user/${user.id}`}
-              style={this.props.theme.overrides.noDecorationLink}
-            >
-              <Button style={styles.details} variant="outlined" color="primary">
+            <Link to={`/user/${user.id}`}>
+              <Button
+                style={styles.details}
+                variant="outlined"
+                color="primary"
+              >
                 Details
               </Button>
             </Link>
@@ -95,20 +82,18 @@ class UserList extends React.Component {
         </ListItem>
       </List>
     ))
-    return store.me.detail.admin
-      ? (
-        <Template style={{}}>
-          <Paper style={styles.root}>
-            {userList}
-            <div style={styles.center}>
-              {previous}
-              <Avatar style={styles.page}>{String(page)}</Avatar>
-              {next}
-            </div>
-          </Paper>
-        </Template>
-      )
-      : <NoPage />
+    return (
+      <Template secure style={{}}>
+        <Paper style={styles.root}>
+          {userList}
+          <div style={styles.center}>
+            {previous}
+            <Avatar style={styles.page} data-id="page">{String(page)}</Avatar>
+            {next}
+          </div>
+        </Paper>
+      </Template>
+    )
   }
 }
 
@@ -119,8 +104,7 @@ UserList.propTypes = {
       page: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  theme: PropTypes.shape().isRequired,
 }
 
 
-export default withTheme(UserList)
+export default withStore(UserList)

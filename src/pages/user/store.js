@@ -1,76 +1,147 @@
-import { observable } from 'mobx'
 import service from './service'
+import initial from './initial'
 
 
 export default class UserStore {
-  @observable detail = {
-    active: false,
-    admin: false,
-    firstName: '',
-    lastName: '',
-    volunteer: false,
+  constructor(detail, list) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
+    this.list = list[0]
+    this.setList = list[1]
   }
 
-  @observable list = {
-    data: [],
-    total: 0,
-    pages: 0,
-  }
-
-  async fetch(id) {
+  fetch = async (id) => {
     try {
-      const result = await service.fetch(id)
-      this.detail = result
-      return {
-        status: 200,
-        error: '',
+      const response = await service.fetch(id)
+      const result = {
+        ...response,
+        ok: true
       }
+      this.setDetail(result)
+      return result
     } catch (error) {
-      this.detail = {}
+      const result = {
+        ok: false,
+      }
+      this.setDetail({
+        ...initial.detail,
+        ...result,
+      })
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ...result,
       }
     }
   }
 
-  async fetchAll(page = 0) {
+  fetchAll = async (page = 0, perpage = 10) => {
     try {
-      const result = await service.fetchAll(page)
-      this.list = result
+      const response = await service.fetchAll(page, perpage)
+      this.setList(response)
       return {
-        status: 200,
-        error: '',
+        ...response,
+        ok: true
       }
     } catch (error) {
-      console.log(error)
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ok: false,
       }
     }
   }
 
-  async edit(id, data) {
+  create = async (data) => {
     try {
-      const numId = Number(id)
-      const result = await service.edit(numId, data)
-      if (this.detail.id === numId) {
-        this.detail = result
+      const response = await service.create(data)
+      return {
+        ...response,
+        ok: true
       }
-      for (let i = 0; i < this.list.data.length; i += 1) {
-        if (this.list.data[i].id === id) {
-          this.list.data[i] = result
+    } catch (error) {
+      return {
+        ...error,
+        ok: false,
+      }
+    }
+  }
+
+  edit = async (id, data) => {
+    try {
+      const response = await service.edit(id, data)
+      const result = {
+        ...response,
+        ok: true
+      }
+      if (this.detail.id === id) {
+        this.setDetail(result)
+      }
+      const listData = {...this.list}
+      listData.data.forEach(user => {
+        if (user.id === id) {
+          user.email = response.email
+          user.active = response.active
+          user.admin = response.admin
         }
-      }
+      })
+      this.setList(listData)
+      return result
+    } catch (error) {
       return {
-        status: 200,
-        error: '',
+        ...error,
+        ok: false,
+      }
+    }
+  }
+
+  delete = async (id) => {
+    try {
+      const response = await service.delete(id)
+      return {
+        ...response,
+        ok: true
       }
     } catch (error) {
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ...error,
+        ok: false,
+      }
+    }
+  }
+
+  async assign(roleId) {
+    try {
+      const response = await service.assign(this.detail.id, roleId)
+      const data = {
+        ...this.detail,
+        ok: true,
+      }
+      data.roles.push(response)
+      this.setDetail(data)
+      return data
+    } catch (error) {
+      return {
+        ...error,
+        ok: false,
+      }
+    }
+  }
+
+  async deassign(roleId) {
+    try {
+      const result = await service.deassign(this.detail.id, roleId)
+      const data = {
+        ...this.detail,
+        ok: true,
+      }
+      data.roles = this.detail.roles.filter(
+        user => user.id !== result.id,
+      )
+      this.setDetail(data)
+      return data
+    } catch (error) {
+      return {
+        ...error,
+        ok: false,
       }
     }
   }

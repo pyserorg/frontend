@@ -1,19 +1,26 @@
-.provisioned
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+coverage
+build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+cbsd.conf
 ansible/group_vars/all
 ansible/inventory/inventory
 ansible/roles/*
-ansible/site.yml
 !ansible/roles/.keep
 !ansible/roles/devel
-
-build
-cbsd.conf
-coverage
-node_modules
-package.json
+ansible/site.yml
 project.conf
 site.retry
-src/local-conf.js
 vars.mk
 yarn-error.log
 yarn.lock

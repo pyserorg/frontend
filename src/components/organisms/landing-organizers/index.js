@@ -1,40 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 
 // Components
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 
-import ResolutionContext from 'resolution'
-import store from 'store'
+import { withStore } from 'store'
+import initial from 'pages/landing/initial'
 import TildaLogo from './logo-tilda.svg'
 import getStyles from './styles'
 
 
-@observer
 class LandingOrganizers extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault()
-    const result = await store.landing.send()
+    const { landing, notification } = this.props.store
+    const result = await landing.send()
     if (result.status === 200) {
-      store.error.message = 'Your message was sent'
-      store.landing.organizer.fromAddress = ''
-      store.landing.organizer.subject = ''
-      store.landing.organizer.message = ''
+      notification.show('Your message was sent')
+      landing.setDetail(initial)
     } else {
-      store.error.message = result.message
+      notification.show(result.message)
     }
-    store.error.open = true
   }
 
   handleField = (field) => (event) => {
-    store.landing.organizer[field] = event.target.value
+    const { landing } = this.props.store
+    landing.setDetail({
+      ...landing.detail,
+      [field]: event.target.value,
+    })
   }
 
   render() {
-    const styles = getStyles(this.props.resolution)
+    const { landing, resolution } = this.props.store
+    const styles = getStyles(resolution.detail)
     return (
       <Paper style={styles.root}>
         <div style={styles.organizer}>
@@ -54,7 +55,7 @@ class LandingOrganizers extends React.Component {
           <TextField
             label="EMail"
             onChange={this.handleField('fromAddress')}
-            value={store.landing.organizer.fromAddress}
+            value={landing.detail.fromAddress}
             type="email"
             required
             fullWidth
@@ -62,7 +63,7 @@ class LandingOrganizers extends React.Component {
           <TextField
             label="Subject"
             onChange={this.handleField('subject')}
-            value={store.landing.organizer.subject}
+            value={landing.detail.subject}
             required
             fullWidth
           />
@@ -70,7 +71,7 @@ class LandingOrganizers extends React.Component {
             label="Text"
             rows={4}
             onChange={this.handleField('message')}
-            value={store.landing.organizer.message}
+            value={landing.detail.message}
             fullWidth
             required
             multiline
@@ -90,15 +91,15 @@ class LandingOrganizers extends React.Component {
 
 
 LandingOrganizers.propTypes = {
-  resolution: PropTypes.shape({
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-  }).isRequired,
+  store: PropTypes.shape({
+    resolution: PropTypes.shape({
+      detail: PropTypes.shape({
+        height: PropTypes.number.isRequired,
+        width: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }),
 }
 
 
-export default (props) => (
-  <ResolutionContext.Consumer>
-    {resolution => <LandingOrganizers {...props} resolution={resolution} />}
-  </ResolutionContext.Consumer>
-)
+export default withStore(LandingOrganizers)

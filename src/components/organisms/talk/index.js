@@ -1,25 +1,30 @@
+import 'date-fns'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
+import { withStore } from 'store'
 
 // Components
-import Paper from '@material-ui/core/Paper'
-import Switch from '@material-ui/core/Switch'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import {
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Switch,
+} from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers'
+import {
+  MuiPickersUtilsProvider,
+  TimePicker,
+  DatePicker
+} from '@material-ui/pickers'
 
-import store from 'store'
 import styles from './styles'
 
 
-@observer
 class Talk extends React.Component {
   handlePublished = () => {
-    store.cfp.edit(
+    this.props.store.cfp.edit(
       this.props.talk.id,
       { published: !this.props.talk.published },
     )
@@ -42,7 +47,7 @@ class Talk extends React.Component {
     const hour = newTime.getHours()
     const minute = newTime.getMinutes()
     const timeString = `${year}-${month}-${day}T${hour}:${minute}:0`
-    store.cfp.edit(
+    this.props.store.cfp.edit(
       this.props.talk.id,
       { start: timeString },
     )
@@ -65,14 +70,14 @@ class Talk extends React.Component {
     const hour = newDate.getHours()
     const minute = newDate.getMinutes()
     const timeString = `${year}-${month}-${day}T${hour}:${minute}:0`
-    store.cfp.edit(
+    this.props.store.cfp.edit(
       this.props.talk.id,
       { start: timeString },
     )
   }
 
   handleHall = (event) => {
-    store.cfp.edit(
+    this.props.store.cfp.edit(
       this.props.talk.id,
       { hall: event.target.value },
     )
@@ -144,4 +149,4 @@ Talk.propTypes = {
 }
 
 
-export default Talk
+export default withStore(Talk)

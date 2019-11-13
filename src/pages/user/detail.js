@@ -1,76 +1,83 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { withStore } from 'store'
 
-// Components
-import Paper from '@material-ui/core/Paper'
-import Switch from '@material-ui/core/Switch'
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Paper,
+  Switch,
+} from '@material-ui/core'
 
-import NoPage from 'pages/nopage'
-import Template from 'templates/default'
-import store from 'store'
+import Template from 'templates/default/detail'
 import styles from './styles'
 
 
-@observer
 class UserDetail extends React.Component {
-  componentWillMount() {
-    store.title.title = 'User Detail'
-    store.user.fetch(this.props.match.params.id)
+  constructor(props) {
+    super(props)
+    this.fetch()
   }
 
-  handleActive = () => {
-    store.user.edit(
-      this.props.match.params.id,
-      { active: !store.user.detail.active },
-    )
+  fetch = async () => {
+    const { store } = this.props
+    const [users, roles] = await Promise.all([
+      store.user.fetch(this.props.match.params.id),
+      store.role.fetchAll(),
+    ])
+    if (!users.ok) {
+      store.notification.show('User error')
+    }
+    if (!roles.ok) {
+      store.notification.show('Role error')
+    }
   }
 
-  handleAdmin = () => {
-    store.user.edit(
-      this.props.match.params.id,
-      { admin: !store.user.detail.admin },
-    )
+  handleRoleActive = (role) => (event, value) => {
+    if (value) {
+      this.props.store.user.assign(role.id)
+    } else {
+      this.props.store.user.deassign(role.id)
+    }
   }
 
   render() {
-    return store.me.detail.admin
-      ? (
-        <Template style={{}}>
-          <Paper style={styles.root}>
-            <h1 style={styles.h1.small}>
-              {store.user.detail.firstName}
-              &nbsp;
-              {store.user.detail.lastName}
-            </h1>
-            <div style={styles.email}>
-              {store.user.detail.email}
-            </div>
-            <div>
-              Active:
+    let roleList
+    const { role, user } = this.props.store
+    if (role.list.data.length === 0) {
+      roleList = null
+    } else {
+      roleList = role.list.data.map(role => {
+        const activated = user.detail.roles.filter(
+          userRole => userRole.id === role.id,
+        ).length > 0
+        return (
+          <ListItem key={role.id} style={styles.item} dense button>
+            <Avatar style={styles.avatar}>{role.id}</Avatar>
+            <ListItemText primary={role.name} />
+            <ListItemSecondaryAction>
               <Switch
-                onChange={this.handleActive}
-                checked={store.user.detail.active}
+                onChange={this.handleRoleActive(role)}
+                checked={activated}
               />
-            </div>
-            <div>
-              Admin:
-              <Switch
-                onChange={this.handleAdmin}
-                checked={store.user.detail.admin}
-              />
-            </div>
-            <div>
-              Volunteer:
-              <Switch
-                onChange={this.handleVolunteer}
-                checked={store.user.detail.volunteer}
-              />
-            </div>
-          </Paper>
-        </Template>
-      )
-      : <NoPage />
+            </ListItemSecondaryAction>
+          </ListItem>
+        )
+      })
+    }
+    return (
+      <Template secure style={{}}>
+        <Paper style={styles.root}>
+          email: <span data-id="email">{user.detail.email}</span>
+          <List>
+            {roleList}
+          </List>
+        </Paper>
+      </Template>
+    )
   }
 }
 
@@ -81,7 +88,16 @@ UserDetail.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  store: PropTypes.shape({
+    user: PropTypes.shape({
+      detail: PropTypes.shape({
+        email: PropTypes.string.isRequired,
+      }).isRequired,
+      fetch: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
 }
 
 
-export default UserDetail
+export default withStore(UserDetail)
+

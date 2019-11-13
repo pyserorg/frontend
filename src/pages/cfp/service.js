@@ -17,7 +17,7 @@ async function fetchAll(year, page) {
 }
 
 
-async function get(id) {
+async function fetch(id) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.get(
     `${API_ROOT}/talk/${id}`,
@@ -29,14 +29,11 @@ async function get(id) {
 }
 
 
-async function send(talk, person) {
+async function send(data) {
   const csrf = getCookie('csrf_access_token')
   const response = await axios.post(
     `${API_ROOT}/cfp`,
-    {
-      talk,
-      person,
-    },
+    data,
     {
       headers: { 'X-CSRF-TOKEN': csrf },
     },
@@ -59,8 +56,8 @@ async function patch(id, data) {
 
 
 export default {
+  fetch,
   fetchAll,
-  get,
   patch,
   send,
 }

@@ -1,59 +1,38 @@
-import { observable } from 'mobx'
 import service from './service'
 
 
 export default class CfPStore {
-  @observable talk = {
-    id: 0,
-    description: '',
-    duration: 30,
-    hall: 'presentations',
-    published: false,
-    title: '',
+  constructor(detail, list) {
+    this.detail = detail[0]
+    this.setDetail = detail[1]
+    this.list = list[0]
+    this.setList = list[1]
   }
 
-  @observable person = {
-    id: 0,
-    bio: '',
-    email: '',
-    facebook: '',
-    firstName: '',
-    lastName: '',
-    twitter: '',
-    password: '',
-    passwordRepeat: '',
-  }
-
-  @observable list = {
-    data: [],
-    page: 0,
-    total: 0,
-  }
-
-  async get(id) {
+  fetch = async (id) => {
     try {
-      const result = await service.get(id)
-      if (result.start) {
-        result.start = new Date(result.start)
+      const response = await service.fetch(id)
+      if (response.start) {
+        response.start = new Date(response.start)
       } else {
-        delete result.start
+        delete response.start
       }
-      this.talk = result
-      this.person = result.user
-      return {
-        error: '',
-        status: 200,
-        result,
+      const data = {
+        ...response,
+        ok: true,
       }
+      this.setDetail(data)
+      return data
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      const data = {
+        ...error,
+        ok: false,
       }
+      return data
     }
   }
 
-  async publish(published) {
+  publish = async (published) => {
     try {
       const result = await service.patch(this.talk.id, { published })
       if (result.start) {
@@ -76,7 +55,7 @@ export default class CfPStore {
     }
   }
 
-  async startTime(time) {
+  startTime = async (time) => {
     try {
       const year = time.getFullYear()
       const month = time.getMonth()
@@ -99,74 +78,80 @@ export default class CfPStore {
     }
   }
 
-  async send() {
+  send = async (data) => {
     try {
-      const talk = { ...this.talk }
-      delete talk.start
-      const result = await service.send(talk, this.person)
+      const result = await service.send(data)
       return {
-        error: '',
-        status: 200,
-        result,
+        ok: true,
+        ...result,
       }
     } catch (error) {
       return {
-        error: error.response.data.message,
-        status: error.response.status,
+        ok: false,
+        ...error,
       }
     }
   }
 
-  async fetchAll(year = new Date().getFullYear(), page = 0) {
+  fetchAll = async (year = new Date().getFullYear(), page = 0) => {
     try {
-      const result = await service.fetchAll(year, page)
-      result.data.forEach(talk => {
+      const response = await service.fetchAll(year, page)
+      response.data.forEach(talk => {
         if (talk.start) {
           talk.start = new Date(talk.start)
         } else {
           delete talk.start
         }
       })
-      this.list = result
-      return {
-        error: '',
-        status: 200,
-        result,
+      const data = {
+        ok: true,
+        ...response,
       }
+      this.setList(data)
+      return data
     } catch (error) {
-      return {
+      const data = {
+        ok: false,
         error: error.response.data.message,
-        status: error.response.status,
+        ...this.list,
       }
+      this.setList(data)
+      return data
     }
   }
 
-  async edit(id, data) {
+  edit = async (id, data) => {
     try {
-      const result = await service.patch(id, data)
-      if (result.start) {
-        result.start = new Date(result.start)
+      const response = await service.patch(id, data)
+      if (response.start) {
+        response.start = new Date(response.start)
       } else {
-        delete result.start
+        delete response.start
       }
-      if (this.talk.id === id) {
-        this.talk = result
+      const result = {
+        ok: true,
+        ...response,
       }
-      this.list.data.forEach((talk, index) => {
+      if (this.detail.id === id) {
+        this.setDetail(result)
+      }
+      const newList = {
+        ...this.list,
+        data: [ ...this.list.data ],
+      }
+      newList.data.forEach((talk, index) => {
         if (talk.id === id) {
-          this.list.data[index] = result
+          newList.data[index] = response
         }
       })
-      return {
-        error: '',
-        status: 200,
-        result,
-      }
+      this.setList(newList)
+      return result
     } catch (error) {
-      return {
-        error: error.response.data.message,
-        status: error.response.status,
+      const result = {
+        ok: false,
+        ...error,
       }
+      return result
     }
   }
 }

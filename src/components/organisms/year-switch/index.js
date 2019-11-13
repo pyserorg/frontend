@@ -1,37 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { errors } from 'utils'
 
 // Components
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 
-import store from 'store'
+import { withStore } from 'store'
 import styles from './styles'
 
 
-@observer
 class YearSwitch extends React.Component {
-  handleYearChange = (event) => {
-    store.event.detail.year = event.target.value
-    store.event.fetch(event.target.value)
+  handleYearChange = async (event) => {
+    const response = await this.props.store.event.fetch(event.target.value)
+    if (!response.ok) {
+      const error = errors(response)
+      this.props.store.notification.show(error.message)
+    }
     if (this.props.onChange) {
       this.props.onChange()
     }
   }
 
   render() {
-    const currentYear = new Date().getFullYear()
     return (
       <TextField
         label="Year"
-        value={store.event.detail.year || currentYear}
+        value={this.props.store.event.detail.year}
         onChange={this.handleYearChange}
         margin="normal"
         style={styles.year}
         select
       >
-        {store.event.list.data.map((event) => (
+        {this.props.store.event.list.data.map((event) => (
           <MenuItem key={event.year} value={event.year}>
             {event.year}
           </MenuItem>
@@ -47,4 +48,4 @@ YearSwitch.propTypes = {
 }
 
 
-export default YearSwitch
+export default withStore(YearSwitch)

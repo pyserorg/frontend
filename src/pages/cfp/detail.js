@@ -1,28 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react'
+import { errors } from 'utils'
+import { withStore } from 'store'
 
 // Components
-import Paper from '@material-ui/core/Paper'
+import {
+  Paper,
+} from '@material-ui/core'
 import Talk from 'components/organisms/talk'
 
-import Template from 'templates/default'
-import store from 'store'
+import Template from 'templates/default/detail'
 import styles from './styles'
 
 
-@observer
 class CfPDetail extends React.Component {
-  componentWillMount() {
-    store.title.title = 'Call for Papers'
-    store.cfp.get(this.props.match.params.id)
+  constructor(props) {
+    super(props)
+    this.fetch()
+  }
+
+  fetch = async () => {
+    const { cfp, notification } = this.props.store
+    const response = await cfp.fetch(this.props.match.params.id)
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    }
   }
 
   render() {
+    const { cfp } = this.props.store
     return (
-      <Template style={{}} secure={this.props.secure}>
+      <Template style={{}} secure>
         <Paper style={styles.root}>
-          <Talk talk={store.cfp.talk} />
+          <Talk talk={cfp.detail} />
         </Paper>
       </Template>
     )
@@ -36,13 +47,7 @@ CfPDetail.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  secure: PropTypes.bool,
 }
 
 
-CfPDetail.defaultProps = {
-  secure: true,
-}
-
-
-export default CfPDetail
+export default withStore(CfPDetail)
