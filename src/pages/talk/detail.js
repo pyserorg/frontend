@@ -53,9 +53,10 @@ class TalkDetail extends React.Component {
   }
 
   handleSubmit = (field) => () => {
-    this.props.store.talk.edit({
-      [field]: this.state[field],
-    })
+    this.props.store.talk.edit(
+      this.props.match.params.id,
+      { [field]: this.state[field] },
+    )
     this.setState({ edit: null })
   }
 
@@ -203,13 +204,13 @@ class TalkDetail extends React.Component {
           </Button>
         </div>
       )
-    } else if (talk.video) {
+    } else if (talk.detail.video) {
       const embed = (
         <iframe
           title="Video"
           width="560"
           height="315"
-          src={`https://www.youtube.com/embed/${talk.video}`}
+          src={`https://www.youtube.com/embed/${talk.detail.video}`}
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
