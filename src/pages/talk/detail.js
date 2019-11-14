@@ -180,7 +180,7 @@ class TalkDetail extends React.Component {
           onClick={this.handleEdit('description')}
           role="presentation"
         >
-          {talk.description}
+          {talk.detail.description}
         </div>
       )
     }

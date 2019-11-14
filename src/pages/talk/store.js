@@ -68,6 +68,24 @@ export default class TalkStore {
     }
   }
 
+  fetchAllUser = async (year = new Date().getFullYear()) => {
+    try {
+      const response = await service.fetchAllUser(year)
+      const data = {
+        ...response,
+        ok: true,
+      }
+      this.setList(data)
+      return data
+    } catch (error) {
+      const data = {
+        ...error,
+        ok: false,
+      }
+      return data
+    }
+  }
+
   create = async (data) => {
     try {
       const response = await service.create(data)

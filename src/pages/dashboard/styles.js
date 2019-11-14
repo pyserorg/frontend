@@ -12,4 +12,11 @@ export default {
     height: 'calc(100vh - 64px - 40px)',
     padding: 20,
   },
+
+  talks: {
+    marginTop: 20,
+    box: {
+      marginBottom: 10,
+    },
+  },
 }

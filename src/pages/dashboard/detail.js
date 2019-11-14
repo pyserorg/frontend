@@ -1,29 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withTheme } from '@material-ui/core/styles'
+import { withStore } from 'store'
 import Template from 'templates/default/detail'
 
 // Components
 import {
   Paper,
 } from '@material-ui/core'
-import EventList from 'components/organisms/event-list'
-import RoleList from 'components/organisms/role-list'
-import UserList from 'components/organisms/user-list'
+import AdminDashboard from './admin'
+import UserDashboard from './user'
 
 import styles from './styles'
 
 
 class Dashboard extends React.Component {
   render() {
+    const ActiveDashboard = !this.props.store.me.detail.admin
+      ? UserDashboard
+      : AdminDashboard
     return (
       <Template secure style={{}}>
         <Paper style={styles.content}>
-          <div style={styles.root}>
-            <UserList />
-            <RoleList />
-            <EventList />
-          </div>
+          <ActiveDashboard />
         </Paper>
       </Template>
     )
@@ -31,9 +28,4 @@ class Dashboard extends React.Component {
 }
 
 
-Dashboard.propTypes = {
-  secure: PropTypes.bool,
-}
-
-
-export default withTheme(Dashboard)
+export default withStore(Dashboard)
