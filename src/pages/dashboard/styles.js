@@ -1,16 +1,21 @@
+const center = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
+
 export default {
   root: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    ...center,
+    flexDirection: 'column',
+    height: 'calc(100vh - 64px - 40px)',
+    padding: 20,
   },
 
   content: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 'calc(100vh - 64px - 40px)',
-    padding: 20,
+    ...center,
+    flexDirection: 'row',
   },
 
   talks: {
@@ -18,5 +23,9 @@ export default {
     box: {
       marginBottom: 10,
     },
+  },
+
+  button: {
+    margin: 20,
   },
 }

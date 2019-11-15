@@ -10,7 +10,7 @@ import styles from './styles'
 class AdminDashboard extends React.Component {
   render() {
     return (
-      <div style={styles.root}>
+      <div style={styles.content}>
         <UserList />
         <RoleList />
         <EventList />

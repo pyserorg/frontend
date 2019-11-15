@@ -38,7 +38,7 @@ class UserDashboard extends React.Component {
   }
 
   handleEditName = () => {
-    const me = this.props.store.detail
+    const me = this.props.store.me.detail
     this.setState({
       edit: 'name',
       firstName: me.firstName,
