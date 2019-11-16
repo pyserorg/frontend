@@ -1,47 +1,27 @@
-import { API_ROOT, axios, getCookie } from 'utils'
+import { rest } from 'utils'
 
 
 export default {
   fetch: async (id) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.get(
-      `${API_ROOT}/talk/${id}`,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.get(`/talk/${id}`)
     return response.data
   },
 
   fetchAll: async (year, page) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.get(
-      `${API_ROOT}/talk/year/${year}`,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-          'X-Page': page,
-        },
-      },
+    const response = await rest.get(
+      `/talk/year/${year}`,
+      { headers: { 'X-Page': page } },
     )
     return response.data
   },
 
   patch: async (id, data) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.patch(
-      `${API_ROOT}/talk/${id}`,
-      data,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.patch(`/talk/${id}`, data)
     return response.data
   },
 
   send: async (data) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.post(
-      `${API_ROOT}/cfp`,
-      data,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.post('/cfp', data)
     return response.data
   },
 }

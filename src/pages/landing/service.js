@@ -1,14 +1,9 @@
-import { API_ROOT, axios, getCookie } from 'utils'
+import { rest } from 'utils'
 
 
 export default {
   send: async (data) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.post(
-      `${API_ROOT}/landing/form`,
-      data,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.post('/landing/form', data)
     return response.data
   },
 }

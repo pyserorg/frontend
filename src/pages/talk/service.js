@@ -1,60 +1,34 @@
-import { API_ROOT, axios, getCookie } from 'utils'
+import { rest } from 'utils'
 
 
 export default {
   announce: async (year) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.post(
-      `${API_ROOT}/talk/year/${year}/announce`,
-      {},
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.post(`/talk/year/${year}/announce`, {})
     return response.data
   },
 
   edit: async (id, data) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.patch(
-      `${API_ROOT}/talk/${id}`,
-      data,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.patch(`/talk/${id}`, data)
     return response.data
   },
 
   fetch: async (id) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.get(
-      `${API_ROOT}/talk/${id}`,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.get(`/talk/${id}`)
     return response.data
   },
 
   fetchAll: async (year) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.get(
-      `${API_ROOT}/talk/year/${year}`,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.get(`/talk/year/${year}`)
     return response.data
   },
 
   fetchAllUser: async (year) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.get(
-      `${API_ROOT}/talk/year/${year}/user`,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.get(`/talk/year/${year}/user`)
     return response.data
   },
 
   fetchPublished: async (year) => {
-    const csrf = getCookie('csrf_access_token')
-    const response = await axios.get(
-      `${API_ROOT}/talk/year/${year}/published`,
-      { headers: { 'X-CSRF-TOKEN': csrf } },
-    )
+    const response = await rest.get(`/talk/year/${year}/published`)
     return response.data
   },
 }
