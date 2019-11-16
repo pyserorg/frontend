@@ -12,8 +12,8 @@ export const rest = ax.create({
 rest.interceptors.request.use(
   (config) => {
     const csrfType = config.url === '/auth/refresh'
-      ? getCookie('csrf_refresh_token')
-      : getCookie('csrf_access_token')
+      ? 'csrf_refresh_token'
+      : 'csrf_access_token'
     const csrf = getCookie(csrfType)
     config.headers.withCredentials = true
     if (csrf) {
@@ -36,8 +36,17 @@ export const getCookie = (name) => {
 
 
 export const errors = (response) => {
-  const data = response.response ? response.response.data : {}
-  data.message = response.message ? response.message : data.status
+  console.log(response)
+  const data = response.response && response.response.data
+    ? response.response.data
+    : {}
+  if (response.message) {
+    data.message = response.message
+  } else if (data.msg) {
+    data.message = data.msg
+  } else {
+    data.message = data.statusText
+  }
   if (data.errors){
     Object.getOwnPropertyNames(data.errors).forEach(property => {
       if (property !== 'message') {

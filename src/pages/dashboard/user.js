@@ -30,10 +30,13 @@ class UserDashboard extends React.Component {
   }
 
   fetch = async () => {
-    const { notification, talk } = this.props.store
-    const response = await talk.fetchAllUser()
-    if (!response.ok) {
-      notification.show(errors(response).message)
+    const { auth, notification, talk } = this.props.store
+    if (auth.detail.ok) {
+      const response = await talk.fetchAllUser()
+      if (!response.ok) {
+        const error = errors(response)
+        notification.show(error.message)
+      }
     }
   }
 

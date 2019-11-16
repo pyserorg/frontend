@@ -95,7 +95,7 @@ class RoleList extends React.Component {
       </List>
     ))
     return (
-      <Template style={{}}>
+      <Template style={{}} secure>
         <RoleCreate
           open={this.state.open}
           close={this.handleClose}
