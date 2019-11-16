@@ -1,15 +1,15 @@
 import React from 'react'
 import StoreProvider from 'store/provider'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { Style } from 'radium'
 import { ThemeProvider } from '@material-ui/styles'
+import { Style } from 'radium'
 
 import Routing from 'routing'
 import theme from 'theme'
 import styles from 'styles'
 
 
-function App() {
+export default () => {
   return (
     <ThemeProvider theme={theme}>
       <Style rules={styles} />
@@ -21,6 +21,3 @@ function App() {
     </ThemeProvider>
   )
 }
-
-
-export default App

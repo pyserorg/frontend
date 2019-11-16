@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { API_ROOT, getCookie } from 'utils'
+import { API_ROOT, axios, getCookie } from 'utils'
 
 
 export default {
@@ -18,11 +17,7 @@ export default {
     const response = await axios.post(
       `${API_ROOT}/role`,
       data,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },
@@ -41,11 +36,7 @@ export default {
     const response = await axios.patch(
       `${API_ROOT}/role/${id}`,
       data,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },
@@ -54,11 +45,7 @@ export default {
     const csrf = getCookie('csrf_access_token')
     const response = await axios.get(
       `${API_ROOT}/role/${id}`,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },
@@ -67,13 +54,7 @@ export default {
     const csrf = getCookie('csrf_access_token')
     const response = await axios.get(
       `${API_ROOT}/role`,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-          Page: page,
-          PerPage: perpage,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },
@@ -82,11 +63,7 @@ export default {
     const csrf = getCookie('csrf_access_token')
     const response = await axios.delete(
       `${API_ROOT}/role/${id}`,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },

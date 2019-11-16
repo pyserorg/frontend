@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { API_ROOT } from 'utils'
+import { API_ROOT, axios } from 'utils'
 
 
 export default {

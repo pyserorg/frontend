@@ -135,6 +135,7 @@ class UserDashboard extends React.Component {
           <div
             onClick={this.handleEdit('email')}
             role="presentation"
+            data-id="email"
           >
             {this.props.store.me.detail.email}
           </div>

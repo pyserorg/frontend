@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { API_ROOT, getCookie } from 'utils'
+import { API_ROOT, axios, getCookie } from 'utils'
 
 
 export default {
@@ -14,26 +13,20 @@ export default {
   logout: async () => {
     const csrf = getCookie('csrf_access_token')
     const response = await axios.post(
-    `${API_ROOT}/auth/logout`,
-    {},
-    {
-      headers: {
-        'X-CSRF-TOKEN': csrf,
-      },
-    })
+      `${API_ROOT}/auth/logout`,
+      {},
+      { headers: { 'X-CSRF-TOKEN': csrf } },
+    )
     return response.data
   },
 
   refresh: async () => {
     const csrf = getCookie('csrf_refresh_token')
     const response = await axios.post(
-    `${API_ROOT}/auth/refresh`,
-    {},
-    {
-      headers: {
-        'X-CSRF-TOKEN': csrf,
-      },
-    })
+      `${API_ROOT}/auth/refresh`,
+      {},
+      { headers: { 'X-CSRF-TOKEN': csrf } },
+    )
     return response.data
   },
 

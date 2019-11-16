@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { API_ROOT, getCookie } from 'utils'
+import { API_ROOT, axios, getCookie } from 'utils'
 
 
 export default {
@@ -27,11 +26,7 @@ export default {
     const csrf = getCookie('csrf_access_token')
     const response = await axios.get(
       `${API_ROOT}/event/${year}`,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },
@@ -40,11 +35,7 @@ export default {
     const csrf = getCookie('csrf_access_token')
     const response = await axios.get(
       `${API_ROOT}/event`,
-      {
-        headers: {
-          'X-CSRF-TOKEN': csrf,
-        },
-      }
+      { headers: { 'X-CSRF-TOKEN': csrf } },
     )
     return response.data
   },

@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { API_ROOT, getCookie } from 'utils'
+import { API_ROOT, axios, getCookie } from 'utils'
 
 
 export default {

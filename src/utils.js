@@ -1,4 +1,8 @@
+import ax from 'axios'
+
+
 export const API_ROOT = '/api/v0'
+export const axios = ax.create({ withCredentials: true })
 
 
 export function getCookie(name) {
