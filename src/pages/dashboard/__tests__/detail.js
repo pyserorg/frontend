@@ -16,8 +16,7 @@ it('dashboard', async () => {
       <TestApp {...props} />
     )
   })
-  await wrapper.setProps(props)
   expect(meService.fetch).toHaveBeenCalled()
-  let emailElement = wrapper.find('div[data-id="email"]')
+  const emailElement = wrapper.find('div[data-id="email"]')
   expect(emailElement.text()).toEqual('admin@example.com')
 })

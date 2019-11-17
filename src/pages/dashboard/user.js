@@ -30,13 +30,18 @@ class UserDashboard extends React.Component {
   }
 
   fetch = async () => {
-    const { auth, notification, talk } = this.props.store
-    if (auth.detail.ok) {
-      const response = await talk.fetchAllUser()
-      if (!response.ok) {
-        const error = errors(response)
-        notification.show(error.message)
-      }
+    const { notification, talk, me } = this.props.store
+    const [userresp, meresp] = await Promise.all([
+      talk.fetchAllUser(),
+      me.fetch(),
+    ])
+    if (!userresp.ok) {
+      const error = errors(userresp)
+      notification.show(error.message)
+    }
+    if (!meresp.ok) {
+      const error = errors(meresp)
+      notification.show(error.message)
     }
   }
 

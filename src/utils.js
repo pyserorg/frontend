@@ -1,10 +1,10 @@
-import ax from 'axios'
+import axios from 'axios'
 
 
 export const API_ROOT = '/api/v0'
 
 
-export const rest = ax.create({
+export const rest = axios.create({
   baseURL: API_ROOT,
   withCredentials: true,
 })
@@ -36,7 +36,6 @@ export const getCookie = (name) => {
 
 
 export const errors = (response) => {
-  console.log(response)
   const data = response.response && response.response.data
     ? response.response.data
     : {}
