@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { errors } from 'utils'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 
 // Components
 import {
   Paper,
 } from '@material-ui/core'
-import Talk from 'components/organisms/talk'
+
+import {
+  Talk,
+} from 'components'
 
 import Template from 'templates/default/detail'
 import styles from './styles'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 
 // Components
 import {

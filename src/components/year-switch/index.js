@@ -6,7 +6,7 @@ import { errors } from 'utils'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import styles from './styles'
 
 

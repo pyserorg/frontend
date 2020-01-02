@@ -1,14 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import { errors } from 'utils'
 
 // Components
 import {
   Paper,
 } from '@material-ui/core'
-import Talk from 'components/organisms/talk'
+
+import {
+  Talk,
+} from 'components'
 
 import Template from 'templates/default/detail'
 import styles from './styles'

@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core'
 
 import Template from 'templates/default/detail'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import getStyles from './styles'
 
 

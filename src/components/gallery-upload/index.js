@@ -9,7 +9,7 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 import { getCookie } from 'utils'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import styles from './styles'
 
 

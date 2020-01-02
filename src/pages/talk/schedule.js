@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import moment from 'moment'
 import { errors } from 'utils'
 
@@ -15,10 +15,14 @@ import {
   TextField,
   Tooltip,
 } from '@material-ui/core'
-import TalkBox from 'components/organisms/talk-box'
+
+import {
+  TalkBox,
+  TimeBox,
+  YearSwitch,
+} from 'components'
+
 import Template from 'templates/default/detail'
-import TimeBox from 'components/organisms/time-box'
-import YearSwitch from 'components/organisms/year-switch'
 
 import getStyles from './styles'
 

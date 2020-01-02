@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 
 // Components
 import {
@@ -10,9 +10,12 @@ import {
   Paper,
 } from '@material-ui/core'
 import Gall from 'react-photo-gallery'
-import GalleryUpload from 'components/organisms/gallery-upload'
+
+import {
+  GalleryUpload,
+  YearSwitch,
+} from 'components'
 import InfiniteScroll from 'react-infinite-scroller'
-import YearSwitch from 'components/organisms/year-switch'
 
 // Icons
 import AddIcon from '@material-ui/icons/Add'
