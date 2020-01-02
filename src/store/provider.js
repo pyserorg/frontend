@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import Store from './index'
 
 // Pages
-import Auth from 'pages/auth'
+import {
+  Auth,
+  Store,
+} from 'freenit'
 import CfP from 'pages/cfp'
 import CfS from 'pages/cfs'
 import Event from 'pages/event'

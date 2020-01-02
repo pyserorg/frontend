@@ -1,11 +1,13 @@
 import React from 'react'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 
 // Components
-import LandingAbout from 'components/organisms/landing-about'
-import LandingInfo from 'components/organisms/landing-info'
-import LandingOrganizers from 'components/organisms/landing-organizers'
-import LandingSponsors from 'components/organisms/landing-sponsors'
+import {
+  LandingAbout,
+  LandingInfo,
+  LandingOrganizers,
+  LandingSponsors,
+} from 'components'
 
 import Template from 'templates/default/detail'
 

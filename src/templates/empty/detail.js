@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { errors } from 'utils'
 
 // Components
 import {
@@ -8,27 +7,11 @@ import {
   Snackbar,
 } from '@material-ui/core'
 
-import ProtectedComponent from 'components/atoms/protected'
-import { withStore } from 'store'
+import ProtectedComponent from 'components/protected'
+import { withStore } from 'freenit'
 
 
 class EmptyTemplate extends React.Component {
-  constructor(props) {
-    super(props)
-    this.fetch()
-  }
-
-  fetch = async () => {
-    const { notification, event } = this.props.store
-    if (event.list.initial) {
-      const response = await event.fetchAll()
-      if (!response.ok) {
-        const error = errors(response)
-        notification.show(error.message)
-      }
-    }
-  }
-
   render() {
     const { notification } = this.props.store
     return (

@@ -2,7 +2,7 @@ import 'date-fns'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 
 // Components
 import {

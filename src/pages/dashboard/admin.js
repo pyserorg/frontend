@@ -1,8 +1,11 @@
 import React from 'react'
 
-import EventList from 'components/organisms/event-list'
-import RoleList from 'components/organisms/role-list'
-import UserList from 'components/organisms/user-list'
+import {
+  EventList,
+  RoleList,
+  UserList,
+} from 'components'
+
 
 import styles from './styles'
 

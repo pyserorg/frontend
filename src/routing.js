@@ -2,7 +2,11 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 // Pages
-import Auth from 'pages/auth'
+import {
+  Auth,
+  Role,
+  User,
+} from 'freenit'
 import CfP from 'pages/cfp'
 import CfS from 'pages/cfs'
 import CoC from 'pages/coc'
@@ -12,9 +16,7 @@ import Gallery from 'pages/gallery'
 import Landing from 'pages/landing'
 import Me from 'pages/me'
 import NoPage from 'pages/nopage'
-import Role from 'pages/role'
 import Talk from 'pages/talk'
-import User from 'pages/user'
 import Volunteering from 'pages/volunteering'
 
 

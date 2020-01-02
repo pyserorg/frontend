@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import { errors } from 'utils'
 
 // Components
@@ -9,7 +9,9 @@ import {
   Tooltip,
 } from '@material-ui/core'
 
-import TalkBox from 'components/organisms/talk-box'
+import {
+  TalkBox,
+} from 'components'
 import styles from './styles'
 
 

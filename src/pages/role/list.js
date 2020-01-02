@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import { Link } from 'react-router-dom'
 
 // Components
@@ -14,7 +14,10 @@ import {
   ListItemText,
   Paper,
 } from '@material-ui/core'
-import RoleCreate from 'components/organisms/role-create'
+
+import {
+  RoleCreate,
+} from 'components'
 
 // Icons
 import AddIcon from '@material-ui/icons/Add'

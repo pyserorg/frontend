@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import initial from 'pages/landing/initial'
 import TildaLogo from './logo-tilda.svg'
 import getStyles from './styles'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStore } from 'store'
+import { withStore } from 'freenit'
 import Template from 'templates/default/detail'
 
 // Components
