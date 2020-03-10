@@ -1,12 +1,13 @@
-import detail from './detail'
-import initial from './initial'
+import detail from '../profile/detail'
 import list from './list'
-import store from './store'
+import initial from './initial'
+import { User } from 'freenit'
 
 
 export default {
   detail,
   initial,
   list,
-  store,
+  service: User.service,
+  store: User.store,
 }

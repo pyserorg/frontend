@@ -1,16 +1,8 @@
-import changePassword from './change-password'
 import login from './login'
-import initial from './initial'
-import register from './register'
-import reset from './reset'
-import store from './store'
+import { Auth } from 'freenit'
 
 
 export default {
-  changePassword,
+  ...Auth,
   login,
-  initial,
-  register,
-  reset,
-  store,
 }

@@ -8,8 +8,11 @@ import {
   DialogTitle,
   CircularProgress,
 } from '@material-ui/core'
-import { getCookie } from 'utils'
-import { withStore } from 'freenit'
+import {
+  getCookie,
+  withStore,
+} from 'freenit'
+
 import styles from './styles'
 
 
@@ -73,17 +76,21 @@ class GalleryUpload extends React.Component {
       () => {
         const { notification } = this.props.store
         const progress = uploader.progress() * 100
-        const uploading = progress !== 100
+        const uploading = progress < 100
         this.setState({ progress, uploading })
         if (!uploading) {
           const files = this.state.files.map(file => ({
             src: file.data,
             height: 500,
             width: 500,
+            name: file.file.name,
           }))
           notification.show('Files uploaded')
           this.setState({ files: [] })
           this.props.onClose(files)
+          if (this.props.onSuccess) {
+            this.props.onSuccess(files)
+          }
         }
       },
     )
@@ -153,6 +160,7 @@ class GalleryUpload extends React.Component {
 
 GalleryUpload.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
   open: PropTypes.bool,
   target: PropTypes.string.isRequired,
 }

@@ -1,11 +1,12 @@
 import React from 'react'
+import {
+  RoleList,
+  UserList,
+} from 'freenit'
 
 import {
   EventList,
-  RoleList,
-  UserList,
 } from 'components'
-
 
 import styles from './styles'
 

@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { errors } from 'utils'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
-// Components
 import {
   Button,
   Paper,
@@ -10,8 +12,10 @@ import {
   Tooltip,
 } from '@material-ui/core'
 
+import ReactMarkdown from 'react-markdown'
+
 import Template from 'templates/default/detail'
-import { withStore } from 'freenit'
+import { linkTarget } from 'utils'
 import getStyles from './styles'
 
 
@@ -52,18 +56,26 @@ class TalkDetail extends React.Component {
     this.setState({ edit: null })
   }
 
-  handleSubmit = (field) => () => {
-    this.props.store.talk.edit(
+  handleSubmit = (field) => async () => {
+    const { match, store } = this.props
+    const { notification, talk } = store
+    const response = await talk.edit(
       this.props.match.params.id,
       { [field]: this.state[field] },
     )
     this.setState({ edit: null })
+    if (!response.ok) {
+      const error = errors(response)
+      notification.show(error.message)
+    } else {
+      talk.fetch(match.params.id)
+    }
   }
 
   render() {
-    const { me, talk } = this.props.store
+    const { profile, talk } = this.props.store
     const styles = getStyles({ data: [] })
-    const enableEdit = talk.detail.user.id === me.detail.id || me.detail.admin
+    const enableEdit = talk.detail.user.id === profile.detail.id || profile.detail.admin
     const user = talk.detail.user.id
       ? (
         <div>
@@ -73,7 +85,7 @@ class TalkDetail extends React.Component {
             {talk.detail.user.lastName}
           </h3>
           {
-            me.detail.admin
+            profile.detail.admin
               ? <h4>{talk.detail.user.email}</h4>
               : null
           }
@@ -137,9 +149,8 @@ class TalkDetail extends React.Component {
         </h1>
       )
     }
-    let description;
-    if (enableEdit) {
-      if (this.state.edit === 'description') {
+    let description
+    if (enableEdit && this.state.edit === 'description') {
         description = (
           <div>
             <div>
@@ -160,19 +171,6 @@ class TalkDetail extends React.Component {
             </Button>
           </div>
         )
-      } else {
-        description = (
-          <Tooltip title="Click to edit" placement="right">
-            <div
-              style={styles.description}
-              onClick={this.handleEdit('description')}
-              role="presentation"
-            >
-              {talk.detail.description}
-            </div>
-          </Tooltip>
-        )
-      }
     } else {
       description = (
         <div
@@ -180,7 +178,10 @@ class TalkDetail extends React.Component {
           onClick={this.handleEdit('description')}
           role="presentation"
         >
-          {talk.detail.description}
+          <ReactMarkdown
+            source={talk.detail.description}
+            linkTarget={linkTarget}
+          />
         </div>
       )
     }
@@ -216,7 +217,7 @@ class TalkDetail extends React.Component {
           allowFullScreen
         />
       )
-      video = me.detail.admin
+      video = profile.detail.admin
         ? (
           <div>
             <div>
@@ -231,7 +232,7 @@ class TalkDetail extends React.Component {
             {embed}
           </div>
         )
-    } else if (me.detail.admin) {
+    } else if (profile.detail.admin) {
       video = (
         <Button variant="outlined" onClick={this.handleEdit('video')}>
           Add Video

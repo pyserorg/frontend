@@ -1,6 +1,9 @@
 export default {
   detail: {
+    biography: '',
     email: '',
+    firstName: '',
+    lastName: '',
     roles: [],
   },
 

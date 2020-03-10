@@ -10,6 +10,32 @@ import theme from 'theme'
 import styles from 'styles'
 
 
+window.rest.get = jest.fn((url) => {
+  if (url === '/events') {
+    const data = {
+      data: {
+        data: [],
+        total: 0,
+        pages: 1,
+      },
+    }
+    return data
+  } else if (url === '/profile') {
+    const data = {
+      data: {
+        id: 1,
+        email: 'admin@example.com',
+        admin: true,
+      },
+    }
+    return data
+  }
+})
+window.rest.post = jest.fn(() => ({}))
+window.rest.patch = jest.fn(() => ({}))
+window.rest.delete = jest.fn(() => ({}))
+
+
 const TestApp = (props) => {
   return (
     <ThemeProvider theme={theme}>

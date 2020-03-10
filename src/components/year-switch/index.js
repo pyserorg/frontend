@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { errors } from 'utils'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
 // Components
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 
-import { withStore } from 'freenit'
 import styles from './styles'
 
 

@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { errors } from 'utils'
-import { withStore } from 'freenit'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
 // Components
 import {

@@ -2,23 +2,21 @@ import React, { useState } from 'react'
 
 // Pages
 import {
-  Auth,
+  EmptyTemplate,
   Store,
+  Resolution,
+  Role,
+  User,
 } from 'freenit'
+import Auth from 'pages/auth'
 import CfP from 'pages/cfp'
 import CfS from 'pages/cfs'
 import Event from 'pages/event'
 import Gallery from 'pages/gallery'
 import Landing from 'pages/landing'
-import Me from 'pages/me'
-import Resolution from 'pages/resolution'
-import Role from 'pages/role'
+import Profile from 'pages/profile'
 import Talk from 'pages/talk'
-import User from 'pages/user'
 import { withRouter } from 'react-router-dom'
-
-// Templates
-import Notification from 'templates/empty'
 
 
 export const data = {}
@@ -42,11 +40,9 @@ const StoreProvider = (props) => {
     ),
     history: props.history,
     landing: new Landing.store(useState(Landing.initial.detail)),
-    me: new Me.store(
-      useState(Me.initial.detail),
-    ),
-    notification: new Notification.store(
-      useState(Notification.initial.detail),
+    profile: new Profile.store(useState(Profile.initial.detail)),
+    notification: new EmptyTemplate.store(
+      useState(EmptyTemplate.initial.detail),
     ),
     resolution: new Resolution.store(useState(Resolution.initial.detail)),
     role: new Role.store(

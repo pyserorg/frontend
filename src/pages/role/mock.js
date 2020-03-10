@@ -1,4 +1,6 @@
-import service from './service'
+import { Role } from 'freenit'
+
+const service = Role.service
 
 export const config = {
   fetch: true,

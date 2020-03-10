@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { withStore } from 'freenit'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
 // Components
 import {
@@ -12,7 +15,6 @@ import {
   Typography,
 } from '@material-ui/core'
 
-import { errors } from 'utils'
 import styles from './styles'
 
 

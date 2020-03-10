@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { withStore } from 'freenit'
-import { errors } from 'utils'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
 // Components
 import {
@@ -24,8 +26,8 @@ class CfPList extends React.Component {
   }
 
   fetch = async () => {
-    const { cfp, me, notification } = this.props.store
-    if (me.detail.admin === false) {
+    const { cfp, profile, notification } = this.props.store
+    if (profile.detail.admin === false) {
       this.props.history.push('/landing')
     }
     const response = await cfp.fetchAll()
@@ -36,7 +38,7 @@ class CfPList extends React.Component {
   }
 
   componentDidUpdate = async () => {
-    if (this.props.store.me.detail.admin === false) {
+    if (this.props.store.profile.detail.admin === false) {
       this.props.history.push('/landing')
     }
   }

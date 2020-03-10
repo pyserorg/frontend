@@ -2,9 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
-import { withStore } from 'freenit'
 import moment from 'moment'
-import { errors } from 'utils'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
 // Components
 import {
@@ -94,9 +96,9 @@ class Schedule extends React.Component {
   }
 
   render() {
-    const { talk, me, event } = this.props.store
+    const { talk, profile, event } = this.props.store
     const styles = getStyles(talk.list, this.props.theme)
-    const publishSwitch = me.detail.admin
+    const publishSwitch = profile.detail.admin
       ? (
         <Tooltip title="publish" placement="right">
           <Switch
@@ -105,7 +107,7 @@ class Schedule extends React.Component {
           />
         </Tooltip>
       ) : null
-    const announce = me.detail.admin
+    const announce = profile.detail.admin
       ? (
         <Button onClick={this.handleAnnouncement} variant="outlined">
           Announce
@@ -115,7 +117,7 @@ class Schedule extends React.Component {
       talk => talk.hall === this.state.hall,
     )
     const times = this.generateTimes(talk.list)
-    const scheduleView = event.detail.published || me.detail.admin
+    const scheduleView = event.detail.published || profile.detail.admin
       ? (
         <div style={styles.schedule}>
           <div style={styles.title}>time</div>
