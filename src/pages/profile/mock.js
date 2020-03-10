@@ -1,4 +1,6 @@
-import service from './service'
+import { Profile } from 'freenit'
+
+const service = Profile.service
 
 export const config = {
   fetch: true,

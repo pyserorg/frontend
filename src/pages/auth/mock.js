@@ -1,4 +1,6 @@
-import service from './service'
+import { Auth } from 'freenit'
+
+const service = Auth.service
 
 export const config = {
   login: true,

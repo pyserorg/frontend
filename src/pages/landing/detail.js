@@ -6,7 +6,7 @@ import {
   LandingAbout,
   LandingInfo,
   LandingOrganizers,
-  LandingSponsors,
+  // LandingSponsors,
 } from 'components'
 
 import Template from 'templates/default/detail'
@@ -24,7 +24,7 @@ class Landing extends React.Component {
       <Template style={{}}>
         <LandingInfo />
         <LandingAbout />
-        <LandingSponsors />
+        {/* <LandingSponsors /> */}
         <LandingOrganizers />
       </Template>
     )

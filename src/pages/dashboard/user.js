@@ -1,6 +1,5 @@
 import React from 'react'
-import { withStore } from 'freenit'
-import { errors } from 'utils'
+import { errors, withStore } from 'freenit'
 
 // Components
 import {
@@ -32,10 +31,10 @@ class UserDashboard extends React.Component {
   }
 
   fetch = async () => {
-    const { event, notification, talk, me } = this.props.store
-    const [eventresp, meresp] = await Promise.all([
+    const { event, notification, talk, profile } = this.props.store
+    const [eventresp, profileresp] = await Promise.all([
       event.fetchAll(),
-      me.fetch(),
+      profile.fetch(),
     ])
     if (eventresp.ok) {
       if (eventresp.total > 0) {
@@ -45,18 +44,18 @@ class UserDashboard extends React.Component {
       const error = errors(eventresp)
       notification.show(error.message)
     }
-    if (!meresp.ok) {
-      const error = errors(meresp)
+    if (!profileresp.ok) {
+      const error = errors(profileresp)
       notification.show(error.message)
     }
   }
 
   handleEditName = () => {
-    const me = this.props.store.me.detail
+    const profile = this.props.store.profile.detail
     this.setState({
       edit: 'name',
-      firstName: me.firstName,
-      lastName: me.lastName,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
     })
   }
 
@@ -65,7 +64,7 @@ class UserDashboard extends React.Component {
   }
 
   submitName = () => {
-    this.props.store.me.edit({
+    this.props.store.profile.edit({
       firstName: this.state.firstName,
       lastName: this.state.lastName,
     })
@@ -75,7 +74,7 @@ class UserDashboard extends React.Component {
   handleEdit = (field) => () => {
     this.setState({
       edit: field,
-      [field]: this.props.store.me.detail[field],
+      [field]: this.props.store.profile.detail[field],
     })
   }
 
@@ -84,7 +83,7 @@ class UserDashboard extends React.Component {
   }
 
   handleSubmit = (field) => () => {
-    this.props.store.me.edit({
+    this.props.store.profile.edit({
       [field]: this.state[field],
     })
     this.setState({ edit: null })
@@ -121,9 +120,9 @@ class UserDashboard extends React.Component {
             onClick={this.handleEditName}
             role="presentation"
           >
-            {this.props.store.me.detail.firstName}
+            {this.props.store.profile.detail.firstName}
             &nbsp;
-            {this.props.store.me.detail.lastName}
+            {this.props.store.profile.detail.lastName}
           </h1>
         </Tooltip>
       )
@@ -151,7 +150,7 @@ class UserDashboard extends React.Component {
             role="presentation"
             data-id="email"
           >
-            {this.props.store.me.detail.email}
+            {this.props.store.profile.detail.email}
           </div>
         </Tooltip>
       )
@@ -179,7 +178,7 @@ class UserDashboard extends React.Component {
             onClick={this.handleEdit('twitter')}
             role="presentation"
           >
-            {this.props.store.me.detail.twitter}
+            {this.props.store.profile.detail.twitter}
           </div>
         </Tooltip>
       )
@@ -207,7 +206,7 @@ class UserDashboard extends React.Component {
             onClick={this.handleEdit('facebook')}
             role="presentation"
           >
-            {this.props.store.me.detail.facebook}
+            {this.props.store.profile.detail.facebook}
           </div>
         </Tooltip>
       )
@@ -235,7 +234,7 @@ class UserDashboard extends React.Component {
             onClick={this.handleEdit('bio')}
             role="presentation"
           >
-            {this.props.store.me.detail.bio}
+            {this.props.store.profile.detail.bio}
           </div>
         </Tooltip>
       )

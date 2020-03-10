@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStore } from 'freenit'
-import { errors } from 'utils'
+import { Link } from 'react-router-dom'
+import {
+  errors,
+  withStore,
+} from 'freenit'
 
 // Components
 import {
@@ -49,7 +52,7 @@ class CfP extends React.Component {
     this.setState({ submitting: false })
     if (response.ok) {
       if (this.props.store.auth.detail.ok) {
-        this.props.history.push(`/cfp/${response.talk.id}`)
+        this.props.history.push(`/talk/${response.talk.id}`)
       } else {
         this.props.store.notification.show('Your talk was submitted')
       }
@@ -123,6 +126,18 @@ class CfP extends React.Component {
       ) : (
         <div>
           Please, register or login first!
+          <div style={styles.auth}>
+            <Link to="/login" style={styles.auth.button}>
+              <Button color="primary" variant="outlined">
+                LOGIN
+              </Button>
+            </Link>
+            <Link to="/register" style={styles.auth.button}>
+              <Button color="primary" variant="contained">
+                REGISTER
+              </Button>
+            </Link>
+          </div>
         </div>
       )
     return (

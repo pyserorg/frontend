@@ -21,7 +21,6 @@ import InfiniteScroll from 'react-infinite-scroller'
 import AddIcon from '@material-ui/icons/Add'
 
 import Template from 'templates/default/detail'
-import { API_ROOT } from 'utils'
 import styles from './styles'
 
 
@@ -65,9 +64,7 @@ class Gallery extends React.Component {
       return
     }
     this.setState(prevState => {
-      return {
-        currentPhoto: prevState.currentPhoto + 1,
-      }
+      return { currentPhoto: prevState.currentPhoto + 1 }
     })
   }
 
@@ -137,7 +134,7 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const { gallery, me } = this.props.store
+    const { gallery, profile } = this.props.store
     const { prefix, name, files } = gallery.detail
     const { year } = this.props.match.params
     const photos = files.data.map(picture => ({
@@ -147,7 +144,7 @@ class Gallery extends React.Component {
       height: styles.picture.height,
       width: styles.picture.width,
     }))
-    const uploadButton = me.detail.admin
+    const uploadButton = profile.detail.admin
       ? (
         <Fab
           color="primary"
@@ -195,7 +192,7 @@ class Gallery extends React.Component {
             />
             <GalleryUpload
               open={this.state.open}
-              target={`${API_ROOT}/gallery/album/main/${year}`}
+              target={`${window.API_ROOT}/gallery/album/main/${year}`}
               onClose={this.handleCloseUpload}
             />
           </InfiniteScroll>

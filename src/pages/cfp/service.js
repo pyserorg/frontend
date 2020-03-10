@@ -1,27 +1,24 @@
-import { rest } from 'utils'
-
-
 export default {
   fetch: async (id) => {
-    const response = await rest.get(`/talk/${id}`)
+    const response = await window.rest.get(`/talks/${id}`)
     return response.data
   },
 
   fetchAll: async (year, page) => {
-    const response = await rest.get(
-      `/talk/year/${year}`,
+    const response = await window.rest.get(
+      `/talks/year/${year}`,
       { headers: { 'X-Page': page } },
     )
     return response.data
   },
 
   patch: async (id, data) => {
-    const response = await rest.patch(`/talk/${id}`, data)
+    const response = await window.rest.patch(`/talks/${id}`, data)
     return response.data
   },
 
   send: async (data) => {
-    const response = await rest.post('/cfp', data)
+    const response = await window.rest.post('/cfp', data)
     return response.data
   },
 }

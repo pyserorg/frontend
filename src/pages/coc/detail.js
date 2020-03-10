@@ -11,7 +11,7 @@ class CoC extends Component {
         <Paper style={styles.root}>
           <h1 style={styles.title.main}>Code of Conduct</h1>
           <p style={styles.paragraph}>
-            All attendees, speakers, sponsors and volunteers at PySer
+            All attendees, speakers, sponsors and volunteers at BSidesNS
             are required to agree with the following code of conduct.
             Organizers will enforce this code throughout the event. We are
             expecting cooporation from all participants to help ensuring a safe
@@ -23,7 +23,7 @@ class CoC extends Component {
             Be excellent to each other || GTFO!
           </p>
           <p style={styles.paragraph}>
-            PySer is dedicated to providing a harassment-free conference
+            BSidesNS is dedicated to providing a harassment-free conference
             experience for everyone, regardless of skill, age, gender, sexual
             orientation, disability, physical appearance, body size, race, or
             religion. We do not tolerate harassment of conference participants
