@@ -16,12 +16,6 @@ export default {
     height: 1,
   },
 
-  file: {
-    input: {
-      display: 'none',
-    },
-  },
-
   upload: {
     button: {
       position: 'absolute',
